@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IxelAI</title>
+<meta name="description" content="Ixel makes local tools for people who use more than one AI: a panel of models that check each other's answers, a task board Claude and Codex share, and an SSH console for your agents.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="IxelAI">
+<meta property="og:description" content="Put your AI models to work together. Local tools for people who use more than one AI.">
+<meta property="og:image" content="https://openixelai.github.io/ixelai.com/ixel-logo.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
+<style>
+  /* One deliberate look: the night sky of the Ixel mark. Colors come from the logo and Ixel Console. */
+  :root {
+    color-scheme: dark;
+    --night: #070b14;
+    --deep: #0b1624;
+    --deep-2: #0f2035;
+    --line: #1a293b;
+    --line-strong: #2a3d55;
+    --moon: #c8d8e8;
+    --bright: #eef4fa;
+    --mute: #8fa1b7;
+    --faint: #7a8ca4;
+    --blue: #7eb8d4;
+    --iris: #a88fd4;
+    --gold: #d4af37;
+    --ok: #4ade80;
+    --bad: #e06464;
+
+    --f-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --f-body: "Hanken Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0: 1.0625rem;
+    --step-1: 1.25rem;
+    --step-2: 1.75rem;
+    --step-3: clamp(2rem, 1.4rem + 2.4vw, 2.75rem);
+    --step-4: clamp(2.6rem, 1.6rem + 4.2vw, 4.4rem);
+  }
+
+  html { background: var(--night); }
+  body {
+    margin: 0;
+    background: var(--night);
+    color: var(--moon);
+    font-family: var(--f-body);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--bright); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+  code, kbd, pre { font-family: var(--f-mono); }
+  img, svg { max-width: 100%; }
+
+  #sky {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .page { position: relative; z-index: 1; }
+  .wrap {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  .wordmark {
+    font-family: var(--f-body);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: var(--bright);
+  }
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  /* Header */
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 22px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .brand svg { width: 30px; height: 30px; flex: none; }
+  .brand .wordmark { font-size: 0.95rem; }
+  .brand .wordmark span { color: var(--iris); }
+  .nav {
+    display: flex;
+    gap: 22px;
+    font-size: 0.9375rem;
+  }
+  .nav a { color: var(--mute); text-decoration: none; }
+  .nav a:hover { color: var(--bright); }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 40px;
+    padding-block: 56px 72px;
+  }
+  .hero-copy { display: grid; gap: 22px; max-width: 34rem; }
+  .hero h1 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 300;
+    font-size: var(--step-4);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: var(--bright);
+    text-wrap: balance;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero p { margin: 0; color: var(--moon); max-width: 60ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    color: var(--bright);
+    transition: border-color .2s, background-color .2s, color .2s;
+  }
+  .btn:hover { border-color: var(--moon); color: var(--bright); }
+  .btn-moon { background: var(--moon); color: var(--night); border-color: var(--moon); }
+  .btn-moon:hover { background: var(--bright); color: var(--night); border-color: var(--bright); }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    color: var(--faint);
+  }
+
+  /* The star chart */
+  .chart { margin: 0; display: grid; gap: 10px; }
+  .chart-field {
+    position: relative;
+    aspect-ratio: 480 / 310;
+    max-width: 100%;
+  }
+  .chart-field svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .leader {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1;
+    stroke-dasharray: 120;
+    stroke-dashoffset: 0;
+    animation: draw 1.4s ease-out both;
+  }
+  .leader:nth-of-type(2) { animation-delay: .25s; }
+  .leader:nth-of-type(3) { animation-delay: .5s; }
+  @keyframes draw { from { stroke-dashoffset: 120; } to { stroke-dashoffset: 0; } }
+  .twinkle { animation: twinkle 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .twinkle.b { animation-delay: 1.7s; }
+  .twinkle.c { animation-delay: 3.1s; }
+  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .62; } }
+  .tag {
+    position: absolute;
+    left: 65%;
+    top: var(--y);
+    transform: translateY(-50%);
+    display: grid;
+    gap: 1px;
+    padding-left: 10px;
+    text-decoration: none;
+    line-height: 1.25;
+    animation: rise .8s ease-out both;
+    animation-delay: var(--d, .6s);
+  }
+  @keyframes rise { from { opacity: 0; transform: translate(-4px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+  .tag-name {
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--bright);
+    white-space: nowrap;
+  }
+  .tag-name b { color: var(--c); font-weight: 500; margin-right: 4px; }
+  .tag-sub { font-size: 0.75rem; color: var(--mute); white-space: nowrap; }
+  .tag:hover .tag-name { color: var(--c); }
+  .chart figcaption {
+    font-family: var(--f-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    text-align: center;
+  }
+
+  /* Sections */
+  section { padding-block: 72px; border-top: 1px solid var(--line); }
+  .section-head { display: grid; gap: 12px; max-width: 44rem; margin-bottom: 40px; }
+  .section-head h2 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 300;
+    font-size: var(--step-3);
+    line-height: 1.1;
+    color: var(--bright);
+    text-wrap: balance;
+  }
+  .section-head p { margin: 0; color: var(--mute); max-width: 62ch; }
+
+  /* Products */
+  .products { display: grid; gap: 0; }
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 48px;
+    align-items: start;
+    padding-block: 48px;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 16px;
+  }
+  .product:first-child { border-top: 0; padding-top: 8px; }
+  .product-copy { display: grid; gap: 16px; }
+  .product .eyebrow { display: flex; align-items: center; gap: 10px; }
+  .product .eyebrow .greek { color: var(--c); font-size: 0.9375rem; letter-spacing: 0; }
+  .product h3 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: var(--step-2);
+    line-height: 1.15;
+    color: var(--bright);
+  }
+  .product h3 small {
+    font-family: var(--f-body);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--faint);
+    margin-left: 10px;
+    letter-spacing: 0;
+  }
+  .lede { margin: 0; font-size: var(--step-1); line-height: 1.5; color: var(--moon); max-width: 34rem; }
+  .points { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; color: var(--mute); max-width: 36rem; }
+  .points li { position: relative; padding-left: 22px; }
+  .points li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.72em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--c);
+  }
+  .points code { font-size: 0.875em; color: var(--moon); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; }
+  .chips li {
+    font-size: 0.8125rem;
+    color: var(--moon);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 3px 12px;
+  }
+  .more { font-weight: 500; font-size: 0.9375rem; }
+
+  /* Console-style panels */
+  .panel {
+    margin: 0;
+    background: var(--deep);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: var(--f-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--moon);
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .7);
+  }
+  .panel-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .panel-bar .dot { color: var(--c); }
+  .panel-body { padding: 16px; display: grid; gap: 14px; }
+  .scroll { overflow-x: auto; }
+  .prompt { color: var(--bright); white-space: nowrap; }
+  .prompt::before { content: "$ "; color: var(--faint); }
+  .str { color: var(--gold); }
+  .dim { color: var(--faint); }
+  .ok { color: var(--ok); }
+  .bad { color: var(--bad); }
+
+  .rounds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .round { border-top: 2px solid var(--blue); padding-top: 6px; font-size: 0.75rem; line-height: 1.4; }
+  .round span { display: block; color: var(--faint); font-size: 0.625rem; letter-spacing: .12em; text-transform: uppercase; }
+  .verdict {
+    border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: grid;
+    gap: 6px;
+    font-family: var(--f-body);
+    font-size: 0.9375rem;
+  }
+  .verdict-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .verdict-head b { font-family: var(--f-mono); font-size: 0.6875rem; letter-spacing: .18em; color: var(--gold); font-weight: 500; }
+  .pill {
+    font-family: var(--f-mono);
+    font-size: 0.6875rem;
+    color: var(--ok);
+    border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent);
+    border-radius: 999px;
+    padding: 0 8px;
+  }
+  .verdict .answer { color: var(--bright); font-size: 1.0625rem; }
+  .verdict .fix { color: var(--mute); font-size: 0.875rem; }
+  .scores { display: grid; gap: 6px; }
+  .score {
+    display: grid;
+    grid-template-columns: 22px 64px minmax(40px, 1fr) 40px minmax(0, auto);
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .letter {
+    width: 20px; height: 20px;
+    display: grid; place-items: center;
+    border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent);
+    border-radius: 5px;
+    color: var(--gold);
+    font-size: 0.6875rem;
+  }
+  .bar { height: 6px; border-radius: 3px; background: var(--deep-2); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: var(--v); background: var(--ok); border-radius: 3px; }
+  .flag { color: var(--bad); white-space: nowrap; }
+  .conceded { color: var(--iris); font-size: 0.75rem; }
+
+  .board { margin: 0; white-space: pre; font-size: 0.75rem; line-height: 1.75; }
+  .board .h { color: var(--bright); }
+  .board .st-ho { color: var(--iris); }
+  .board .st-cl { color: var(--blue); }
+  .board .st-op { color: var(--ok); }
+  .ask {
+    display: grid;
+    gap: 4px;
+    padding: 12px 14px;
+    border-left: 2px solid var(--iris);
+    background: var(--deep-2);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--f-body);
+    font-size: 0.9375rem;
+  }
+  .ask span { font-family: var(--f-mono); font-size: 0.6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+  .ask q { color: var(--bright); }
+
+  .hosts { display: grid; gap: 2px; }
+  .host {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, auto);
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+  }
+  .host.on { background: var(--deep-2); }
+  .host .st { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+  .host .st.off { background: transparent; border: 1px solid var(--faint); }
+  .host .name { color: var(--bright); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .host .agent { color: var(--mute); }
+  .host .key { color: var(--ok); white-space: nowrap; }
+  .host-head { color: var(--faint); font-size: 0.625rem; letter-spacing: .12em; text-transform: uppercase; background: none; padding-block: 2px; }
+  .macros { display: flex; flex-wrap: wrap; gap: 6px; }
+  .macros span {
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: var(--moon);
+  }
+  .macros span.broadcast { border-color: color-mix(in srgb, var(--blue) 60%, transparent); color: var(--blue); }
+
+  /* Principles */
+  .matrix { width: 100%; border-collapse: collapse; }
+  .matrix th, .matrix td { text-align: left; vertical-align: top; padding: 18px 20px 18px 0; border-top: 1px solid var(--line); }
+  .matrix thead th {
+    border-top: 0;
+    padding-bottom: 14px;
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--moon);
+    white-space: nowrap;
+  }
+  .matrix thead th b { color: var(--c); font-weight: 500; margin-right: 6px; }
+  .matrix tbody th {
+    width: 22%;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: var(--step-1);
+    line-height: 1.3;
+    color: var(--bright);
+  }
+  .matrix td { width: 26%; font-size: 0.9375rem; color: var(--mute); }
+  .matrix td code { font-size: 0.875em; color: var(--moon); }
+
+  /* Closing + footer */
+  .closing { display: grid; gap: 20px; justify-items: start; }
+  .closing h2 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: var(--step-3);
+    line-height: 1.15;
+    color: var(--bright);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 24px;
+    font-size: 0.875rem;
+    color: var(--faint);
+  }
+  .foot .sign { display: grid; gap: 2px; }
+  .foot .sign .wordmark { font-size: 0.875rem; }
+  .foot .sign .tag-line { font-size: 0.625rem; letter-spacing: .5em; color: var(--faint); text-transform: uppercase; }
+  .foot a { color: var(--mute); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: minmax(0, 1fr); padding-block: 32px 56px; gap: 28px; }
+    .hero-copy { max-width: none; }
+    .chart { max-width: 560px; }
+    .product { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  }
+  @media (max-width: 760px) {
+    .matrix, .matrix thead, .matrix tbody, .matrix tr, .matrix th, .matrix td { display: block; width: auto; }
+    .matrix thead { display: none; }
+    .matrix tr { border-top: 1px solid var(--line); padding-block: 18px; display: grid; gap: 12px; }
+    .matrix th, .matrix td, .matrix tbody th { border: 0; padding: 0; width: auto; }
+    .matrix td::before {
+      content: attr(data-label);
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 0.6875rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--moon);
+      margin-bottom: 2px;
+    }
+    section { padding-block: 56px; }
+  }
+  @media (max-width: 560px) {
+    .nav a.hide-sm { display: none; }
+    .rounds { grid-template-columns: minmax(0, 1fr); }
+    .score { grid-template-columns: 22px 56px minmax(30px, 1fr) 34px; }
+    .score .flag { grid-column: 2 / -1; }
+    .host { grid-template-columns: 14px minmax(0, 1fr) minmax(0, auto); }
+    .host .agent { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .leader, .tag, .twinkle { animation: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+
+  <header class="wrap top">
+    <a class="brand" href="#" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#tools">Tools</a>
+      <a href="#principles" class="hide-sm">How we build</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Ixel · To shine</div>
+        <h1>Put your AI models to work <em>together.</em></h1>
+        <p>Ixel makes small, local tools for people who use more than one AI. Have Claude, GPT, Gemini and local models check each other's answers. Let Claude and Codex hand work back and forth. Reach the agents on your servers in one click.</p>
+        <div class="actions">
+          <a class="btn btn-moon" href="#tools">See the three tools</a>
+          <a class="btn" href="https://github.com/OpenIxelAI">OpenIxelAI on GitHub</a>
+        </div>
+        <ul class="facts">
+          <li>macOS · Linux · Windows</li>
+          <li>Runs on your computer</li>
+          <li>Your keys stay with you</li>
+        </ul>
+      </div>
+
+      <figure class="chart">
+        <div class="chart-field">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars. Each star is labeled with one Ixel tool: Ixel MAT, Handoff and Ixel Console.">
+            <defs>
+              <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8f0f7"/>
+                <stop offset="60%" stop-color="#c8d8e8"/>
+                <stop offset="100%" stop-color="#7eb8d4" stop-opacity="0.85"/>
+              </radialGradient>
+              <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="starGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7eb8d4"/>
+                <stop offset="50%" stop-color="#9b7fc7"/>
+                <stop offset="100%" stop-color="#d4af37"/>
+              </linearGradient>
+            </defs>
+
+            <!-- chart ring: a tick every 10 degrees, a longer one every 30 -->
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#2a3d55" stroke-width="4" stroke-dasharray="0.8 23.28"/>
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#3a5070" stroke-width="9" stroke-dasharray="1 71.25"/>
+            <circle cx="200" cy="185" r="125" fill="none" stroke="#9b7fc7" stroke-width="0.4" opacity="0.35"/>
+            <circle cx="200" cy="185" r="115" fill="none" stroke="#7eb8d4" stroke-width="0.6" opacity="0.35" filter="url(#glow)"/>
+
+            <circle cx="200" cy="185" r="100" fill="url(#moonGlow)" filter="url(#glow)" opacity="0.95"/>
+            <circle cx="230" cy="170" r="90" fill="#070b14"/>
+            <circle cx="200" cy="185" r="100" fill="none" stroke="#c8d8e8" stroke-width="1" opacity="0.55"/>
+
+            <path d="M 105 220 Q 200 350 295 220" fill="none" stroke="url(#arc)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+            <path d="M 115 230 Q 200 345 285 230" fill="none" stroke="url(#arc)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+
+            <path class="leader" d="M 264 64 L 298 46 L 352 46"/>
+            <path class="leader" d="M 284 110 L 318 98 L 352 98"/>
+            <path class="leader" d="M 313 158 L 330 150 L 352 150"/>
+
+            <g filter="url(#starGlow)">
+              <polygon class="twinkle a" points="268,95 272,108 285,108 275,116 279,129 268,121 257,129 261,116 251,108 264,108" fill="#d4af37"/>
+              <polygon class="twinkle b" points="300,145 303,153 311,153 305,158 307,166 300,161 293,166 295,158 289,153 297,153" fill="#e8f0f7" opacity="0.9"/>
+              <polygon class="twinkle c" points="255,60 257,67 264,67 259,71 261,78 255,74 249,78 251,71 246,67 253,67" fill="#c8d8e8"/>
+              <circle cx="318" cy="112" r="1.8" fill="#d4af37" opacity="0.6"/>
+              <circle cx="232" cy="80" r="1" fill="#7eb8d4" opacity="0.6"/>
+              <circle cx="330" cy="178" r="1.4" fill="#9b7fc7" opacity="0.7"/>
+            </g>
+          </svg>
+
+          <a class="tag" href="#console" style="--y:5.16%; --c:var(--blue); --d:.6s">
+            <span class="tag-name"><b>γ</b>Ixel Console</span>
+            <span class="tag-sub">SSH for your agents</span>
+          </a>
+          <a class="tag" href="#mat" style="--y:21.94%; --c:var(--gold); --d:.85s">
+            <span class="tag-name"><b>α</b>Ixel MAT</span>
+            <span class="tag-sub">a panel of models</span>
+          </a>
+          <a class="tag" href="#handoff" style="--y:38.71%; --c:var(--iris); --d:1.1s">
+            <span class="tag-name"><b>β</b>Handoff</span>
+            <span class="tag-sub">Claude ⇄ Codex</span>
+          </a>
+        </div>
+        <figcaption>Three stars in the Ixel mark, one for each tool</figcaption>
+      </figure>
+    </div>
+
+    <section id="tools">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">The tools</div>
+          <h2>One for getting a verdict, one for sharing the work, one for reaching your agents.</h2>
+        </div>
+
+        <div class="products">
+
+          <article class="product" id="mat" style="--c:var(--gold)">
+            <div class="product-copy">
+              <div class="eyebrow"><span class="greek">α</span> Multi-agent terminal</div>
+              <h3>Ixel MAT</h3>
+              <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and agree on a verdict.</p>
+              <ul class="points">
+                <li>Answers are shuffled and labeled A, B, C for each reviewer, and a model's grade of its own answer doesn't count. You see who was flagged, and who conceded.</li>
+                <li>Usage saver mode lets cheaper and local models draft and review, while your best model only checks the result.</li>
+                <li>Uses the keys and subscriptions you already have: Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode, and local models through Ollama or LM Studio.</li>
+              </ul>
+              <ul class="chips">
+                <li>Terminal</li>
+                <li>Browser app</li>
+                <li>Plugin for Claude, Codex, Cursor</li>
+                <li>MIT</li>
+              </ul>
+              <a class="more" href="https://github.com/OpenIxelAI">Ixel MAT — private preview →</a>
+            </div>
+
+            <figure class="panel" aria-label="An example Ixel MAT review">
+              <div class="panel-bar"><span><span class="dot">●</span> ixel review</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="scroll"><div class="prompt">ixel review <span class="str">"What is 17 × 23?"</span></div></div>
+                <div class="rounds">
+                  <div class="round"><span>Round 1</span>Answer</div>
+                  <div class="round"><span>Round 2</span>Peer review</div>
+                  <div class="round"><span>Round 3</span>Verdict</div>
+                </div>
+                <div class="verdict">
+                  <div class="verdict-head"><b>IXEL VERDICT</b><span class="pill">confidence high</span></div>
+                  <div class="answer">17 × 23 = 391</div>
+                  <div class="fix">Corrections: one answer said 381.</div>
+                </div>
+                <div class="scores">
+                  <div class="score"><span class="letter">A</span><span>Gemini</span><span class="bar"><i style="--v:0%"></i></span><span>0.00</span><span class="flag">✗ flagged by 2</span></div>
+                  <div class="score"><span class="letter">B</span><span>GPT</span><span class="bar"><i style="--v:100%"></i></span><span>1.00</span></div>
+                  <div class="score"><span class="letter">C</span><span>Claude</span><span class="bar"><i style="--v:100%"></i></span><span>1.00</span></div>
+                </div>
+                <div class="conceded">↪ Gemini conceded: rated C above its own answer</div>
+              </div>
+            </figure>
+          </article>
+
+          <article class="product" id="handoff" style="--c:var(--iris)">
+            <div class="product-copy">
+              <div class="eyebrow"><span class="greek">β</span> Agents as partners</div>
+              <h3>Handoff</h3>
+              <p class="lede">Let Claude and Codex work as partners on the same project. Say "Codex, take the tests; Claude, do the API," and the work passes between them. You stop being the copy-paste courier.</p>
+              <ul class="points">
+                <li>A plugin for Claude Desktop, Claude Code and Codex. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
+                <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and the history is append-only.</li>
+                <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what, what's blocked, and everything that happened.</li>
+              </ul>
+              <ul class="chips">
+                <li>Claude Desktop</li>
+                <li>Claude Code</li>
+                <li>Codex</li>
+                <li>MIT</li>
+              </ul>
+              <a class="more" href="https://github.com/OpenIxelAI">Handoff — private preview →</a>
+            </div>
+
+            <figure class="panel" aria-label="An example Handoff board">
+              <div class="panel-bar"><span><span class="dot">●</span> handoff board</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="scroll"><pre class="board"><span class="prompt">handoff board</span>
+<span class="h">Handoff board</span>  <span class="dim">3 active · 1 open · 1 claimed · 1 handed_off</span>
+
+<span class="dim">Task  Status      Assignee  Title</span>
+T-2   <span class="st-ho">handed_off</span>  claude    Tests for /api/orders
+T-1   <span class="st-cl">claimed</span>     claude    Add /api/orders
+T-3   <span class="st-op">open</span>        codex     Update the API docs</pre></div>
+                <div class="ask">
+                  <span>Then, in Codex</span>
+                  <q>Check your handoffs.</q>
+                </div>
+              </div>
+            </figure>
+          </article>
+
+          <article class="product" id="console" style="--c:var(--blue)">
+            <div class="product-copy">
+              <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
+              <h3>Ixel Console <small>formerly ClawTTY</small></h3>
+              <p class="lede">The SSH launcher built for the age of AI agents. Save your machines as profiles, pick the agent on each, and connect in one click, from a $5 VPS to your home lab.</p>
+              <ul class="points">
+                <li>Works with OpenClaw, Hermes, or any agent command you type. Each host keeps its own agent and command presets.</li>
+                <li>Tabbed sessions, one command broadcast to every session, and one-click Status, Sessions, Logs and TUI macros.</li>
+                <li>Host keys are pinned, and a mismatch blocks the connection. Credentials live in your system keychain, and every connection attempt is logged on your machine.</li>
+              </ul>
+              <ul class="chips">
+                <li>Linux</li>
+                <li>macOS</li>
+                <li>Windows / WSL2</li>
+                <li>MIT</li>
+              </ul>
+              <a class="more" href="https://github.com/OpenIxelAI">Ixel Console — private preview →</a>
+            </div>
+
+            <figure class="panel" aria-label="An example list of Ixel Console profiles">
+              <div class="panel-bar"><span><span class="dot">●</span> profiles</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="hosts">
+                  <div class="host host-head"><span></span><span>Host</span><span class="agent">Agent</span><span>Host key</span></div>
+                  <div class="host on"><span class="st"></span><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="st"></span><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="st off"></span><span class="name">gpu-box</span><span class="agent">custom</span><span class="key">✓ pinned</span></div>
+                </div>
+                <div class="macros" aria-label="Macros">
+                  <span>Status</span><span>Sessions</span><span>Logs</span><span>TUI</span><span class="broadcast">Broadcast to all</span>
+                </div>
+              </div>
+            </figure>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="principles">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How we build</div>
+          <h2>Built the same careful way, all three.</h2>
+          <p>Every Ixel project ships a written threat model and tests that attack its own protections. Here is what that means for each tool.</p>
+        </div>
+
+        <table class="matrix">
+          <thead>
+            <tr>
+              <td></td>
+              <th scope="col" style="--c:var(--gold)"><b>α</b>Ixel MAT</th>
+              <th scope="col" style="--c:var(--iris)"><b>β</b>Handoff</th>
+              <th scope="col" style="--c:var(--blue)"><b>γ</b>Ixel Console</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Stays on your machine</th>
+              <td data-label="Ixel MAT">The browser app listens on <code>127.0.0.1</code> only and needs a key from the link it opens.</td>
+              <td data-label="Handoff">Never opens a network port. Apps talk to it over stdio.</td>
+              <td data-label="Ixel Console">No telemetry. It connects only to the sessions you start.</td>
+            </tr>
+            <tr>
+              <th scope="row">Keeps secrets out of reach</th>
+              <td data-label="Ixel MAT">API keys live in a file only you can read, and go only to the providers you set up.</td>
+              <td data-label="Handoff">Text that looks like an API key, token or private key is refused, not stored.</td>
+              <td data-label="Ixel Console">Credentials live in your system keychain, never in profile files.</td>
+            </tr>
+            <tr>
+              <th scope="row">Limits what can run</th>
+              <td data-label="Ixel MAT">Subscription CLIs run answer-only: no shell, no file writes, in an empty folder.</td>
+              <td data-label="Handoff">Runs nothing itself. The optional worker stays in its own git worktree and never pushes.</td>
+              <td data-label="Ixel Console">Fixed commands per agent. Custom commands are length-capped and checked for shell tricks.</td>
+            </tr>
+            <tr>
+              <th scope="row">Attacked in its own tests</th>
+              <td data-label="Ixel MAT">A fake model tells each real CLI to run a command and read the key file. CI fails if anything happens.</td>
+              <td data-label="Handoff">Tests include a crafted board built to hijack an agent, and an attack on the worker.</td>
+              <td data-label="Ixel Console">SSH option-injection tests run through the real <code>ssh</code> binary.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap closing">
+        <div class="eyebrow">Follow along</div>
+        <h2>Every tool is built on GitHub, one release at a time.</h2>
+        <div class="actions">
+          <a class="btn btn-moon" href="https://github.com/OpenIxelAI">github.com/OpenIxelAI</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · Handoff and Ixel Console are MIT-licensed</span>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // A quiet starfield behind the page, in the colors of the Ixel mark.
+  (function () {
+    var canvas = document.getElementById("sky");
+    var ctx = canvas.getContext && canvas.getContext("2d");
+    if (!ctx) return;
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var tints = ["200,216,232", "232,240,247", "126,184,212", "155,127,199", "212,175,55"];
+    var stars = [], w = 0, h = 0, frame = 0;
+
+    function seed() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var count = Math.round((w * h) / 7000);
+      stars = [];
+      for (var i = 0; i < count; i++) {
+        var big = Math.random() < 0.06;
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: big ? 1 + Math.random() * 0.8 : 0.3 + Math.random() * 0.7,
+          a: 0.15 + Math.random() * 0.5,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.2 + Math.random() * 0.8,
+          tint: Math.random() < 0.82 ? tints[0] : tints[1 + Math.floor(Math.random() * 4)]
+        });
+      }
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var shimmer = still ? 1 : 0.6 + 0.4 * Math.sin(s.phase + t * 0.0008 * s.speed);
+        ctx.fillStyle = "rgba(" + s.tint + "," + (s.a * shimmer).toFixed(3) + ")";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function loop(t) {
+      draw(t);
+      frame = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      cancelAnimationFrame(frame);
+      seed();
+      if (still) draw(0); else frame = requestAnimationFrame(loop);
+    }
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(start, 150);
+    });
+    start();
+  })();
+</script>
+</body>
+</html>
