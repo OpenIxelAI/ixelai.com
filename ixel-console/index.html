@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ixel Console | IxelAI</title>
+<meta name="description" content="Ixel Console: the SSH launcher built for the age of AI agents. One-click, checked connections to OpenClaw, Hermes or any agent.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Ixel Console | IxelAI">
+<meta property="og:description" content="Ixel Console: the SSH launcher built for the age of AI agents. One-click, checked connections to OpenClaw, Hermes or any agent.">
+<meta property="og:url" content="https://ixelai.com/ixel-console/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/ixel-console/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+
+  <header class="wrap top">
+    <a class="brand" href="../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../ixel-mat/">Ixel MAT</a>
+      <a href="../handoff/">Handoff</a>
+      <a href="../ixel-console/" aria-current="page">Ixel Console</a>
+      <a href="../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+
+  <main style="--c:var(--blue)">
+    <div class="wrap page-hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
+        <h1>Ixel Console<small>formerly ClawTTY</small></h1>
+        <p class="lede">The SSH launcher built for the age of AI agents.</p>
+        <p>Connect to, manage and monitor the AI agents running on your machines, from a $5 VPS to your home lab. Save each machine as a profile, pick its agent (OpenClaw, Hermes or your own command), and connect in one click, with security checks built in.</p>
+        <div class="actions">
+          <a class="btn btn-moon" href="#install">Install on Windows</a>
+          <a class="btn" href="#demo">See it run</a>
+        </div>
+      </div>
+      <figure class="chart" data-focus="c">
+        <div class="chart-field">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars, with the star for Ixel Console lit.">
+            <defs>
+              <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8f0f7"/>
+                <stop offset="60%" stop-color="#c8d8e8"/>
+                <stop offset="100%" stop-color="#7eb8d4" stop-opacity="0.85"/>
+              </radialGradient>
+              <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="starGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7eb8d4"/>
+                <stop offset="50%" stop-color="#9b7fc7"/>
+                <stop offset="100%" stop-color="#d4af37"/>
+              </linearGradient>
+            </defs>
+
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#2a3d55" stroke-width="4" stroke-dasharray="0.8 23.28"/>
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#3a5070" stroke-width="9" stroke-dasharray="1 71.25"/>
+            <circle cx="200" cy="185" r="125" fill="none" stroke="#9b7fc7" stroke-width="0.4" opacity="0.35"/>
+            <circle cx="200" cy="185" r="115" fill="none" stroke="#7eb8d4" stroke-width="0.6" opacity="0.35" filter="url(#glow)"/>
+
+            <circle cx="200" cy="185" r="100" fill="url(#moonGlow)" filter="url(#glow)" opacity="0.95"/>
+            <circle cx="230" cy="170" r="90" fill="#070b14"/>
+            <circle cx="200" cy="185" r="100" fill="none" stroke="#c8d8e8" stroke-width="1" opacity="0.55"/>
+
+            <path d="M 105 220 Q 200 350 295 220" fill="none" stroke="url(#arc)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+            <path d="M 115 230 Q 200 345 285 230" fill="none" stroke="url(#arc)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+
+            <path class="leader" d="M 264 64 L 298 46 L 352 46"/>
+
+            <g filter="url(#starGlow)">
+              <g class="sg a"><polygon class="twinkle a" points="268,95 272,108 285,108 275,116 279,129 268,121 257,129 261,116 251,108 264,108" fill="#d4af37"/></g>
+              <g class="sg b"><polygon class="twinkle b" points="300,145 303,153 311,153 305,158 307,166 300,161 293,166 295,158 289,153 297,153" fill="#e8f0f7" opacity="0.9"/></g>
+              <g class="sg c"><polygon class="twinkle c" points="255,60 257,67 264,67 259,71 261,78 255,74 249,78 251,71 246,67 253,67" fill="#c8d8e8"/></g>
+              <circle cx="318" cy="112" r="1.8" fill="#d4af37" opacity="0.6"/>
+              <circle cx="232" cy="80" r="1" fill="#7eb8d4" opacity="0.6"/>
+              <circle cx="330" cy="178" r="1.4" fill="#9b7fc7" opacity="0.7"/>
+            </g>
+          </svg>
+
+          <a class="tag" href="../ixel-console/" style="--y:5.16%; --c:var(--blue); --d:0.60s">
+            <span class="tag-name"><b>γ</b>Ixel Console</span>
+            <span class="tag-sub">SSH for your agents</span>
+          </a>
+        </div>
+        <figcaption>The γ star in the Ixel mark</figcaption>
+      </figure>
+    </div>
+
+    <section id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">See it run</div>
+          <h2>Ixel Console in a minute.</h2>
+        </div>
+        <figure class="demo" id="demo-figure" data-demo>
+          <video controls preload="metadata" playsinline hidden data-src="../videos/ixel-console.mp4"></video>
+          <div class="demo-fallback">
+            <figure class="panel" aria-label="An example list of Ixel Console profiles">
+              <div class="panel-bar"><span><span class="dot">●</span> profiles</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="hosts">
+                  <div class="host host-head"><span></span><span>Host</span><span class="agent">Agent</span><span>Host key</span></div>
+                  <div class="host on"><span class="st"></span><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="st"></span><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="st off"></span><span class="name">gpu-box</span><span class="agent">custom</span><span class="key">✓ pinned</span></div>
+                </div>
+                <div class="macros" aria-label="Macros">
+                  <span>Status</span><span>Sessions</span><span>Logs</span><span>TUI</span><span class="broadcast">Broadcast to all</span>
+                </div>
+              </div>
+            </figure>
+            <span class="caption">Example run. A screen recording is on the way.</span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Who it's for</div>
+          <h2>Made for people who…</h2>
+        </div>
+        <ul class="who">
+          <li><h3>Run OpenClaw or Hermes</h3><p>Each agent's own commands are one click away: Status, Sessions, Logs and its TUI.</p></li>
+          <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine as a profile, or import them from your SSH config, and open a session in one click.</p></li>
+          <li><h3>Run several agents at once</h3><p>Keep them in tabs, and broadcast one command to every agent of the same kind.</p></li>
+          <li><h3>Take security seriously</h3><p>Host keys are pinned with no override, credentials live in Windows Credential Manager, and every connection attempt is logged.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How it works</div>
+          <h2>From a saved profile to a live session.</h2>
+        </div>
+        <ol class="steps">
+          <li><h3>Add a machine</h3><p>Save a host as a profile, or import your hosts from <code>~/.ssh/config</code>.</p></li>
+          <li><h3>Pick its agent</h3><p>OpenClaw, Hermes, or a custom command. Each host keeps its own.</p></li>
+          <li><h3>Connect</h3><p>The first time, you confirm the server's fingerprint and Ixel Console pins it. From then on, a changed key is blocked.</p></li>
+          <li><h3>Work</h3><p>Use the one-click macros, open more tabs, or broadcast a command to every matching agent.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">What it does</div>
+          <h2>What you get.</h2>
+        </div>
+        <dl class="features">
+          <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands. A custom agent runs what you type, checked for shell tricks.</dd></div>
+          <div><dt>Tabs and broadcast</dt><dd>Several sessions in one window, and one command sent to every agent of the same kind.</dd></div>
+          <div><dt>Host key pinning</dt><dd>Fingerprints are checked on every connection, and a mismatch blocks it. There's no “trust anyway” button.</dd></div>
+          <div><dt>Your system keychain</dt><dd>Passwords and tokens go in Windows Credential Manager (Keychain on macOS, Secret Service on Linux), never in a file.</dd></div>
+          <div><dt>SSH keys, made easy</dt><dd>Generate an ed25519 or RSA key, then Copy Key to Server adds it to the server for you, even on Windows.</dd></div>
+          <div><dt>An audit log</dt><dd>Every connection attempt is logged on your machine, with a short code you can search for.</dd></div>
+        </dl>
+        <div class="safe">
+          <div class="eyebrow">Built to be safe</div>
+          <ul class="points">
+            <li>Preset agents can only run their four built-in commands.</li>
+            <li>Profiles hold no secrets. Credentials stay in your OS keychain.</li>
+            <li>Any check that fails refuses to connect.</li>
+            <li>No telemetry. The only network connections are the sessions you start.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Install on Windows</div>
+          <h2>Get Ixel Console running.</h2>
+        </div>
+        <div class="install">
+          <div class="prose">
+            <p><strong>You need:</strong></p>
+            <ul>
+              <li>Windows 10 or 11 (the OpenSSH client it uses is built in)</li>
+              <li>Python 3.10 or newer from <a href="https://www.python.org/downloads/windows/">python.org</a>, with “tcl/tk and IDLE” left selected</li>
+              <li>Git (<code>winget install Git.Git</code>)</li>
+            </ul>
+            <p class="note">Ixel Console is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
+          </div>
+          <div class="install-steps">
+            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
+            <pre class="code"><code>cd ~
+git clone https://github.com/OpenIxelAI/Ixel-Console.git
+cd Ixel-Console
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
+            <p>Then open <strong>Ixel Console</strong> from the Start Menu, or run <code>ixel-console</code> in a new terminal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">More from Ixel</div>
+          <h2>The other stars.</h2>
+        </div>
+        <div class="more-tools">
+          <a class="tool-link" href="../ixel-mat/" style="--c:var(--gold)">
+            <span class="eyebrow"><span class="greek">α</span> Also from Ixel</span>
+            <span class="name">Ixel MAT →</span>
+            <span class="line">A panel of models that check each other's answers.</span>
+          </a>
+          <a class="tool-link" href="../handoff/" style="--c:var(--iris)">
+            <span class="eyebrow"><span class="greek">β</span> Also from Ixel</span>
+            <span class="name">Handoff →</span>
+            <span class="line">Claude and Codex, partners on one project.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../about/">About</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<script src="../site.js"></script>
+</body>
+</html>
