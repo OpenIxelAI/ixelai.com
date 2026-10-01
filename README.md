@@ -13,11 +13,24 @@ To look at it, open `index.html` in a browser. To change it, edit it here and pu
 
 ## Turning on GitHub Pages
 
-Pages is not on yet (the API token used to create this repository cannot change Pages settings). Go to **Settings → Pages**, choose **Deploy from a branch**, `main`, `/ (root)`, and save. The site is then `https://openixelai.github.io/ixelai.com/`.
+Pages is not on yet (the API token used to create this repository cannot change Pages settings).
 
-## Adding your domain
+1. This repository is private, and GitHub Pages only serves private repositories on a paid plan (GitHub
+   Pro or Team). Either make the repository public in **Settings → General → Danger Zone** (it holds
+   nothing but the public page), or upgrade.
+2. Go to **Settings → Pages**, choose **Deploy from a branch**, `main`, `/ (root)`, and save.
 
-After you buy the domain, at your registrar's DNS settings add:
+The `CNAME` file sets the custom domain to `ixelai.com`, so Pages picks it up as soon as it is on.
+
+## The domains
+
+IxelAI owns `ixelai.com` and `ixelai.org`. `ixelai.com` is the site; `ixelai.org` forwards to it.
+
+Both domains are registered with Cloudflare, so their DNS is in the Cloudflare dashboard.
+
+**`ixelai.com`**: under **ixelai.com → DNS → Records**, remove any existing records for `@` and `www`, then
+add these with **Proxy status** set to **DNS only** (grey cloud). Cloudflare's proxy stops GitHub from issuing
+the site's HTTPS certificate.
 
 | Type | Name | Value |
 |---|---|---|
@@ -27,10 +40,18 @@ After you buy the domain, at your registrar's DNS settings add:
 | A | `@` | `185.199.111.153` |
 | CNAME | `www` | `openixelai.github.io` |
 
-Then in **Settings → Pages**, type the domain under **Custom domain**, save, and tick **Enforce HTTPS** once it's offered. If you also own the other extension (`.org` or `.com`), use your registrar's forwarding to send it to the main one.
+Then in **Settings → Pages**, check that **Custom domain** shows `ixelai.com`, and tick **Enforce HTTPS** once
+it's offered (DNS and the certificate can take up to a day). `www.ixelai.com` redirects to `ixelai.com`
+on its own.
+
+**`ixelai.org`**: Cloudflare forwards it with a redirect rule, which needs proxied records to act on:
+
+1. Under **ixelai.org → DNS → Records**, add an `A` record `@` → `192.0.2.1` and a `CNAME` record `www` → `ixelai.org`,
+   both **Proxied** (orange cloud). `192.0.2.1` is a placeholder address; Cloudflare answers before it is used.
+2. Under **ixelai.org → Rules → Redirect Rules**, create a rule for **All incoming requests** that redirects to
+   `https://ixelai.com` with status code **301**.
 
 ## Before the products are public
 
 - The three tool links on the page go to [github.com/OpenIxelAI](https://github.com/OpenIxelAI), not to the private product repositories, so visitors don't hit a 404. Point each link at its repo when that repo is public.
-- The link-preview image (`og:image` in `index.html`) points at `https://openixelai.github.io/ixelai.com/ixel-logo.png`. Once your own domain is live, change it to `https://<your domain>/ixel-logo.png`.
 - Product copy comes from each project's README and SECURITY.md. When a README changes, update the matching section here.
