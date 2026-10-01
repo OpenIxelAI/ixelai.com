@@ -1,0 +1,23 @@
+# Demo videos
+
+Each tool page shows its recording from this folder as soon as the file is here. Until then, it shows the
+example screen.
+
+| File | Shown on |
+|---|---|
+| `ixel-mat.mp4` | ixelai.com/ixel-mat/ |
+| `handoff.mp4` | ixelai.com/handoff/ |
+| `ixel-console.mp4` | ixelai.com/ixel-console/ |
+
+## Making one on Windows
+
+1. Open **Snipping Tool**, switch it to **Record** (the video camera), click **New**, and drag a box around the
+   window. Or press **Win + Alt + R** to record the window you're in with the Xbox Game Bar.
+2. Show one real task from start to finish. Under a minute is plenty; no sound needed.
+3. Save it as an `.mp4` with the name from the table above.
+
+## Adding it
+
+On GitHub, open this `videos` folder, choose **Add file → Upload files**, drop the `.mp4` in, and commit.
+GitHub's upload limit is 25 MB per file, which fits about a minute of screen recording. The page picks it up
+the next time GitHub Pages publishes the site, usually within a minute or two.

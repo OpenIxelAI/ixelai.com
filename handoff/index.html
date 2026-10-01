@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Handoff | IxelAI</title>
+<meta name="description" content="Handoff: let Claude and Codex work as partners on the same project, through a shared task board on your computer.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Handoff | IxelAI">
+<meta property="og:description" content="Handoff: let Claude and Codex work as partners on the same project, through a shared task board on your computer.">
+<meta property="og:url" content="https://ixelai.com/handoff/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/handoff/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+
+  <header class="wrap top">
+    <a class="brand" href="../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../ixel-mat/">Ixel MAT</a>
+      <a href="../handoff/" aria-current="page">Handoff</a>
+      <a href="../ixel-console/">Ixel Console</a>
+      <a href="../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+
+  <main style="--c:var(--iris)">
+    <div class="wrap page-hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="greek">β</span> Agents as partners</div>
+        <h1>Handoff</h1>
+        <p class="lede">Let Claude and Codex work as partners on the same project.</p>
+        <p>Say “Codex, take the tests; Claude, do the API” in either app. Tasks, notes and reviews pass between them through a shared task board on your computer, so you stop being the copy-paste courier. Handoff works in Claude Desktop, Claude Code and Codex, and you can see everything from your terminal.</p>
+        <div class="actions">
+          <a class="btn btn-moon" href="#install">Install on Windows</a>
+          <a class="btn" href="#demo">See it run</a>
+        </div>
+      </div>
+      <figure class="chart" data-focus="b">
+        <div class="chart-field">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars, with the star for Handoff lit.">
+            <defs>
+              <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8f0f7"/>
+                <stop offset="60%" stop-color="#c8d8e8"/>
+                <stop offset="100%" stop-color="#7eb8d4" stop-opacity="0.85"/>
+              </radialGradient>
+              <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="starGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7eb8d4"/>
+                <stop offset="50%" stop-color="#9b7fc7"/>
+                <stop offset="100%" stop-color="#d4af37"/>
+              </linearGradient>
+            </defs>
+
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#2a3d55" stroke-width="4" stroke-dasharray="0.8 23.28"/>
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#3a5070" stroke-width="9" stroke-dasharray="1 71.25"/>
+            <circle cx="200" cy="185" r="125" fill="none" stroke="#9b7fc7" stroke-width="0.4" opacity="0.35"/>
+            <circle cx="200" cy="185" r="115" fill="none" stroke="#7eb8d4" stroke-width="0.6" opacity="0.35" filter="url(#glow)"/>
+
+            <circle cx="200" cy="185" r="100" fill="url(#moonGlow)" filter="url(#glow)" opacity="0.95"/>
+            <circle cx="230" cy="170" r="90" fill="#070b14"/>
+            <circle cx="200" cy="185" r="100" fill="none" stroke="#c8d8e8" stroke-width="1" opacity="0.55"/>
+
+            <path d="M 105 220 Q 200 350 295 220" fill="none" stroke="url(#arc)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+            <path d="M 115 230 Q 200 345 285 230" fill="none" stroke="url(#arc)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+
+            <path class="leader" d="M 313 158 L 330 150 L 352 150"/>
+
+            <g filter="url(#starGlow)">
+              <g class="sg a"><polygon class="twinkle a" points="268,95 272,108 285,108 275,116 279,129 268,121 257,129 261,116 251,108 264,108" fill="#d4af37"/></g>
+              <g class="sg b"><polygon class="twinkle b" points="300,145 303,153 311,153 305,158 307,166 300,161 293,166 295,158 289,153 297,153" fill="#e8f0f7" opacity="0.9"/></g>
+              <g class="sg c"><polygon class="twinkle c" points="255,60 257,67 264,67 259,71 261,78 255,74 249,78 251,71 246,67 253,67" fill="#c8d8e8"/></g>
+              <circle cx="318" cy="112" r="1.8" fill="#d4af37" opacity="0.6"/>
+              <circle cx="232" cy="80" r="1" fill="#7eb8d4" opacity="0.6"/>
+              <circle cx="330" cy="178" r="1.4" fill="#9b7fc7" opacity="0.7"/>
+            </g>
+          </svg>
+
+          <a class="tag" href="../handoff/" style="--y:38.71%; --c:var(--iris); --d:0.60s">
+            <span class="tag-name"><b>β</b>Handoff</span>
+            <span class="tag-sub">Claude ⇄ Codex</span>
+          </a>
+        </div>
+        <figcaption>The β star in the Ixel mark</figcaption>
+      </figure>
+    </div>
+
+    <section id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">See it run</div>
+          <h2>Handoff in a minute.</h2>
+        </div>
+        <figure class="demo" id="demo-figure" data-demo>
+          <video controls preload="metadata" playsinline hidden data-src="../videos/handoff.mp4"></video>
+          <div class="demo-fallback">
+            <figure class="panel" aria-label="An example Handoff board">
+              <div class="panel-bar"><span><span class="dot">●</span> handoff board</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="scroll"><pre class="board"><span class="prompt">handoff board</span>
+<span class="h">Handoff board</span>  <span class="dim">3 active · 1 open · 1 claimed · 1 handed_off</span>
+
+<span class="dim">Task  Status      Assignee  Title</span>
+T-2   <span class="st-ho">handed_off</span>  claude    Tests for /api/orders
+T-1   <span class="st-cl">claimed</span>     claude    Add /api/orders
+T-3   <span class="st-op">open</span>        codex     Update the API docs</pre></div>
+                <div class="ask">
+                  <span>Then, in Codex</span>
+                  <q>Check your handoffs.</q>
+                </div>
+              </div>
+            </figure>
+            <span class="caption">Example run. A screen recording is on the way.</span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Who it's for</div>
+          <h2>Made for people who…</h2>
+        </div>
+        <ul class="who">
+          <li><h3>Use both Claude and Codex</h3><p>Give each one the part it does best, and let them pass the work back and forth.</p></li>
+          <li><h3>Are tired of copying between chats</h3><p>Notes, acceptance checks and reviews travel on the board instead of through your clipboard.</p></li>
+          <li><h3>Want a record of who did what</h3><p>Every note, handoff and review is kept in order with its time, and agents can't edit or delete it.</p></li>
+          <li><h3>Care about reviews</h3><p>Nobody reviews their own work, and a task needs a review or a reason to be done. Your Ixel MAT panel can give a second opinion too.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How it works</div>
+          <h2>One ritual: “check your handoffs.”</h2>
+        </div>
+        <ol class="steps">
+          <li><h3>Split the work</h3><p>In Claude, say <q>Hand the tests to Codex, and you do the endpoint.</q> Claude creates a task for each, with notes and acceptance checks.</p></li>
+          <li><h3>Check your handoffs</h3><p>Switch to Codex and say <q>Check your handoffs.</q> Codex picks up its task and does the work.</p></li>
+          <li><h3>Hand it back</h3><p>Codex hands the task back with what it did, what's left, how to check it, and the files it touched.</p></li>
+          <li><h3>Review and finish</h3><p>Claude reads the handoff, finishes up, and asks Codex or your Ixel panel to review before the task is done.</p></li>
+        </ol>
+        <p class="aside">Nothing wakes the other app up: an assistant only acts when you prompt it. So after one agent hands work over, you switch apps and say “check your handoffs.” That's the whole ritual.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">What it does</div>
+          <h2>What you get.</h2>
+        </div>
+        <dl class="features">
+          <div><dt>A plugin in each app</dt><dd>Claude Desktop, Claude Code and Codex each get Handoff's tools: an inbox, the board, and tools to create, claim, hand off and review tasks.</dd></div>
+          <div><dt>Your board in the terminal</dt><dd><code>handoff board</code> shows who's doing what and what's blocked. <code>handoff show T-12</code> prints a task's whole history.</dd></div>
+          <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, nobody reviews their own work, and agents can't delete tasks or rewrite history.</dd></div>
+          <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned before they edit them.</dd></div>
+          <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
+          <div><dt>The worker (preview)</dt><dd>Approve one task and let Claude Code work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Windows it edits files only, for now.</dd></div>
+        </dl>
+        <div class="safe">
+          <div class="eyebrow">Built to be safe</div>
+          <ul class="points">
+            <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
+            <li>Everything on the board is marked untrusted, so one agent's text can't take over another.</li>
+            <li>Text that looks like an API key, token or private key is refused, not stored.</li>
+            <li>The worker runs only the tasks you approve, stays in its worktree, and never pushes.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Install on Windows</div>
+          <h2>Get Handoff running.</h2>
+        </div>
+        <div class="install">
+          <div class="prose">
+            <p><strong>You need:</strong></p>
+            <ul>
+              <li>Windows 10 or 11</li>
+              <li>Python 3.10 or newer (<code>winget install Python.Python.3.13</code>)</li>
+              <li>Git (<code>winget install Git.Git</code>)</li>
+              <li>Claude (Desktop or Claude Code) and Codex</li>
+            </ul>
+            <p class="note">Handoff is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
+          </div>
+          <div class="install-steps">
+            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
+            <pre class="code"><code>cd ~
+git clone https://github.com/OpenIxelAI/Handoff-by-IxelAI.git
+cd Handoff-by-IxelAI
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
+            <p>Then open a new window, go to your project's folder, run <code>handoff setup --write</code>, and restart Claude and Codex.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">More from Ixel</div>
+          <h2>The other stars.</h2>
+        </div>
+        <div class="more-tools">
+          <a class="tool-link" href="../ixel-mat/" style="--c:var(--gold)">
+            <span class="eyebrow"><span class="greek">α</span> Also from Ixel</span>
+            <span class="name">Ixel MAT →</span>
+            <span class="line">A panel of models that check each other's answers.</span>
+          </a>
+          <a class="tool-link" href="../ixel-console/" style="--c:var(--blue)">
+            <span class="eyebrow"><span class="greek">γ</span> Also from Ixel</span>
+            <span class="name">Ixel Console →</span>
+            <span class="line">One-click SSH to the AI agents on your machines.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../about/">About</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<script src="../site.js"></script>
+</body>
+</html>

@@ -1,15 +1,24 @@
 # IxelAI
 
-The IxelAI company site: one static page, no build step. This repository is its only copy: the
+The IxelAI company site: a few static pages, no build step. This repository is its only copy: the
 `website/` folder that used to hold it in Handoff-by-IxelAI was removed so the two can't drift apart.
 
-| File | What it is |
+| Path | What it is |
 |---|---|
-| `index.html` | The whole site: page, styles and the starfield script |
+| `index.html` | The home page: the star chart and all three tools |
+| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and Windows install |
+| `about/` | Our mission and what we believe |
+| `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
+| `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
 | `favicon.svg` | Browser tab icon (the crescent and gold star) |
 | `ixel-logo.svg`, `ixel-logo.png` | The Ixel mark, same as in the product repos. The PNG is the link preview image |
 
-To look at it, open `index.html` in a browser. To change it, edit it here and push to `main`.
+To look at it, open `index.html` in a browser. Links between pages end in a folder (`ixel-mat/`), which
+GitHub Pages serves but a double-clicked file doesn't, so to click around locally run
+`python -m http.server` in this folder and open `http://localhost:8000`. To change it, edit it here and
+push to `main`.
+
+Every page has the same header and footer. When you change one, change it in all five.
 
 ## Turning on GitHub Pages
 
