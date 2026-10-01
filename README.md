@@ -26,8 +26,11 @@ The `CNAME` file sets the custom domain to `ixelai.com`, so Pages picks it up as
 
 IxelAI owns `ixelai.com` and `ixelai.org`. `ixelai.com` is the site; `ixelai.org` forwards to it.
 
-**`ixelai.com`**: at the registrar's DNS settings, remove any existing parking records for `@` and `www`,
-then add:
+Both domains are registered with Cloudflare, so their DNS is in the Cloudflare dashboard.
+
+**`ixelai.com`**: under **ixelai.com → DNS → Records**, remove any existing records for `@` and `www`, then
+add these with **Proxy status** set to **DNS only** (grey cloud). Cloudflare's proxy stops GitHub from issuing
+the site's HTTPS certificate.
 
 | Type | Name | Value |
 |---|---|---|
@@ -41,8 +44,12 @@ Then in **Settings → Pages**, check that **Custom domain** shows `ixelai.com`,
 it's offered (DNS and the certificate can take up to a day). `www.ixelai.com` redirects to `ixelai.com`
 on its own.
 
-**`ixelai.org`**: use the registrar's URL forwarding (sometimes called a redirect) to send `ixelai.org` and
-`www.ixelai.org` to `https://ixelai.com`, as a permanent (301) redirect.
+**`ixelai.org`**: Cloudflare forwards it with a redirect rule, which needs proxied records to act on:
+
+1. Under **ixelai.org → DNS → Records**, add an `A` record `@` → `192.0.2.1` and a `CNAME` record `www` → `ixelai.org`,
+   both **Proxied** (orange cloud). `192.0.2.1` is a placeholder address; Cloudflare answers before it is used.
+2. Under **ixelai.org → Rules → Redirect Rules**, create a rule for **All incoming requests** that redirects to
+   `https://ixelai.com` with status code **301**.
 
 ## Before the products are public
 
