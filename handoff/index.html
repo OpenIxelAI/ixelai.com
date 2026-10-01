@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>Handoff | IxelAI</title>
 <meta name="description" content="Handoff: let Claude and Codex work as partners on the same project, through a shared task board on your computer.">
 <meta name="theme-color" content="#070b14">
@@ -12,9 +14,6 @@
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/handoff/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
 <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -256,6 +255,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
       <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
       <nav class="foot-nav" aria-label="Footer">
         <a href="../about/">About</a>
+        <a href="../about/#contact">Contact</a>
         <a href="https://github.com/OpenIxelAI">GitHub</a>
       </nav>
     </div>
