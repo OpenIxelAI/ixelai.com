@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>IxelAI</title>
 <meta name="description" content="Ixel makes local tools for people who use more than one AI: a panel of models that check each other's answers, a task board Claude and Codex share, and an SSH console for your agents.">
 <meta name="theme-color" content="#070b14">
@@ -12,9 +14,6 @@
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -216,7 +215,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <article class="product" id="console" style="--c:var(--blue)">
             <div class="product-copy">
               <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
-              <h3>Ixel Console <small>formerly ClawTTY</small></h3>
+              <h3>Ixel Console</h3>
               <p class="lede">The SSH launcher built for the age of AI agents. Save your machines as profiles, pick the agent on each, and connect in one click, from a $5 VPS to your home lab.</p>
               <ul class="points">
                 <li>Works with OpenClaw, Hermes, or any agent command you type. Each host keeps its own agent and command presets.</li>
@@ -320,6 +319,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
       <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
       <nav class="foot-nav" aria-label="Footer">
         <a href="about/">About</a>
+        <a href="about/#contact">Contact</a>
         <a href="https://github.com/OpenIxelAI">GitHub</a>
       </nav>
     </div>

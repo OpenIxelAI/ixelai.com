@@ -10,6 +10,7 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 | `about/` | Our mission and what we believe |
 | `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
+| `fonts/` | The site's fonts, self-hosted so visitors never contact Google, with their licenses |
 | `favicon.svg` | Browser tab icon (the crescent and gold star) |
 | `ixel-logo.svg`, `ixel-logo.png` | The Ixel mark, same as in the product repos. The PNG is the link preview image |
 
@@ -19,6 +20,10 @@ GitHub Pages serves but a double-clicked file doesn't, so to click around locall
 push to `main`.
 
 Every page has the same header and footer. When you change one, change it in all five.
+
+The site makes no requests to anyone else: fonts are in `fonts/` (SIL Open Font License, licenses
+alongside), and every page has a Content Security Policy that allows only this site's own files. Don't add
+analytics, embeds, CDN links or inline scripts; see [SECURITY.md](SECURITY.md).
 
 ## Turning on GitHub Pages
 

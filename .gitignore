@@ -1,0 +1,19 @@
+# Secrets and keys never belong in this repository
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+id_rsa*
+id_ed25519*
+
+# Operating system files that can carry folder names or thumbnails
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor folders
+.vscode/
+.idea/
