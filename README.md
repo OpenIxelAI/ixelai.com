@@ -6,7 +6,8 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 | Path | What it is |
 |---|---|
 | `index.html` | The home page: the star chart, all three tools, and the one-line install (Ixel, or one tool alone) |
-| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and install. `ixel-mat/` and `handoff/` also hold that tool's own installers |
+| `ixel-mat/`, `handoff/`, `machines/` | One page per tool: overview, demo video, who it's for, how it works, and install. `ixel-mat/` and `handoff/` also hold that tool's own installers |
+| `ixel-console/` | Ixel Console's old address: it says Ixel Console is now Machines, and how to bring your machines over |
 | `install.ps1`, `install.sh` | The one-line installers; see [The installers](#the-installers). Keep them ASCII |
 | `scripts/make-installers.py` | Makes the one-tool installers in `ixel-mat/` and `handoff/` from the root ones |
 | `about/` | Our mission and what we believe |

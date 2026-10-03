@@ -6,13 +6,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Ixel Console | IxelAI</title>
-<meta name="description" content="Ixel Console: the SSH launcher built for the age of AI agents. One-click, checked connections to OpenClaw, Hermes or any agent.">
+<meta name="description" content="Ixel Console is now Machines, in the Ixel app: bring your machines over, with the keys Ixel Console pinned, in one step.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Ixel Console | IxelAI">
-<meta property="og:description" content="Ixel Console: the SSH launcher built for the age of AI agents. One-click, checked connections to OpenClaw, Hermes or any agent.">
+<meta property="og:description" content="Ixel Console is now Machines, in the Ixel app: bring your machines over, with the keys Ixel Console pinned, in one step.">
 <meta property="og:url" content="https://ixelai.com/ixel-console/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
-<link rel="canonical" href="https://ixelai.com/ixel-console/">
+<link rel="canonical" href="https://ixelai.com/machines/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -32,7 +32,7 @@
     <nav class="nav" aria-label="Main">
       <a href="../ixel-mat/">Ixel MAT</a>
       <a href="../handoff/">Handoff</a>
-      <a href="../ixel-console/" aria-current="page">Ixel Console</a>
+      <a href="../machines/">Machines</a>
       <a href="../about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>
     </nav>
@@ -42,17 +42,17 @@
     <div class="wrap page-hero">
       <div class="hero-copy">
         <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
-        <h1>Ixel Console</h1>
-        <p class="lede">The SSH launcher built for the age of AI agents.</p>
-        <p>Connect to, manage and monitor the AI agents running on your machines, from a $5 VPS to your home lab. Save each machine as a profile, pick its agent (OpenClaw, Hermes or your own command), and connect in one click, with security checks built in.</p>
+        <h1>Ixel Console is now Machines</h1>
+        <p class="lede">Everything it did is in the Ixel app now, with more.</p>
+        <p>Machines keeps your servers and the OpenClaw or Hermes agent on each, connects in one click with each server's key pinned, makes a key and copies it to a server, and can run one command on several machines at once. Ixel Console itself is no longer updated.</p>
         <div class="actions">
-          <a class="btn btn-moon" href="#install">Install on Windows</a>
-          <a class="btn" href="#demo">See it run</a>
+          <a class="btn btn-moon" href="../machines/">See Machines</a>
+          <a class="btn" href="#move">Bring your machines over</a>
         </div>
       </div>
       <figure class="chart" data-focus="c">
         <div class="chart-field">
-          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars, with the star for Ixel Console lit.">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars, with the star for Machines lit.">
             <defs>
               <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#e8f0f7"/>
@@ -98,8 +98,8 @@
             </g>
           </svg>
 
-          <a class="tag" href="../ixel-console/" style="--y:5.16%; --c:var(--blue); --d:0.60s">
-            <span class="tag-name"><b>γ</b>Ixel Console</span>
+          <a class="tag" href="../machines/" style="--y:5.16%; --c:var(--blue); --d:0.60s">
+            <span class="tag-name"><b>γ</b>Machines</span>
             <span class="tag-sub">SSH for your agents</span>
           </a>
         </div>
@@ -107,113 +107,17 @@
       </figure>
     </div>
 
-    <section id="demo">
+    <section id="move">
       <div class="wrap">
         <div class="section-head">
-          <div class="eyebrow">See it run</div>
-          <h2>Ixel Console in a minute.</h2>
-        </div>
-        <figure class="demo" id="demo-figure" data-demo>
-          <video controls preload="metadata" playsinline hidden data-src="../videos/ixel-console.mp4"></video>
-          <div class="demo-fallback">
-            <figure class="panel" aria-label="An example list of Ixel Console profiles">
-              <div class="panel-bar"><span><span class="dot">●</span> profiles</span><span>Example</span></div>
-              <div class="panel-body">
-                <div class="hosts">
-                  <div class="host host-head"><span>Host</span><span class="agent">Agent</span><span>Runs</span><span>Host key</span></div>
-                  <div class="host on"><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="runs">openclaw tui</span><span class="key">✓ pinned</span></div>
-                  <div class="host"><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="runs">hermes status</span><span class="key">✓ pinned</span></div>
-                  <div class="host"><span class="name">gpu-box</span><span class="agent">custom</span><span class="runs">./serve.sh</span><span class="key">✓ pinned</span></div>
-                </div>
-              </div>
-            </figure>
-            <span class="caption">Example run. A screen recording is on the way.</span>
-          </div>
-        </figure>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="section-head">
-          <div class="eyebrow">Who it's for</div>
-          <h2>Made for people who…</h2>
-        </div>
-        <ul class="who">
-          <li><h3>Run OpenClaw or Hermes</h3><p>Each profile opens straight into the agent's TUI, status, sessions or logs, whichever you pick.</p></li>
-          <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine as a profile, or import them from your SSH config, and open a session in one click.</p></li>
-          <li><h3>Want SSH keys without the fuss</h3><p>Generate a key in the app, and Copy Key to Server installs it for you, even on Windows.</p></li>
-          <li><h3>Take security seriously</h3><p>Host keys are pinned with no override, credentials live in Windows Credential Manager, and every connection attempt is logged.</p></li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="section-head">
-          <div class="eyebrow">How it works</div>
-          <h2>From a saved profile to a live session.</h2>
+          <div class="eyebrow">Moving over</div>
+          <h2>Your machines, in three steps.</h2>
         </div>
         <ol class="steps">
-          <li><h3>Add a machine</h3><p>Save a host as a profile, or import your hosts from <code>~/.ssh/config</code>.</p></li>
-          <li><h3>Pick its agent</h3><p>OpenClaw, Hermes, or a custom command. Each host keeps its own.</p></li>
-          <li><h3>Connect</h3><p>The first time, you confirm the server's fingerprint and Ixel Console pins it. From then on, a changed key is blocked.</p></li>
-          <li><h3>Work</h3><p>The session opens in its own terminal window, running the command you picked for that host.</p></li>
+          <li><h3>Install Ixel</h3><p>On Windows: <code>irm https://ixelai.com/install.ps1 | iex</code> in PowerShell. On a Mac or Linux: <code>curl -fsSL https://ixelai.com/install.sh | sh</code>.</p></li>
+          <li><h3>Import</h3><p>Open the Ixel app, pick <strong>Machines</strong>, press <strong>Import</strong> and pick Ixel Console. Your SSH machines come over with their agents and the keys Ixel Console pinned. (Gateway chat profiles stay behind: Machines connects over SSH.)</p></li>
+          <li><h3>Remove Ixel Console</h3><p>Run <code>ixel-console uninstall</code>. Key passphrases it kept in your system keychain stay there until you remove them.</p></li>
         </ol>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="section-head">
-          <div class="eyebrow">What it does</div>
-          <h2>What you get.</h2>
-        </div>
-        <dl class="features">
-          <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands. A custom agent runs what you type, checked for shell tricks.</dd></div>
-          <div><dt>Import from your SSH config</dt><dd>Bring in the hosts you already have in <code>~/.ssh/config</code>, then pick an agent for each.</dd></div>
-          <div><dt>Host key pinning</dt><dd>Fingerprints are checked on every connection, and a mismatch blocks it. There's no “trust anyway” button.</dd></div>
-          <div><dt>Your system keychain</dt><dd>Passwords and tokens go in Windows Credential Manager (Keychain on macOS, Secret Service on Linux), not in your profiles.</dd></div>
-          <div><dt>SSH keys, made easy</dt><dd>Generate an ed25519 or RSA key, then Copy Key to Server adds it to the server for you, even on Windows.</dd></div>
-          <div><dt>An audit log</dt><dd>Every connection attempt is logged on your machine, with a short code you can search for.</dd></div>
-        </dl>
-        <div class="safe">
-          <div class="eyebrow">Built to be safe</div>
-          <ul class="points">
-            <li>Preset agents can only run their four built-in commands.</li>
-            <li>Profiles hold no secrets. Credentials stay in your OS keychain.</li>
-            <li>Any check that fails refuses to connect.</li>
-            <li>No telemetry. The only network connections are the sessions you start.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="install">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="eyebrow">Install on Windows</div>
-          <h2>Get Ixel Console running.</h2>
-        </div>
-        <div class="install">
-          <div class="prose">
-            <p><strong>You need:</strong></p>
-            <ul>
-              <li>Windows 10 or 11 (the OpenSSH client it uses is built in)</li>
-              <li>Python 3.10 or newer from <a href="https://www.python.org/downloads/windows/">python.org</a>, with “tcl/tk and IDLE” left selected</li>
-              <li>Git (<code>winget install Git.Git</code>)</li>
-            </ul>
-            <p class="note">Ixel Console is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
-          </div>
-          <div class="install-steps">
-            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
-            <pre class="code"><code>cd ~
-git clone https://github.com/OpenIxelAI/Ixel-Console.git
-cd Ixel-Console
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
-            <p>Then open <strong>Ixel Console</strong> from the Start Menu, or run <code>ixel-console</code> in a new terminal.</p>
-          </div>
-        </div>
       </div>
     </section>
 

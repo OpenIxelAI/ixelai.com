@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>IxelAI</title>
-<meta name="description" content="Ixel makes local tools for people who use more than one AI: a panel of models that check each other's answers, a task board Claude and Codex share, and an SSH console for your agents.">
+<meta name="description" content="Ixel makes local tools for people who use more than one AI: a panel of models that check each other's answers, a task board your agents share, and your servers' agents one click away.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="IxelAI">
 <meta property="og:description" content="Put your AI models to work together. Local tools for people who use more than one AI.">
@@ -32,7 +32,7 @@
     <nav class="nav" aria-label="Main">
       <a href="ixel-mat/">Ixel MAT</a>
       <a href="handoff/">Handoff</a>
-      <a href="ixel-console/">Ixel Console</a>
+      <a href="machines/">Machines</a>
       <a href="about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>
     </nav>
@@ -57,7 +57,7 @@
 
       <figure class="chart">
         <div class="chart-field">
-          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars. Each star is labeled with one Ixel tool: Ixel MAT, Handoff and Ixel Console.">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars. Each star is labeled with one Ixel tool: Ixel MAT, Handoff and Machines.">
             <defs>
               <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#e8f0f7"/>
@@ -106,8 +106,8 @@
             </g>
           </svg>
 
-          <a class="tag" href="ixel-console/" style="--y:5.16%; --c:var(--blue); --d:.6s">
-            <span class="tag-name"><b>γ</b>Ixel Console</span>
+          <a class="tag" href="machines/" style="--y:5.16%; --c:var(--blue); --d:.6s">
+            <span class="tag-name"><b>γ</b>Machines</span>
             <span class="tag-sub">SSH for your agents</span>
           </a>
           <a class="tag" href="ixel-mat/" style="--y:21.94%; --c:var(--gold); --d:.85s">
@@ -128,7 +128,7 @@
         <div class="section-head">
           <div class="eyebrow">The tools</div>
           <h2>One for getting a verdict, one for sharing the work, one for reaching your agents.</h2>
-          <p><a href="#install">Ixel</a> is the all-in-one: it installs Ixel MAT and Handoff together, with the Ixel app. Each of them also installs on its own. Ixel Console is separate.</p>
+          <p><a href="#install">Ixel</a> is the all-in-one: it installs Ixel MAT and Handoff together, with the Ixel app, where Machines lives. Ixel MAT and Handoff each install on their own too.</p>
         </div>
 
         <div class="products">
@@ -213,27 +213,27 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             </figure>
           </article>
 
-          <article class="product" id="console" style="--c:var(--blue)">
+          <article class="product" id="machines" style="--c:var(--blue)">
             <div class="product-copy">
-              <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
-              <h3>Ixel Console</h3>
-              <p class="lede">The SSH launcher built for the age of AI agents. Save your machines as profiles, pick the agent on each, and connect in one click, from a $5 VPS to your home lab.</p>
+              <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents, in the Ixel app</div>
+              <h3>Machines</h3>
+              <p class="lede">Your servers, from a $5 VPS to your home lab, and the agents on them. Connect in one click, or run one command on all of them at once.</p>
               <ul class="points">
-                <li>Works with OpenClaw, Hermes, or any agent command you type. Each host keeps its own agent and command presets.</li>
-                <li>Each profile picks what runs when you connect: the agent's TUI, status, sessions or logs. Every session opens in its own terminal window.</li>
-                <li>Host keys are pinned, and a mismatch blocks the connection. Credentials live in your system keychain, and every connection attempt is logged on your machine.</li>
+                <li>Works with OpenClaw, Hermes, a shell, or a command you type. Each machine keeps its own.</li>
+                <li>Import the hosts in your <code>~/.ssh/config</code>, or Ixel Console's machines with the keys it pinned. Connect opens a terminal; Run on machines shows how each one ended and its output.</li>
+                <li>Each server's key is pinned the first time, and ssh itself refuses one whose key changed. It runs only what you type or pick, and logs it on your computer.</li>
               </ul>
               <ul class="chips">
-                <li>Linux</li>
+                <li>Windows</li>
                 <li>macOS</li>
-                <li>Windows / WSL2</li>
+                <li>Linux</li>
                 <li>MIT</li>
               </ul>
-              <a class="more" href="ixel-console/">More about Ixel Console →</a>
+              <a class="more" href="machines/">More about Machines →</a>
             </div>
 
-            <figure class="panel" aria-label="An example list of Ixel Console profiles">
-              <div class="panel-bar"><span><span class="dot">●</span> profiles</span><span>Example</span></div>
+            <figure class="panel" aria-label="An example list of machines in the Ixel app">
+              <div class="panel-bar"><span><span class="dot">●</span> Machines</span><span>Example</span></div>
               <div class="panel-body">
                 <div class="hosts">
                   <div class="host host-head"><span>Host</span><span class="agent">Agent</span><span>Runs</span><span>Host key</span></div>
@@ -264,7 +264,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">It downloads the tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>. Ixel Console installs separately; see <a href="ixel-console/#install">its page</a>.</p>
+            <p class="note">It downloads the tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
@@ -311,7 +311,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <td></td>
               <th scope="col" style="--c:var(--gold)"><b>α</b>Ixel MAT</th>
               <th scope="col" style="--c:var(--iris)"><b>β</b>Handoff</th>
-              <th scope="col" style="--c:var(--blue)"><b>γ</b>Ixel Console</th>
+              <th scope="col" style="--c:var(--blue)"><b>γ</b>Machines</th>
             </tr>
           </thead>
           <tbody>
@@ -319,25 +319,25 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <th scope="row">Stays on your machine</th>
               <td data-label="Ixel MAT">The browser app listens on <code>127.0.0.1</code> only and needs a key from the link it opens.</td>
               <td data-label="Handoff">Never opens a network port. Apps talk to it over stdio.</td>
-              <td data-label="Ixel Console">No telemetry. It connects only to the sessions you start.</td>
+              <td data-label="Machines">No telemetry. It connects only to the machines you connect to or run on.</td>
             </tr>
             <tr>
               <th scope="row">Keeps secrets out of reach</th>
               <td data-label="Ixel MAT">API keys live in a file only you can read, and go only to the providers you set up.</td>
               <td data-label="Handoff">Text that looks like an API key, token or private key is refused, not stored.</td>
-              <td data-label="Ixel Console">Credentials live in your system keychain, never in profile files.</td>
+              <td data-label="Machines">It stores no passwords: your own ssh keys or ssh-agent sign in, and a password is typed in the terminal.</td>
             </tr>
             <tr>
               <th scope="row">Limits what can run</th>
               <td data-label="Ixel MAT">Subscription CLIs run answer-only: no shell, no file writes, in an empty folder.</td>
               <td data-label="Handoff">Runs nothing itself. The optional worker stays in its own git worktree and never pushes.</td>
-              <td data-label="Ixel Console">Fixed commands per agent. Custom commands are length-capped and checked for shell tricks.</td>
+              <td data-label="Machines">Only what you type or pick runs. No model can reach your machines, and nothing goes through a shell on your computer.</td>
             </tr>
             <tr>
               <th scope="row">Attacked in its own tests</th>
               <td data-label="Ixel MAT">A fake model tells each real CLI to run a command and read the key file. The test suite fails if anything happens.</td>
               <td data-label="Handoff">Tests include a crafted board built to hijack an agent, and an attack on the worker.</td>
-              <td data-label="Ixel Console">SSH option-injection tests run through the real <code>ssh</code> binary.</td>
+              <td data-label="Machines">Tested against a real SSH server: a swapped host key is refused by <code>ssh</code> itself, and option-like addresses never get through.</td>
             </tr>
           </tbody>
         </table>
