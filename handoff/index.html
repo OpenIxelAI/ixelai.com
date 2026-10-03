@@ -179,7 +179,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>A plugin in each app</dt><dd>Claude Desktop, Claude Code and Codex each get Handoff's tools: an inbox, the board, and tools to create, claim, hand off and review tasks.</dd></div>
           <div><dt>Your board in the terminal</dt><dd><code>handoff board</code> shows who's doing what and what's blocked. <code>handoff show T-12</code> prints a task's whole history.</dd></div>
           <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, nobody reviews their own work, and agents can't delete tasks or rewrite history.</dd></div>
-          <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned before they edit them.</dd></div>
+          <div><dt>Warnings before edits collide</dt><dd>When an agent claims files that another active task already holds, it's warned before it edits them.</dd></div>
           <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
           <div><dt>The worker (preview)</dt><dd>Approve one task and let Claude Code work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Windows it edits files only, for now.</dd></div>
         </dl>
@@ -189,7 +189,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted, so one agent's text can't take over another.</li>
             <li>Text that looks like an API key, token or private key is refused, not stored.</li>
-            <li>The worker runs only the tasks you approve, stays in its worktree, and never pushes.</li>
+            <li>The worker stays in its own git worktree and never pushes.</li>
           </ul>
         </div>
       </div>

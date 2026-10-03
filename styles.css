@@ -425,7 +425,7 @@ section { padding-block: 72px; border-top: 1px solid var(--line); }
 .hosts { display: grid; gap: 2px; }
 .host {
   display: grid;
-  grid-template-columns: 14px minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, auto);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, auto);
   gap: 10px;
   align-items: center;
   padding: 8px 10px;
@@ -433,21 +433,11 @@ section { padding-block: 72px; border-top: 1px solid var(--line); }
   font-size: 0.75rem;
 }
 .host.on { background: var(--deep-2); }
-.host .st { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
-.host .st.off { background: transparent; border: 1px solid var(--faint); }
 .host .name { color: var(--bright); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .host .agent { color: var(--mute); }
+.host .runs { color: var(--moon); font-family: var(--f-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .host .key { color: var(--ok); white-space: nowrap; }
 .host-head { color: var(--faint); font-size: 0.625rem; letter-spacing: .12em; text-transform: uppercase; background: none; padding-block: 2px; }
-.macros { display: flex; flex-wrap: wrap; gap: 6px; }
-.macros span {
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  padding: 2px 10px;
-  font-size: 0.75rem;
-  color: var(--moon);
-}
-.macros span.broadcast { border-color: color-mix(in srgb, var(--blue) 60%, transparent); color: var(--blue); }
 
 /* Principles */
 .matrix { width: 100%; border-collapse: collapse; }
@@ -531,7 +521,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
   .rounds { grid-template-columns: minmax(0, 1fr); }
   .score { grid-template-columns: 22px 56px minmax(30px, 1fr) 34px; }
   .score .flag { grid-column: 2 / -1; }
-  .host { grid-template-columns: 14px minmax(0, 1fr) minmax(0, auto); }
+  .host { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, auto); }
   .host .agent { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -594,6 +584,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
   border: 1px solid var(--line);
   background: var(--deep);
 }
+[hidden] { display: none !important; }
 .demo-fallback { display: grid; gap: 10px; }
 .demo figcaption,
 .demo-fallback .caption {

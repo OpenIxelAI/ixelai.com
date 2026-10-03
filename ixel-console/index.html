@@ -120,13 +120,10 @@
               <div class="panel-bar"><span><span class="dot">●</span> profiles</span><span>Example</span></div>
               <div class="panel-body">
                 <div class="hosts">
-                  <div class="host host-head"><span></span><span>Host</span><span class="agent">Agent</span><span>Host key</span></div>
-                  <div class="host on"><span class="st"></span><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="key">✓ pinned</span></div>
-                  <div class="host"><span class="st"></span><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="key">✓ pinned</span></div>
-                  <div class="host"><span class="st off"></span><span class="name">gpu-box</span><span class="agent">custom</span><span class="key">✓ pinned</span></div>
-                </div>
-                <div class="macros" aria-label="Macros">
-                  <span>Status</span><span>Sessions</span><span>Logs</span><span>TUI</span><span class="broadcast">Broadcast to all</span>
+                  <div class="host host-head"><span>Host</span><span class="agent">Agent</span><span>Runs</span><span>Host key</span></div>
+                  <div class="host on"><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="runs">openclaw tui</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="runs">hermes status</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="name">gpu-box</span><span class="agent">custom</span><span class="runs">./serve.sh</span><span class="key">✓ pinned</span></div>
                 </div>
               </div>
             </figure>
@@ -143,9 +140,9 @@
           <h2>Made for people who…</h2>
         </div>
         <ul class="who">
-          <li><h3>Run OpenClaw or Hermes</h3><p>Each agent's own commands are one click away: Status, Sessions, Logs and its TUI.</p></li>
+          <li><h3>Run OpenClaw or Hermes</h3><p>Each profile opens straight into the agent's TUI, status, sessions or logs, whichever you pick.</p></li>
           <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine as a profile, or import them from your SSH config, and open a session in one click.</p></li>
-          <li><h3>Run several agents at once</h3><p>Keep them in tabs, and broadcast one command to every agent of the same kind.</p></li>
+          <li><h3>Want SSH keys without the fuss</h3><p>Generate a key in the app, and Copy Key to Server installs it for you, even on Windows.</p></li>
           <li><h3>Take security seriously</h3><p>Host keys are pinned with no override, credentials live in Windows Credential Manager, and every connection attempt is logged.</p></li>
         </ul>
       </div>
@@ -161,7 +158,7 @@
           <li><h3>Add a machine</h3><p>Save a host as a profile, or import your hosts from <code>~/.ssh/config</code>.</p></li>
           <li><h3>Pick its agent</h3><p>OpenClaw, Hermes, or a custom command. Each host keeps its own.</p></li>
           <li><h3>Connect</h3><p>The first time, you confirm the server's fingerprint and Ixel Console pins it. From then on, a changed key is blocked.</p></li>
-          <li><h3>Work</h3><p>Use the one-click macros, open more tabs, or broadcast a command to every matching agent.</p></li>
+          <li><h3>Work</h3><p>The session opens in its own terminal window, running the command you picked for that host.</p></li>
         </ol>
       </div>
     </section>
@@ -174,9 +171,9 @@
         </div>
         <dl class="features">
           <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands. A custom agent runs what you type, checked for shell tricks.</dd></div>
-          <div><dt>Tabs and broadcast</dt><dd>Several sessions in one window, and one command sent to every agent of the same kind.</dd></div>
+          <div><dt>Import from your SSH config</dt><dd>Bring in the hosts you already have in <code>~/.ssh/config</code>, then pick an agent for each.</dd></div>
           <div><dt>Host key pinning</dt><dd>Fingerprints are checked on every connection, and a mismatch blocks it. There's no “trust anyway” button.</dd></div>
-          <div><dt>Your system keychain</dt><dd>Passwords and tokens go in Windows Credential Manager (Keychain on macOS, Secret Service on Linux), never in a file.</dd></div>
+          <div><dt>Your system keychain</dt><dd>Passwords and tokens go in Windows Credential Manager (Keychain on macOS, Secret Service on Linux), not in your profiles.</dd></div>
           <div><dt>SSH keys, made easy</dt><dd>Generate an ed25519 or RSA key, then Copy Key to Server adds it to the server for you, even on Windows.</dd></div>
           <div><dt>An audit log</dt><dd>Every connection attempt is logged on your machine, with a short code you can search for.</dd></div>
         </dl>
