@@ -7,7 +7,7 @@ example screen.
 |---|---|
 | `ixel-mat.mp4` | ixelai.com/ixel-mat/ |
 | `handoff.mp4` | ixelai.com/handoff/ |
-| `ixel-console.mp4` | ixelai.com/ixel-console/ |
+| `machines.mp4` | ixelai.com/machines/ |
 
 ## Making one on Windows
 

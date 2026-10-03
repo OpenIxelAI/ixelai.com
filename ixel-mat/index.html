@@ -32,7 +32,7 @@
     <nav class="nav" aria-label="Main">
       <a href="../ixel-mat/" aria-current="page">Ixel MAT</a>
       <a href="../handoff/">Handoff</a>
-      <a href="../ixel-console/">Ixel Console</a>
+      <a href="../machines/">Machines</a>
       <a href="../about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>
     </nav>
@@ -46,7 +46,7 @@
         <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and agree on a verdict.</p>
         <p>Ixel MAT puts the models you already pay for on one panel: Claude, GPT, Gemini, Grok, local models through Ollama or LM Studio, and the Claude Code, Codex, Gemini CLI, Copilot and OpenCode logins you already have. Use it in your terminal, in your browser, or as a plugin inside Claude Desktop, Claude Code, Codex and Cursor.</p>
         <div class="actions">
-          <a class="btn btn-moon" href="#install">Install on Windows</a>
+          <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#demo">See it run</a>
         </div>
       </div>
@@ -202,27 +202,40 @@
     <section id="install">
       <div class="wrap">
         <div class="section-head">
-          <div class="eyebrow">Install on Windows</div>
+          <div class="eyebrow">Install</div>
           <h2>Get Ixel MAT running.</h2>
         </div>
         <div class="install">
           <div class="prose">
             <p><strong>You need:</strong></p>
             <ul>
-              <li>Windows 10 or 11</li>
-              <li>Python 3.10 or newer (<code>winget install Python.Python.3.13</code>)</li>
-              <li>Git (<code>winget install Git.Git</code>)</li>
+              <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it)</li>
+              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">Ixel MAT is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
+            <p class="note">This installs Ixel MAT and the Ixel app. It downloads Ixel MAT from GitHub, needs no administrator rights, and updates it when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
-            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
-            <pre class="code"><code>cd ~
-git clone https://github.com/OpenIxelAI/ixel-mat.git
-cd ixel-mat
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
-            <p>Then close PowerShell, open a new window, and run <code>ixel setup</code> to choose the models on your panel.</p>
+            <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
+            <pre class="code"><code>irm https://ixelai.com/ixel-mat/install.ps1 | iex</code></pre>
+            <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/ixel-mat/install.sh | sh</code></pre>
+            <p>Then open a new window and run <code>ixel setup</code> to choose the models on your panel.</p>
+          </div>
+        </div>
+        <div class="install-more">
+          <h3>Or get everything with Ixel</h3>
+          <p>Ixel installs Ixel MAT, Handoff and the Ixel app together. Handoff lets Claude and Codex hand work to each other and ask your Ixel MAT panel for reviews. Already have Ixel MAT? Type <code>/handoff</code> in the Ixel app to see how to add Handoff.</p>
+          <div class="install-pair">
+            <div class="install-steps">
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </div>
+            <div class="install-steps">
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -240,9 +253,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
             <span class="name">Handoff →</span>
             <span class="line">Claude and Codex, partners on one project.</span>
           </a>
-          <a class="tool-link" href="../ixel-console/" style="--c:var(--blue)">
-            <span class="eyebrow"><span class="greek">γ</span> Also from Ixel</span>
-            <span class="name">Ixel Console →</span>
+          <a class="tool-link" href="../machines/" style="--c:var(--blue)">
+            <span class="eyebrow"><span class="greek">γ</span> In the Ixel app</span>
+            <span class="name">Machines →</span>
             <span class="line">One-click SSH to the AI agents on your machines.</span>
           </a>
         </div>

@@ -32,7 +32,7 @@
     <nav class="nav" aria-label="Main">
       <a href="../ixel-mat/">Ixel MAT</a>
       <a href="../handoff/" aria-current="page">Handoff</a>
-      <a href="../ixel-console/">Ixel Console</a>
+      <a href="../machines/">Machines</a>
       <a href="../about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>
     </nav>
@@ -46,7 +46,7 @@
         <p class="lede">Let Claude and Codex work as partners on the same project.</p>
         <p>Say “Codex, take the tests; Claude, do the API” in either app. Tasks, notes and reviews pass between them through a shared task board on your computer, so you stop being the copy-paste courier. Handoff works in Claude Desktop, Claude Code and Codex, and you can see everything from your terminal.</p>
         <div class="actions">
-          <a class="btn btn-moon" href="#install">Install on Windows</a>
+          <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#demo">See it run</a>
         </div>
       </div>
@@ -179,7 +179,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>A plugin in each app</dt><dd>Claude Desktop, Claude Code and Codex each get Handoff's tools: an inbox, the board, and tools to create, claim, hand off and review tasks.</dd></div>
           <div><dt>Your board in the terminal</dt><dd><code>handoff board</code> shows who's doing what and what's blocked. <code>handoff show T-12</code> prints a task's whole history.</dd></div>
           <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, nobody reviews their own work, and agents can't delete tasks or rewrite history.</dd></div>
-          <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned before they edit them.</dd></div>
+          <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned: the second as it claims them, the first in its inbox and on its next note.</dd></div>
           <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
           <div><dt>The worker (preview)</dt><dd>Approve one task and let Claude Code work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Windows it edits files only, for now.</dd></div>
         </dl>
@@ -189,7 +189,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted, so one agent's text can't take over another.</li>
             <li>Text that looks like an API key, token or private key is refused, not stored.</li>
-            <li>The worker runs only the tasks you approve, stays in its worktree, and never pushes.</li>
+            <li>The worker runs only tasks you approved on this computer, stays in its worktree, and never pushes.</li>
           </ul>
         </div>
       </div>
@@ -198,27 +198,40 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
     <section id="install">
       <div class="wrap">
         <div class="section-head">
-          <div class="eyebrow">Install on Windows</div>
+          <div class="eyebrow">Install</div>
           <h2>Get Handoff running.</h2>
         </div>
         <div class="install">
           <div class="prose">
             <p><strong>You need:</strong></p>
             <ul>
-              <li>Windows 10 or 11</li>
-              <li>Python 3.10 or newer (<code>winget install Python.Python.3.13</code>)</li>
-              <li>Git (<code>winget install Git.Git</code>)</li>
+              <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it)</li>
+              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>Claude (Desktop or Claude Code) and Codex</li>
             </ul>
-            <p class="note">Handoff is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
+            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub, needs no administrator rights, and updates it when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
-            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
-            <pre class="code"><code>cd ~
-git clone https://github.com/OpenIxelAI/Handoff-by-IxelAI.git
-cd Handoff-by-IxelAI
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
+            <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
+            <pre class="code"><code>irm https://ixelai.com/handoff/install.ps1 | iex</code></pre>
+            <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/handoff/install.sh | sh</code></pre>
             <p>Then open a new window, go to your project's folder, run <code>handoff setup --write</code>, and restart Claude and Codex.</p>
+          </div>
+        </div>
+        <div class="install-more">
+          <h3>Or get everything with Ixel</h3>
+          <p>Ixel installs Handoff, Ixel MAT and the Ixel app together. With Ixel MAT, a review can also ask your panel of models for a verdict.</p>
+          <div class="install-pair">
+            <div class="install-steps">
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </div>
+            <div class="install-steps">
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -236,9 +249,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
             <span class="name">Ixel MAT →</span>
             <span class="line">A panel of models that check each other's answers.</span>
           </a>
-          <a class="tool-link" href="../ixel-console/" style="--c:var(--blue)">
-            <span class="eyebrow"><span class="greek">γ</span> Also from Ixel</span>
-            <span class="name">Ixel Console →</span>
+          <a class="tool-link" href="../machines/" style="--c:var(--blue)">
+            <span class="eyebrow"><span class="greek">γ</span> In the Ixel app</span>
+            <span class="name">Machines →</span>
             <span class="line">One-click SSH to the AI agents on your machines.</span>
           </a>
         </div>
