@@ -49,7 +49,8 @@ main() {
   }
 
   get_source() {  # get_source <url> <branch> <repo folder>
-    if [ -d "$3/.git" ]; then
+    # A folder that came from another URL (a fork, say) is cloned again, so what's installed is what was asked for
+    if [ -d "$3/.git" ] && [ "$(git -C "$3" remote get-url origin 2>/dev/null)" = "$1" ]; then
       git -C "$3" fetch --quiet origin "$2"
       git -C "$3" checkout --quiet "$2"
       git -C "$3" pull --quiet --ff-only origin "$2"

@@ -54,8 +54,17 @@
         return [bool](Get-Command git -ErrorAction SilentlyContinue)
     }
 
+    # Where a tool's folder came from ('' if it has no origin). git's complaint on stderr isn't a failure here,
+    # though Windows PowerShell can turn one into an error under 'Stop'.
+    function Get-Origin([string]$RepoDir) {
+        $ErrorActionPreference = 'Continue'
+        $url = git -C $RepoDir remote get-url origin 2>$null
+        if ($LASTEXITCODE -eq 0) { return "$url".Trim() } else { return '' }
+    }
+
     function Get-Source([string]$Url, [string]$Branch, [string]$RepoDir) {
-        if (Test-Path (Join-Path $RepoDir '.git')) {
+        # A folder that came from another URL (a fork, say) is cloned again, so what's installed is what was asked for
+        if ((Test-Path (Join-Path $RepoDir '.git')) -and ((Get-Origin $RepoDir) -eq $Url)) {
             Invoke-Checked 'git fetch' { git -C $RepoDir fetch --quiet origin $Branch }
             Invoke-Checked 'git checkout' { git -C $RepoDir checkout --quiet $Branch }
             Invoke-Checked 'git pull' { git -C $RepoDir pull --quiet --ff-only origin $Branch }
