@@ -5,8 +5,9 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 
 | Path | What it is |
 |---|---|
-| `index.html` | The home page: the star chart and all three tools |
-| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and Windows install |
+| `index.html` | The home page: the star chart, all three tools, and the one-line install |
+| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and install |
+| `install.ps1`, `install.sh` | The one-line installers (`irm https://ixelai.com/install.ps1 \| iex`, `curl -fsSL https://ixelai.com/install.sh \| sh`). Each gets Ixel MAT and Handoff with git and runs their own installers. Keep them ASCII |
 | `about/` | Our mission and what we believe |
 | `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
@@ -25,16 +26,10 @@ The site makes no requests to anyone else: fonts are in `fonts/` (SIL Open Font 
 alongside), and every page has a Content Security Policy that allows only this site's own files. Don't add
 analytics, embeds, CDN links or inline scripts; see [SECURITY.md](SECURITY.md).
 
-## Turning on GitHub Pages
+## GitHub Pages
 
-Pages is not on yet (the API token used to create this repository cannot change Pages settings).
-
-1. This repository is private, and GitHub Pages only serves private repositories on a paid plan (GitHub
-   Pro or Team). Either make the repository public in **Settings → General → Danger Zone** (it holds
-   nothing but the public page), or upgrade.
-2. Go to **Settings → Pages**, choose **Deploy from a branch**, `main`, `/ (root)`, and save.
-
-The `CNAME` file sets the custom domain to `ixelai.com`, so Pages picks it up as soon as it is on.
+The site is live: GitHub Pages serves `main` from the root of this public repository, and the `CNAME`
+file sets the custom domain to `ixelai.com`. A push to `main` updates it.
 
 ## The domains
 

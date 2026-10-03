@@ -45,8 +45,8 @@
         <h1>Put your AI models to work <em>together.</em></h1>
         <p>Ixel makes small, local tools for people who use more than one AI. Have Claude, GPT, Gemini and local models check each other's answers. Let Claude and Codex hand work back and forth. Reach the agents on your servers in one click.</p>
         <div class="actions">
-          <a class="btn btn-moon" href="#tools">See the three tools</a>
-          <a class="btn" href="https://github.com/OpenIxelAI">OpenIxelAI on GitHub</a>
+          <a class="btn btn-moon" href="#install">Install</a>
+          <a class="btn" href="#tools">See the three tools</a>
         </div>
         <ul class="facts">
           <li>macOS · Linux · Windows</li>
@@ -244,6 +244,34 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             </figure>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Install</div>
+          <h2>One command for Ixel MAT, Handoff and the Ixel app.</h2>
+        </div>
+        <div class="install">
+          <div class="prose">
+            <p><strong>You need:</strong></p>
+            <ul>
+              <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it)</li>
+              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
+              <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
+            </ul>
+            <p class="note">It downloads both tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>. Ixel Console installs separately; see <a href="ixel-console/#install">its page</a>.</p>
+          </div>
+          <div class="install-steps">
+            <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
+            <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            <p>Then open a new window and run <code>ixel setup</code> to choose your models. Ixel opens from the Start Menu, Applications, or your app menu.</p>
+          </div>
         </div>
       </div>
     </section>
