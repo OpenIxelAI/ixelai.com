@@ -662,7 +662,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
 .features div { padding-block: 18px; border-top: 1px solid var(--line); }
 .features dt { margin-bottom: 4px; font-weight: 600; color: var(--bright); }
 .features dd { margin: 0; color: var(--mute); }
-.features code, .who code, .prose code, .install code { font-size: 0.875em; color: var(--moon); }
+.features code, .who code, .prose code, .install code, .install-more code { font-size: 0.875em; color: var(--moon); }
 
 .safe { display: grid; gap: 14px; margin-top: 36px; }
 .safe .points { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; }
@@ -709,6 +709,23 @@ section .chart { max-width: 600px; }
   color: var(--mute);
   font-size: 0.9375rem;
 }
+/* The other way to install: one tool alone, or everything */
+.install-more { display: grid; gap: 14px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+.install-more h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: var(--step-2);
+  line-height: 1.15;
+  color: var(--bright);
+}
+.install-more > p { margin: 0; max-width: 44rem; color: var(--mute); }
+.install-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; margin-top: 8px; }
+.install-steps .install-tool { color: var(--bright); }
+.install-tool .greek { margin-right: 6px; }
+.install-tool strong { font-weight: 600; }
+/* A short command reads as one piece: don't break it at a hyphen */
+.install-steps p code { white-space: nowrap; }
 
 /* The other tools */
 .more-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -772,7 +789,7 @@ section .chart { max-width: 600px; }
 .beliefs .practice b { font-family: var(--f-mono); font-size: 0.6875rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-right: 8px; }
 
 @media (max-width: 900px) {
-  .page-hero, .split, .install { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .page-hero, .split, .install, .install-pair { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .page-hero { padding-block: 24px 48px; }
   .page-hero .chart { max-width: 520px; }
   .beliefs li { grid-template-columns: minmax(0, 1fr); }

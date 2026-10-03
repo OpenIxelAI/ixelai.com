@@ -128,6 +128,7 @@
         <div class="section-head">
           <div class="eyebrow">The tools</div>
           <h2>One for getting a verdict, one for sharing the work, one for reaching your agents.</h2>
+          <p><a href="#install">Ixel</a> is the all-in-one: it installs Ixel MAT and Handoff together, with the Ixel app. Each of them also installs on its own. Ixel Console is separate.</p>
         </div>
 
         <div class="products">
@@ -252,7 +253,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
       <div class="wrap">
         <div class="section-head">
           <div class="eyebrow">Install</div>
-          <h2>One command for Ixel MAT, Handoff and the Ixel app.</h2>
+          <h2>Get Ixel: Ixel MAT, Handoff and the Ixel app in one command.</h2>
         </div>
         <div class="install">
           <div class="prose">
@@ -263,14 +264,34 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">It downloads both tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>. Ixel Console installs separately; see <a href="ixel-console/#install">its page</a>.</p>
+            <p class="note">It downloads the tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>. Ixel Console installs separately; see <a href="ixel-console/#install">its page</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
             <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
             <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
-            <p>Then open a new window and run <code>ixel setup</code> to choose your models. Ixel opens from the Start Menu, Applications, or your app menu.</p>
+            <p>Then open a new window and run <code>ixel setup</code> to choose your models, and <code>handoff setup --write</code> in a project's folder to connect Claude and Codex. Ixel opens from the Start Menu, Applications, or your app menu.</p>
+          </div>
+        </div>
+        <div class="install-more">
+          <h3>Just one tool?</h3>
+          <p>Ixel MAT and Handoff each install on their own too. To add the other one later, run its line.</p>
+          <div class="install-pair">
+            <div class="install-steps">
+              <p class="install-tool" style="--c:var(--gold)"><span class="greek">α</span> <strong>Ixel MAT</strong>, with the Ixel app</p>
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/ixel-mat/install.ps1 | iex</code></pre>
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/ixel-mat/install.sh | sh</code></pre>
+            </div>
+            <div class="install-steps">
+              <p class="install-tool" style="--c:var(--iris)"><span class="greek">β</span> <strong>Handoff</strong></p>
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/handoff/install.ps1 | iex</code></pre>
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/handoff/install.sh | sh</code></pre>
+            </div>
           </div>
         </div>
       </div>

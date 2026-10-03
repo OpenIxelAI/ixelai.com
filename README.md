@@ -5,9 +5,10 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 
 | Path | What it is |
 |---|---|
-| `index.html` | The home page: the star chart, all three tools, and the one-line install |
-| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and install |
-| `install.ps1`, `install.sh` | The one-line installers (`irm https://ixelai.com/install.ps1 \| iex`, `curl -fsSL https://ixelai.com/install.sh \| sh`). Each gets Ixel MAT and Handoff with git and runs their own installers. Keep them ASCII |
+| `index.html` | The home page: the star chart, all three tools, and the one-line install (Ixel, or one tool alone) |
+| `ixel-mat/`, `handoff/`, `ixel-console/` | One page per tool: overview, demo video, who it's for, how it works, and install. `ixel-mat/` and `handoff/` also hold that tool's own installers |
+| `install.ps1`, `install.sh` | The one-line installers; see [The installers](#the-installers). Keep them ASCII |
+| `scripts/make-installers.py` | Makes the one-tool installers in `ixel-mat/` and `handoff/` from the root ones |
 | `about/` | Our mission and what we believe |
 | `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
@@ -25,6 +26,37 @@ Every page has the same header and footer. When you change one, change it in all
 The site makes no requests to anyone else: fonts are in `fonts/` (SIL Open Font License, licenses
 alongside), and every page has a Content Security Policy that allows only this site's own files. Don't add
 analytics, embeds, CDN links or inline scripts; see [SECURITY.md](SECURITY.md).
+
+## The installers
+
+Ixel is the all-in-one: one command installs Ixel MAT, Handoff and the Ixel app. Each tool also installs
+on its own, for people who want just that one:
+
+| Installs | Windows (PowerShell) | macOS and Linux |
+|---|---|---|
+| Ixel: Ixel MAT, Handoff and the Ixel app | `irm https://ixelai.com/install.ps1 \| iex` | `curl -fsSL https://ixelai.com/install.sh \| sh` |
+| Ixel MAT and the Ixel app | `irm https://ixelai.com/ixel-mat/install.ps1 \| iex` | `curl -fsSL https://ixelai.com/ixel-mat/install.sh \| sh` |
+| Handoff | `irm https://ixelai.com/handoff/install.ps1 \| iex` | `curl -fsSL https://ixelai.com/handoff/install.sh \| sh` |
+
+Each one gets the tools with git, into the folders their own installers use, and runs those installers
+(`install.ps1` or `install.sh` in each tool's repository). Ixel MAT's installer is the one that adds the Ixel
+app. Running a command again updates what it installed. `install.sh` also takes the choice as an argument:
+`sh -s -- mat`, `sh -s -- handoff`, or `sh -s -- all` for everything.
+
+There is one source to change: `install.ps1` and `install.sh` at the root. The copies in `ixel-mat/` and
+`handoff/` are the same files with two lines changed, the choice (`$Only` or `ONLY`) and the usage line in
+the header. After changing a root installer, run
+
+```
+python scripts/make-installers.py
+```
+
+to update the copies, and commit them together. `python scripts/make-installers.py --check` changes nothing and
+fails if a copy is out of date. The PowerShell ones must stay ASCII (the script checks): Windows PowerShell
+reads a file without a byte order mark in the computer's ANSI code page.
+
+GitHub Pages serves all six as they are: they have no front matter and no part of their paths starts with `_`
+or `.`, so Jekyll copies them unchanged. No `.nojekyll` file is needed.
 
 ## GitHub Pages
 
@@ -63,4 +95,5 @@ on its own.
 ## Before the products are public
 
 - The three tool links on the page go to [github.com/OpenIxelAI](https://github.com/OpenIxelAI), not to the private product repositories, so visitors don't hit a 404. Point each link at its repo when that repo is public.
+- The installers clone each tool from its GitHub repository, so they work for everyone only once that repository is public.
 - Product copy comes from each project's README and SECURITY.md. When a README changes, update the matching section here.

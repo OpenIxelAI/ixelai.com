@@ -4,7 +4,7 @@
 # Applications on a Mac or the app menu on Linux), mat for Ixel MAT and its app, or handoff for
 # Handoff, as in  curl -fsSL https://ixelai.com/install.sh | sh -s -- handoff
 #
-#   curl -fsSL https://ixelai.com/install.sh | sh
+#   curl -fsSL https://ixelai.com/handoff/install.sh | sh
 #
 # The site has three copies of this file, made from the one at its root by scripts/make-installers.py:
 # install.sh (everything), ixel-mat/install.sh and handoff/install.sh. Only ONLY and the line above
@@ -20,7 +20,7 @@
 
 main() {
   # What to install: "" or all for everything (Ixel), mat for Ixel MAT alone, handoff for Handoff alone
-  ONLY=""
+  ONLY="handoff"
 
   set -eu
 

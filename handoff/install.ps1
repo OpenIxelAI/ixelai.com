@@ -2,7 +2,7 @@
 # (Ixel MAT, Handoff, and Ixel in the Start Menu), 'mat' for Ixel MAT and its Start Menu entry, or
 # 'handoff' for Handoff.
 #
-#   irm https://ixelai.com/install.ps1 | iex
+#   irm https://ixelai.com/handoff/install.ps1 | iex
 #
 # The site has three copies of this file, made from the one at its root by scripts/make-installers.py:
 # install.ps1 (everything), ixel-mat/install.ps1 and handoff/install.ps1. Only $Only and the line above
@@ -19,7 +19,7 @@
 
 & {
     # What to install: '' for everything (Ixel), 'mat' for Ixel MAT alone, 'handoff' for Handoff alone
-    $Only = ''
+    $Only = 'handoff'
 
     $ErrorActionPreference = 'Stop'
 

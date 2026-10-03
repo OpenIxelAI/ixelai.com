@@ -210,14 +210,28 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>Claude (Desktop or Claude Code) and Codex</li>
             </ul>
-            <p class="note">One command installs Ixel MAT and Handoff together and adds the Ixel app. It downloads them from GitHub, needs no administrator rights, and updates both when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>.</p>
+            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub, needs no administrator rights, and updates it when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
-            <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            <pre class="code"><code>irm https://ixelai.com/handoff/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
-            <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/handoff/install.sh | sh</code></pre>
             <p>Then open a new window, go to your project's folder, run <code>handoff setup --write</code>, and restart Claude and Codex.</p>
+          </div>
+        </div>
+        <div class="install-more">
+          <h3>Or get everything with Ixel</h3>
+          <p>Ixel installs Handoff, Ixel MAT and the Ixel app together. With Ixel MAT, a review can also ask your panel of models for a verdict.</p>
+          <div class="install-pair">
+            <div class="install-steps">
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </div>
+            <div class="install-steps">
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </div>
           </div>
         </div>
       </div>
