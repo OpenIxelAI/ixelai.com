@@ -13,8 +13,7 @@ the loop are only used by the GitHub READMEs.
 | `ixel-commercial-no-voice.mp4` | the GitHub READMEs (music only) |
 | `ixel-panel-loop.gif` | the GitHub READMEs (a 7-second loop from the film) |
 
-The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it. Its source and
-how it was made are in the project's `ad/` folder, not in this repository.
+The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it.
 
 ## Making one on Windows
 
