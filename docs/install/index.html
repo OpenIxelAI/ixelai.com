@@ -287,6 +287,7 @@ rm -rf ~/.local/share/handoff ~/.local/bin/handoff</code></pre>
         </section>
       </div>
       <p>If the installer named Ixel's app <strong>Ixel MAT</strong> (because you had another app called Ixel), use that name: <code>Ixel MAT.lnk</code>, <code>Ixel MAT.app</code> or <code>ixel-mat.desktop</code>. Your settings, keys and history stay until you delete them; <a href="../privacy/#on-your-computer">Privacy</a> lists every file and where it is.</p>
+      <p>The installers also put <code>~/.local/bin</code> on your PATH. To take it off, delete the lines under <code># Added by Ixel MAT installer</code> and <code># Added by Handoff installer</code> in <code>~/.bashrc</code>, <code>~/.bash_profile</code> or <code>~/.zshrc</code> (for fish, the files <code>conf.d/ixel-mat.fish</code> and <code>conf.d/handoff.fish</code>). On Windows, remove <code>%USERPROFILE%\.local\bin</code> from your user PATH.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <h3 id="not-found">"ixel" isn't found</h3>
