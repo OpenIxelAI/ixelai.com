@@ -1,7 +1,8 @@
 # Demo videos
 
 Each tool page shows its recording from this folder as soon as the file is here. Until then, it shows the
-example screen.
+example screen. The commercial is different: the home page links its files directly, and the no-voice cut and
+the loop are only used by the GitHub READMEs.
 
 | File | Shown on |
 |---|---|
