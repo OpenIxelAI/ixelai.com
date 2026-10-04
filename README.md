@@ -15,6 +15,7 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
 | `fonts/` | The site's fonts, self-hosted so visitors never contact Google, with their licenses |
 | `favicon.svg` | Browser tab icon (the crescent and gold star) |
+| `.nojekyll` | Empty. Tells GitHub Pages to serve the files as they are, with no Jekyll build; keep it |
 | `ixel-logo.svg`, `ixel-logo.png` | The Ixel mark, same as in the product repos. The PNG is the link preview image |
 
 To look at it, open `index.html` in a browser. Links between pages end in a folder (`ixel-mat/`), which
@@ -22,7 +23,7 @@ GitHub Pages serves but a double-clicked file doesn't, so to click around locall
 `python -m http.server` in this folder and open `http://localhost:8000`. To change it, edit it here and
 push to `main`.
 
-Every page has the same header and footer. When you change one, change it in all five.
+Every page has the same header and footer. When you change one, change it on every page.
 
 The site makes no requests to anyone else: fonts are in `fonts/` (SIL Open Font License, licenses
 alongside), and every page has a Content Security Policy that allows only this site's own files. Don't add
@@ -56,8 +57,10 @@ to update the copies, and commit them together. `python scripts/make-installers.
 fails if a copy is out of date. The PowerShell ones must stay ASCII (the script checks): Windows PowerShell
 reads a file without a byte order mark in the computer's ANSI code page.
 
-GitHub Pages serves all six as they are: they have no front matter and no part of their paths starts with `_`
-or `.`, so Jekyll copies them unchanged. No `.nojekyll` file is needed.
+GitHub Pages serves all six as they are. The empty `.nojekyll` file at the root turns Jekyll off, so
+nothing is built from the repository's files. Without it, Jekyll turns `README.md`, `SECURITY.md` and
+`videos/README.md` into themed pages that load a script from a CDN, which this site promises never to do.
+Keep it.
 
 ## GitHub Pages
 
