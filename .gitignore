@@ -17,3 +17,7 @@ desktop.ini
 # Editor folders
 .vscode/
 .idea/
+
+# Python bytecode
+__pycache__/
+*.pyc
