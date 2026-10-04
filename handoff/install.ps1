@@ -62,13 +62,41 @@
         if ($LASTEXITCODE -eq 0) { return "$url".Trim() } else { return '' }
     }
 
+    # A git URL without a trailing slash or .git, so two spellings of one repository match
+    function Get-PlainUrl([string]$Url) {
+        return ($Url.Trim() -replace '[/\\]+$', '' -replace '\.git$', '' -replace '[/\\]+$', '')
+    }
+
+    # Work of yours in a tool's folder that cloning it again would delete: changed or new files,
+    # commits that aren't on its remote, or a stash
+    function Test-OwnWork([string]$RepoDir) {
+        $ErrorActionPreference = 'Continue'
+        $status = git -C $RepoDir status --porcelain 2>$null
+        $commits = git -C $RepoDir log --oneline --branches --not --remotes 2>$null
+        $stash = git -C $RepoDir stash list 2>$null
+        return [bool]("$status$commits$stash".Trim())
+    }
+
+    # Whether there's someone to ask: not in CI, a service or `powershell -NonInteractive`
+    function Test-CanAsk {
+        if (-not [Environment]::UserInteractive -or $env:CI) { return $false }
+        foreach ($arg in [Environment]::GetCommandLineArgs()) { if ($arg -match '^[-/]noni') { return $false } }
+        return $true
+    }
+
     function Get-Source([string]$Url, [string]$Branch, [string]$RepoDir) {
-        # A folder that came from another URL (a fork, say) is cloned again, so what's installed is what was asked for
-        if ((Test-Path (Join-Path $RepoDir '.git')) -and ((Get-Origin $RepoDir) -eq $Url)) {
+        $origin = Get-Origin $RepoDir
+        if ((Test-Path (Join-Path $RepoDir '.git')) -and ((Get-PlainUrl $origin) -eq (Get-PlainUrl $Url))) {
             Invoke-Checked 'git fetch' { git -C $RepoDir fetch --quiet origin $Branch }
             Invoke-Checked 'git checkout' { git -C $RepoDir checkout --quiet $Branch }
             Invoke-Checked 'git pull' { git -C $RepoDir pull --quiet --ff-only origin $Branch }
         } else {
+            # A folder that came from another URL (a fork, say) is cloned again, so what's installed is
+            # what was asked for. Not over work of yours, though: that's for you to move first.
+            if ((Test-Path (Join-Path $RepoDir '.git')) -and (Test-OwnWork $RepoDir)) {
+                $from = if ($origin) { $origin } else { 'another place' }
+                throw "$RepoDir has changes of yours, and it came from $from, not $Url. Move what you want to keep out of it, then delete that folder."
+            }
             if (Test-Path $RepoDir) { Remove-Item -Recurse -Force $RepoDir }
             New-Item -ItemType Directory -Force -Path (Split-Path $RepoDir) | Out-Null
             Invoke-Checked 'git clone' { git clone --quiet --branch $Branch $Url $RepoDir }
@@ -117,8 +145,10 @@
 
         if (-not (Find-Git)) {
             $installed = $false
-            if (Get-Command winget -ErrorAction SilentlyContinue) {
-                $answer = Read-Host "Git is needed to download $name. Install Git now with winget? [Y/n]"
+            if ((Get-Command winget -ErrorAction SilentlyContinue) -and (Test-CanAsk)) {
+                # With no one to answer (irm | iex in a script), Read-Host fails: that's a no
+                try { $answer = Read-Host "Git is needed to download $name. Install Git now with winget? [Y/n]" }
+                catch { $answer = 'n' }
                 if ($answer -notmatch '^\s*[nN]') {
                     # winget's exit code isn't a verdict ("already installed" isn't 0), so look again instead
                     & winget install --id Git.Git --exact --source winget --accept-package-agreements --accept-source-agreements

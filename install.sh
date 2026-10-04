@@ -48,18 +48,96 @@ main() {
     return 1
   }
 
+  # How to install a package with this system's package manager (nothing when it's none we know)
+  package_hint() {
+    if command -v apt-get >/dev/null 2>&1; then printf 'sudo apt install %s' "$1"
+    elif command -v dnf >/dev/null 2>&1; then printf 'sudo dnf install %s' "$1"
+    elif command -v yum >/dev/null 2>&1; then printf 'sudo yum install %s' "$1"
+    elif command -v pacman >/dev/null 2>&1; then printf 'sudo pacman -S %s' "$1"
+    elif command -v zypper >/dev/null 2>&1; then printf 'sudo zypper install %s' "$1"
+    elif command -v apk >/dev/null 2>&1; then printf 'sudo apk add %s' "$1"
+    elif command -v brew >/dev/null 2>&1; then printf 'brew install %s' "$1"
+    fi
+  }
+  need() {  # need <program>: stop, saying how to get it, when it's missing
+    command -v "$1" >/dev/null 2>&1 && return 0
+    how="$(package_hint "$1")"
+    if [ -n "$how" ]; then
+      stop "$1 isn't installed. Install it with:  $how"
+    fi
+    stop "$1 isn't installed. Install it with your system's package manager."
+  }
+
+  # A git URL without a trailing slash or .git, so two spellings of one repository match
+  plain_url() { printf '%s' "$1" | sed -e 's#/*$##' -e 's#[.]git$##' -e 's#/*$##'; }
+
+  # Work of yours in a tool's folder that cloning it again would delete: changed or new files,
+  # commits that aren't on its remote, or a stash
+  own_work() {
+    [ -n "$(git -C "$1" status --porcelain 2>/dev/null)" ] && return 0
+    [ -n "$(git -C "$1" log --oneline --branches --not --remotes 2>/dev/null)" ] && return 0
+    [ -n "$(git -C "$1" stash list 2>/dev/null)" ] && return 0
+    return 1
+  }
+
   get_source() {  # get_source <url> <branch> <repo folder>
-    # A folder that came from another URL (a fork, say) is cloned again, so what's installed is what was asked for
-    if [ -d "$3/.git" ] && [ "$(git -C "$3" remote get-url origin 2>/dev/null)" = "$1" ]; then
+    origin="$(git -C "$3" remote get-url origin 2>/dev/null || true)"
+    if [ -d "$3/.git" ] && [ "$(plain_url "$origin")" = "$(plain_url "$1")" ]; then
       git -C "$3" fetch --quiet origin "$2"
       git -C "$3" checkout --quiet "$2"
       git -C "$3" pull --quiet --ff-only origin "$2"
     else
+      # A folder that came from another URL (a fork, say) is cloned again, so what's installed is
+      # what was asked for. Not over work of yours, though: that's for you to move first.
+      if [ -d "$3/.git" ] && own_work "$3"; then
+        stop "$3 has changes of yours, and it came from ${origin:-another place}, not $1. Move what you want to keep out of it, then delete that folder."
+      fi
       rm -rf "$3"
       mkdir -p "$(dirname "$3")"
       git clone --quiet --branch "$2" "$1" "$3"
     fi
   }
+
+  # The tools' own installers add their command folder to PATH in bash's, zsh's or fish's startup
+  # file. With another shell (or with that turned off), say which line to add, and where.
+  path_note() {
+    shell_name="$(basename "${SHELL:-sh}")"
+    case "$shell_name" in bash | zsh | fish) known=yes ;; *) known=no ;; esac
+    mat_bin="${IXEL_BIN_DIR:-$HOME/.local/bin}"
+    handoff_bin="${HANDOFF_BIN_DIR:-$HOME/.local/bin}"
+    new_window=no add_mat=no add_handoff=no
+    if [ "$with_mat" = yes ] && ! on_path "$mat_bin"; then
+      if [ "$known" = yes ] && [ "${IXEL_SKIP_PATH_UPDATE:-0}" != 1 ]; then new_window=yes; else add_mat=yes; fi
+    fi
+    if [ "$with_handoff" = yes ] && ! on_path "$handoff_bin"; then
+      if [ "$known" = yes ] && [ "${HANDOFF_SKIP_PATH_UPDATE:-0}" != 1 ]; then new_window=yes; else add_handoff=yes; fi
+    fi
+    if [ "$add_mat" = yes ] && [ "$add_handoff" = yes ] && [ "$mat_bin" = "$handoff_bin" ]; then
+      add_handoff=no  # one folder, one line
+    fi
+    if [ "$add_mat" = no ] && [ "$add_handoff" = no ]; then
+      if [ "$new_window" = yes ]; then
+        say "Open a new terminal window first, so it finds the new commands. Then:"
+      else
+        say "Then:"
+      fi
+      return 0
+    fi
+    case "$shell_name" in
+      csh | tcsh)
+        say "Your shell ($shell_name) won't find the new commands until you add this to ~/.cshrc and open a new"
+        say "terminal window:"
+        if [ "$add_mat" = yes ]; then say "  setenv PATH \"$mat_bin:\$PATH\""; fi
+        if [ "$add_handoff" = yes ]; then say "  setenv PATH \"$handoff_bin:\$PATH\""; fi ;;
+      *)
+        say "Your shell ($shell_name) won't find the new commands until you add this to ~/.profile (or your"
+        say "shell's own startup file), then log out and back in:"
+        if [ "$add_mat" = yes ]; then say "  export PATH=\"$mat_bin:\$PATH\""; fi
+        if [ "$add_handoff" = yes ]; then say "  export PATH=\"$handoff_bin:\$PATH\""; fi ;;
+    esac
+    say "Then:"
+  }
+  on_path() { case ":$PATH:" in *":$1:"*) return 0 ;; esac; return 1; }
 
   install_tool() {  # install_tool <name> <url> <branch> <install root>
     repo="$4/repo"
@@ -114,8 +192,8 @@ main() {
     fi
     stop "install Apple's Command Line Tools with:  xcode-select --install"
   fi
-  command -v git >/dev/null 2>&1 || stop "git isn't installed. Install it with your package manager (for example:  sudo apt install git)."
-  command -v bash >/dev/null 2>&1 || stop "bash isn't installed. Install it with your package manager."
+  need git
+  need bash
 
   if ! have_python; then
     if [ "$system" = mac ] && command -v brew >/dev/null 2>&1 \
@@ -146,7 +224,7 @@ main() {
       say "Open Ixel from your app menu."
     fi
   fi
-  say "Open a new terminal window first, so it finds the new commands. Then:"
+  path_note
   if [ "$with_mat" = yes ]; then
     say "  ixel setup               add your models and keys"
   fi
