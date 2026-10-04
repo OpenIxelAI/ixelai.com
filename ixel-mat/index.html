@@ -32,7 +32,7 @@
     <nav class="nav" aria-label="Main">
       <a href="../ixel-mat/" aria-current="page">Ixel MAT</a>
       <a href="../handoff/">Handoff</a>
-      <a href="../ixel-console/">Ixel Console</a>
+      <a href="../machines/">Machines</a>
       <a href="../about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>
     </nav>
@@ -46,7 +46,7 @@
         <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and agree on a verdict.</p>
         <p>Ixel MAT puts the models you already pay for on one panel: Claude, GPT, Gemini, Grok, local models through Ollama or LM Studio, and the Claude Code, Codex, Gemini CLI, Copilot and OpenCode logins you already have. Use it in your terminal, in your browser, or as a plugin inside Claude Desktop, Claude Code, Codex and Cursor.</p>
         <div class="actions">
-          <a class="btn btn-moon" href="#install">Install on Windows</a>
+          <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#demo">See it run</a>
         </div>
       </div>
@@ -154,7 +154,7 @@
           <li><h3>Need an answer they can trust</h3><p>Ask about a regex, a query or a tricky bug, and see where the models disagree before you rely on the answer.</p></li>
           <li><h3>Pay for more than one AI</h3><p>Put your Claude, ChatGPT, Gemini and Copilot plans on one panel instead of asking each of them separately.</p></li>
           <li><h3>Watch what AI costs</h3><p>Usage saver lets cheaper and local models draft while your best model only checks, and every review ends with what it cost.</p></li>
-          <li><h3>Are about to push code</h3><p>Hand the panel your diff before you push. It looks for bugs, security problems and anything that would break. It only reads the code, and no model gets file or shell access.</p></li>
+          <li><h3>Are about to push code</h3><p>Hand the panel your diff before you push. It looks for bugs, security problems and anything that would break. It only reads the code: API models and the built-in CLI setups get no file or shell access (an agent you add yourself, such as an OpenClaw gateway, keeps whatever tools it has).</p></li>
         </ul>
       </div>
     </section>
@@ -167,7 +167,7 @@
         </div>
         <ol class="steps">
           <li><h3>Answer</h3><p>Every model on the panel answers the question on its own.</p></li>
-          <li><h3>Peer review</h3><p>Each model grades the others' answers. They're labeled A, B, C and shuffled for each reviewer, so nobody knows whose work they're grading, and a model's grade of its own answer doesn't count.</p></li>
+          <li><h3>Peer review</h3><p>Each model grades the others' answers. They're labeled A, B, C in a random order, and each reviewer sees them in a different order, so nobody knows whose work they're grading. A model's grade of its own answer doesn't count.</p></li>
           <li><h3>Verdict</h3><p>A moderator writes the final answer from the answers and the reviews, and says where the panel disagreed. You see who was flagged, and who conceded.</p></li>
         </ol>
       </div>
@@ -180,18 +180,18 @@
           <h2>What you get.</h2>
         </div>
         <dl class="features">
-          <div><dt>Four modes, or Auto</dt><dd>Quick, Review, Deep and Saver. Auto picks how much checking each question needs, so a simple one doesn't pay for peer review.</dd></div>
-          <div><dt>Review your code</dt><dd>Your uncommitted changes, what you've staged, a whole branch, or files you pick. Anything that looks like a secret is refused before it's sent.</dd></div>
+          <div><dt>Four modes, or Auto</dt><dd>Quick, Review, Deep and Saver. With triage turned on, Auto picks how much checking each question needs, so a simple one doesn't pay for peer review.</dd></div>
+          <div><dt>Review your code</dt><dd>Your uncommitted changes, what you've staged, a whole branch, or files you pick. Common kinds of API keys, tokens and private keys, and files such as <code>.env</code>, are refused before they're sent. Passwords aren't caught.</dd></div>
           <div><dt>Usage saver</dt><dd>Cheap models draft and review, and your big model confirms or sends a wrong draft back. Saves, streaks and achievements keep score.</dd></div>
-          <div><dt>What every review cost</dt><dd>Dollars on API keys, calls on your subscriptions, and free runs on your own hardware.</dd></div>
+          <div><dt>What every review cost</dt><dd>Dollars on API keys (prices for Claude models are built in; add your own for other providers), calls on your subscriptions, and free runs on your own hardware.</dd></div>
           <div><dt>Three ways in</dt><dd>The terminal (<code>ixel</code>), a browser app only your computer can open (<code>ixel gui</code>), and a plugin for Claude Desktop, Claude Code, Codex and Cursor.</dd></div>
-          <div><dt>Always the newest models</dt><dd>Set a model to <code>latest</code> and Ixel uses each provider's newest top model the day it comes out.</dd></div>
+          <div><dt>The newest models</dt><dd>For API models (OpenAI, Anthropic, Gemini and xAI), set a model to <code>latest</code> and Ixel uses that provider's newest top model, looked up when it starts. A model with a new kind of name needs an Ixel update first.</dd></div>
         </dl>
         <div class="safe">
           <div class="eyebrow">Built to be safe</div>
           <ul class="points">
             <li>Your keys stay in a file only you can read, and your questions go only to the providers you set up.</li>
-            <li>Subscription CLIs run answer-only: no shell, no file writes, in an empty folder. Tests attack each one to prove it.</li>
+            <li>Subscription CLIs run answer-only: no shell, no file writes, in an empty folder. Gemini CLI can still search and read the web. A test you run by hand attacks each one to check it.</li>
             <li>Model output is untrusted. Answers are shown as text and fenced off before another model reads them.</li>
             <li>The browser app listens only on your computer and needs a one-time key.</li>
           </ul>
@@ -202,27 +202,40 @@
     <section id="install">
       <div class="wrap">
         <div class="section-head">
-          <div class="eyebrow">Install on Windows</div>
+          <div class="eyebrow">Install</div>
           <h2>Get Ixel MAT running.</h2>
         </div>
         <div class="install">
           <div class="prose">
             <p><strong>You need:</strong></p>
             <ul>
-              <li>Windows 10 or 11</li>
-              <li>Python 3.10 or newer (<code>winget install Python.Python.3.13</code>)</li>
-              <li>Git (<code>winget install Git.Git</code>)</li>
+              <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it). On Debian and Ubuntu, also <code>python3-venv</code></li>
+              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">Ixel MAT is in private preview. Its repository is private, so <code>git clone</code> asks for your GitHub login, and your account needs access. The macOS and Linux steps are in its README.</p>
+            <p class="note">This installs Ixel MAT and the Ixel app. It downloads Ixel MAT from GitHub, and updates it when you run it again. The installer itself needs no administrator rights (getting Git or Python may). You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
-            <p>Open a normal PowerShell window (not "Run as administrator") and run:</p>
-            <pre class="code"><code>cd ~
-git clone https://github.com/OpenIxelAI/ixel-mat.git
-cd ixel-mat
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
-            <p>Then close PowerShell, open a new window, and run <code>ixel setup</code> to choose the models on your panel.</p>
+            <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
+            <pre class="code"><code>irm https://ixelai.com/ixel-mat/install.ps1 | iex</code></pre>
+            <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/ixel-mat/install.sh | sh</code></pre>
+            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose the models on your panel. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH.</p>
+          </div>
+        </div>
+        <div class="install-more">
+          <h3>Or get everything with Ixel</h3>
+          <p>Ixel installs Ixel MAT, Handoff and the Ixel app together. Handoff lets Claude and Codex hand work to each other and ask your Ixel MAT panel for reviews. Already have Ixel MAT? Type <code>/handoff</code> in the Ixel app to see how to add Handoff.</p>
+          <div class="install-pair">
+            <div class="install-steps">
+              <p><strong>Windows:</strong></p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </div>
+            <div class="install-steps">
+              <p><strong>macOS or Linux:</strong></p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -240,9 +253,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1</code></pre>
             <span class="name">Handoff →</span>
             <span class="line">Claude and Codex, partners on one project.</span>
           </a>
-          <a class="tool-link" href="../ixel-console/" style="--c:var(--blue)">
-            <span class="eyebrow"><span class="greek">γ</span> Also from Ixel</span>
-            <span class="name">Ixel Console →</span>
+          <a class="tool-link" href="../machines/" style="--c:var(--blue)">
+            <span class="eyebrow"><span class="greek">γ</span> In the Ixel app</span>
+            <span class="name">Machines →</span>
             <span class="line">One-click SSH to the AI agents on your machines.</span>
           </a>
         </div>

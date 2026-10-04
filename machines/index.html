@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Machines | IxelAI</title>
+<meta name="description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click, run a command on several at once, with each server's key pinned.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Machines | IxelAI">
+<meta property="og:description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click, run a command on several at once, with each server's key pinned.">
+<meta property="og:url" content="https://ixelai.com/machines/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/machines/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+
+  <header class="wrap top">
+    <a class="brand" href="../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../ixel-mat/">Ixel MAT</a>
+      <a href="../handoff/">Handoff</a>
+      <a href="../machines/" aria-current="page">Machines</a>
+      <a href="../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+
+  <main style="--c:var(--blue)">
+    <div class="wrap page-hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents, in the Ixel app</div>
+        <h1>Machines</h1>
+        <p class="lede">Your servers, and the agents on them, one click away.</p>
+        <p>Save your machines, from a $5 VPS to the Mac mini in the closet, pick what runs on each (OpenClaw, Hermes, a shell or your own command), and connect in one click. Or run one command on all of them at once. Each server's key is pinned the first time, and ssh itself refuses a server whose key has changed.</p>
+        <div class="actions">
+          <a class="btn btn-moon" href="#install">Install</a>
+          <a class="btn" href="#demo">See it run</a>
+        </div>
+      </div>
+      <figure class="chart" data-focus="c">
+        <div class="chart-field">
+          <svg viewBox="40 30 480 310" role="img" aria-label="The Ixel mark, a crescent moon with three stars, with the star for Machines lit.">
+            <defs>
+              <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8f0f7"/>
+                <stop offset="60%" stop-color="#c8d8e8"/>
+                <stop offset="100%" stop-color="#7eb8d4" stop-opacity="0.85"/>
+              </radialGradient>
+              <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="starGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7eb8d4"/>
+                <stop offset="50%" stop-color="#9b7fc7"/>
+                <stop offset="100%" stop-color="#d4af37"/>
+              </linearGradient>
+            </defs>
+
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#2a3d55" stroke-width="4" stroke-dasharray="0.8 23.28"/>
+            <circle cx="200" cy="185" r="138" fill="none" stroke="#3a5070" stroke-width="9" stroke-dasharray="1 71.25"/>
+            <circle cx="200" cy="185" r="125" fill="none" stroke="#9b7fc7" stroke-width="0.4" opacity="0.35"/>
+            <circle cx="200" cy="185" r="115" fill="none" stroke="#7eb8d4" stroke-width="0.6" opacity="0.35" filter="url(#glow)"/>
+
+            <circle cx="200" cy="185" r="100" fill="url(#moonGlow)" filter="url(#glow)" opacity="0.95"/>
+            <circle cx="230" cy="170" r="90" fill="#070b14"/>
+            <circle cx="200" cy="185" r="100" fill="none" stroke="#c8d8e8" stroke-width="1" opacity="0.55"/>
+
+            <path d="M 105 220 Q 200 350 295 220" fill="none" stroke="url(#arc)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+            <path d="M 115 230 Q 200 345 285 230" fill="none" stroke="url(#arc)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+
+            <path class="leader" d="M 264 64 L 298 46 L 352 46"/>
+
+            <g filter="url(#starGlow)">
+              <g class="sg a"><polygon class="twinkle a" points="268,95 272,108 285,108 275,116 279,129 268,121 257,129 261,116 251,108 264,108" fill="#d4af37"/></g>
+              <g class="sg b"><polygon class="twinkle b" points="300,145 303,153 311,153 305,158 307,166 300,161 293,166 295,158 289,153 297,153" fill="#e8f0f7" opacity="0.9"/></g>
+              <g class="sg c"><polygon class="twinkle c" points="255,60 257,67 264,67 259,71 261,78 255,74 249,78 251,71 246,67 253,67" fill="#c8d8e8"/></g>
+              <circle cx="318" cy="112" r="1.8" fill="#d4af37" opacity="0.6"/>
+              <circle cx="232" cy="80" r="1" fill="#7eb8d4" opacity="0.6"/>
+              <circle cx="330" cy="178" r="1.4" fill="#9b7fc7" opacity="0.7"/>
+            </g>
+          </svg>
+
+          <a class="tag" href="../machines/" style="--y:5.16%; --c:var(--blue); --d:0.60s">
+            <span class="tag-name"><b>γ</b>Machines</span>
+            <span class="tag-sub">SSH for your agents</span>
+          </a>
+        </div>
+        <figcaption>The γ star in the Ixel mark</figcaption>
+      </figure>
+    </div>
+
+    <section id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">See it run</div>
+          <h2>Machines in a minute.</h2>
+        </div>
+        <figure class="demo" id="demo-figure" data-demo>
+          <video controls preload="metadata" playsinline hidden data-src="../videos/machines.mp4"></video>
+          <div class="demo-fallback">
+            <figure class="panel" aria-label="An example list of machines in the Ixel app">
+              <div class="panel-bar"><span><span class="dot">●</span> Machines</span><span>Example</span></div>
+              <div class="panel-body">
+                <div class="hosts">
+                  <div class="host host-head"><span>Host</span><span class="agent">Agent</span><span>Runs</span><span>Host key</span></div>
+                  <div class="host on"><span class="name">homelab</span><span class="agent">OpenClaw</span><span class="runs">openclaw tui</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="name">vps-fra1</span><span class="agent">Hermes</span><span class="runs">hermes status</span><span class="key">✓ pinned</span></div>
+                  <div class="host"><span class="name">gpu-box</span><span class="agent">custom</span><span class="runs">./serve.sh</span><span class="key">✓ pinned</span></div>
+                </div>
+              </div>
+            </figure>
+            <span class="caption">Example run. A screen recording is on the way.</span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Who it's for</div>
+          <h2>Made for people who…</h2>
+        </div>
+        <ul class="who">
+          <li><h3>Run OpenClaw or Hermes</h3><p>Each machine opens straight into the agent's TUI, status, sessions or logs, whichever you pick.</p></li>
+          <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine, or import them from your SSH config, open a session in one click, and check on all of them with one command.</p></li>
+          <li><h3>Want SSH keys without the fuss</h3><p>Make a key in the app, and Copy my key to it adds it to the server for you, even on Windows.</p></li>
+          <li><h3>Take security seriously</h3><p>Host keys are pinned and enforced by ssh itself, nothing a model writes can reach your machines, and every connection and run is logged on your computer.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How it works</div>
+          <h2>From a saved machine to a live session.</h2>
+        </div>
+        <ol class="steps">
+          <li><h3>Add a machine</h3><p>Type its address, or import your hosts from <code>~/.ssh/config</code> (or from Ixel Console).</p></li>
+          <li><h3>Pick what runs</h3><p>OpenClaw, Hermes, a shell, or a command you type. Each machine keeps its own.</p></li>
+          <li><h3>Check its key</h3><p>The first time, you see the server's fingerprint and say yes, and it's pinned. From then on, ssh refuses a changed key.</p></li>
+          <li><h3>Connect, or run</h3><p>Connect opens a terminal running that machine's command. Run on machines runs one command on the ones you pick and shows each one's output.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">What it does</div>
+          <h2>What you get.</h2>
+        </div>
+        <dl class="features">
+          <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands: the TUI, status, sessions and logs. Or a shell, or a command you type.</dd></div>
+          <div><dt>Import what you have</dt><dd>Bring in the hosts in <code>~/.ssh/config</code> (ssh keeps using their settings, jump hosts included), or Ixel Console's machines with the keys it pinned.</dd></div>
+          <div><dt>Host key pinning</dt><dd>A key is pinned only after you've seen its fingerprint (or said yes to it in Ixel Console), and ssh is told to accept that key and no other. Checking it sends nothing of yours along. A changed key stops everything until you forget the old one on purpose.</dd></div>
+          <div><dt>Run on machines</dt><dd>One command on the machines you pick, up to 8 at once, each with a time limit. Nothing is asked along the way, so each machine signs in with a key or ssh-agent, and its key must be pinned first. You see how each one ended and its output (the first 64 KB).</dd></div>
+          <div><dt>SSH keys, made easy</dt><dd>Make an ed25519 key, then Copy my key to it adds it to the server's <code>authorized_keys</code>, once, even on Windows.</dd></div>
+          <div><dt>A log on your computer</dt><dd>Every connection, run, import, new key and key pinned or forgotten is logged on your computer, and nowhere else.</dd></div>
+        </dl>
+        <div class="safe">
+          <div class="eyebrow">Built to be safe</div>
+          <ul class="points">
+            <li>It runs only what you type or pick. No model can reach your machines.</li>
+            <li>A machine's address can't be read by ssh as an option, and every program gets what it runs one argument at a time.</li>
+            <li>It uses the ssh you already have, with your keys or ssh-agent. Ixel stores no passwords.</li>
+            <li>No telemetry. The only connections are the ones you start.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Install</div>
+          <h2>Machines comes with the Ixel app.</h2>
+        </div>
+        <div class="install">
+          <div class="prose">
+            <p>Install Ixel (or Ixel MAT on its own: the app comes with it), open the app, and pick <strong>Machines</strong> on the left. In a terminal, <code>ixel machines</code> lists them and <code>ixel machines connect NAME</code> connects.</p>
+            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens Konsole, GNOME Terminal, kitty, Alacritty or xterm; with none of them, it gives you the line to run in your own terminal.</p>
+            <p class="note"><strong>Coming from Ixel Console?</strong> In Machines, press <strong>Import</strong> and pick Ixel Console: your SSH machines come over with the keys it pinned. Then remove Ixel Console with <code>ixel-console uninstall</code>.</p>
+          </div>
+          <div class="install-steps">
+            <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
+            <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
+            <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            <p>Ixel opens from the Start Menu, Applications (in your home folder), or your app menu.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">More from Ixel</div>
+          <h2>The other stars.</h2>
+        </div>
+        <div class="more-tools">
+          <a class="tool-link" href="../ixel-mat/" style="--c:var(--gold)">
+            <span class="eyebrow"><span class="greek">α</span> Also from Ixel</span>
+            <span class="name">Ixel MAT →</span>
+            <span class="line">A panel of models that check each other's answers.</span>
+          </a>
+          <a class="tool-link" href="../handoff/" style="--c:var(--iris)">
+            <span class="eyebrow"><span class="greek">β</span> Also from Ixel</span>
+            <span class="name">Handoff →</span>
+            <span class="line">Claude and Codex, partners on one project.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../about/">About</a>
+        <a href="../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<script src="../site.js"></script>
+</body>
+</html>
