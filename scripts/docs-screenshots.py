@@ -286,10 +286,10 @@ class StandInOllama:
                 self.end_headers()
                 total = 5_200_000_000
 
-                def step(**data) -> None:
+                def step(**data) -> None:  # slower than the app shows them (one every 0.25 s), so none is dropped
                     self.wfile.write((json.dumps(data) + "\n").encode())
                     self.wfile.flush()
-                    time.sleep(0.2)
+                    time.sleep(0.4)
 
                 step(status="pulling manifest")
                 for part in (0.12, 0.31, 0.46):
