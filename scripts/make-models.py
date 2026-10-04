@@ -14,10 +14,13 @@ what's between the <!-- models:NAME --> markers in the two pages is written here
 --fetch reads Artificial Analysis's free API (https://artificialanalysis.ai/api/v2/language/models/free,
 documented at https://artificialanalysis.ai/data-api/docs) with the free API key in AA_API_KEY. They ask
 that the data be credited to them, which the pages do. It gives each model's score and cost per task, the
-same numbers as their pages. It doesn't say which models are open or how big they are (their paid tiers
-do, and are used when the key is one), so models already in data.json keep those, and a new model counts
-as open only when its name has its size in it (27B, 36B A4B) and comes from a maker already in the data
-with open models.
+same numbers as their pages, and replaces every model's in data.json. It doesn't say which models are
+open or how big they are (their paid tiers do, and are used when the key is one), so a model already
+marked open in data.json keeps that and its size, matched by name. A new model counts as open only when
+its name has its size in it (27B, 36B A4B) and its maker's models here are all open; other new models
+from makers with open models are printed as notes, to add by hand. --fetch changes nothing when the API
+refuses or redirects, sends under half as many models as data.json has, gives no costs, or would leave
+under half of the open models.
 """
 from __future__ import annotations
 
@@ -25,6 +28,7 @@ import argparse
 import datetime as dt
 import html
 import json
+import math
 import os
 import re
 import sys
@@ -83,11 +87,11 @@ TOP_LEVEL = {"Anthropic": "max", "OpenAI": "max", "SpaceXAI": "xhigh", "xAI": "x
 def usable(m: dict, local: bool = False) -> bool:
     """Whether Ixel can run the model at this setting: a setting above what Ixel sends that maker (or, run
     on your own computer, above high) would be sent as a lower one, so its score wouldn't be what you get."""
-    effort = (m.get("effort") or "").lower()
-    if effort not in LEVELS:  # no setting, or one that isn't a thinking level ("reasoning")
+    found = levels_in(m.get("effort") or "")
+    if not found:  # no setting, or one that isn't a thinking level ("Reasoning")
         return True
     top = "high" if local else TOP_LEVEL.get(m["creator"], "high")
-    return LEVELS.index(effort) <= LEVELS.index(top)
+    return LEVELS.index(max(found, key=LEVELS.index)) <= LEVELS.index(top)
 
 
 def pick(all_models: list[dict]) -> dict:
@@ -98,11 +102,11 @@ def pick(all_models: list[dict]) -> dict:
         raise SystemExit("No model in data.json has a cost, so there's nothing to pick by")
     # The top pick needs a cost: the other picks are measured against it
     top = max(priced, key=lambda m: (m["score"], -m["cost"]))
-    family = [m for m in priced if m["name"] == top["name"]]
+    family = [m for m in priced if m["name"] == top["name"] and levels_in(m.get("effort") or "")]
     # The same model at a setting that costs a third as much or less, if one scores within 5
     cheaper = [m for m in family if m["cost"] <= top["cost"] / 3 and m["score"] >= top["score"] - 5]
     cheaper = max(cheaper, key=lambda m: m["score"]) if cheaper else None
-    others = [m for m in best_per(models, lambda m: m["creator"]) if m["creator"] != top["creator"]][:3]
+    others = [m for m in best_per(priced, lambda m: m["creator"]) if m["creator"] != top["creator"]][:3]
     # Drafters: a tenth of the top model's cost per task or less, not the top model itself, one per maker
     budget = top["cost"] / 10
     drafters = best_per([m for m in priced if m["cost"] <= budget and m["name"] != top["name"]],
@@ -216,28 +220,56 @@ def local_html(data: dict, p: dict) -> str:
 # ── Reading Artificial Analysis ───────────────────────────────────────────
 
 EFFORT = re.compile(r"^(.*?)\s*\(([^()\d]*)\)\s*$")  # "(high)", "(max)"; not a date like "(Sep '25)"
+# A size standing on its own in a name: "27B", "36B A4B", "235B-A22B"; not "8x22B" or "Flash-8B"'s guess
+SIZE = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)B(?:[\s-]*A(\d+(?:\.\d+)?)B)?\b", re.IGNORECASE)
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """A redirect is refused, not followed, so the key never goes anywhere but Artificial Analysis."""
+
+    def redirect_request(self, *args, **kwargs):
+        return None
+
+
+OPENER = urllib.request.build_opener(_NoRedirect)
+
+
+def levels_in(setting: str) -> list[str]:
+    """The thinking levels a setting names, however it's written: "Max Effort", "Reasoning, Extra High"."""
+    text = re.sub(r"\b(?:x|extra)[\s-]*high\b", "xhigh", setting.lower())
+    return [w for w in re.findall(r"[a-z]+", text) if w in LEVELS]
 
 
 def level(setting: str) -> str:
-    """A thinking setting as Ixel names it: "Max Effort" and "high reasoning" are max and high. Anything
-    else ("Reasoning", "Non-reasoning") is kept as it's written."""
-    words = setting.lower().replace("-", "").split()
-    found = [w for w in words if w in LEVELS]
-    return found[0] if len(found) == 1 and len(words) <= 2 else setting
-SIZE = re.compile(r"(\d+(?:\.\d+)?)B(?:\s*A(\d+(?:\.\d+)?)B)?\b", re.IGNORECASE)
+    """A thinking setting as Ixel names it ("Reasoning, Max Effort" is max), or as it's written when it
+    names no level ("Reasoning", "Non-reasoning")."""
+    found = levels_in(setting)
+    return max(found, key=LEVELS.index) if found else setting
+
+
+def same(name: str) -> str:
+    """A model's name for matching, so "gpt-oss-120B" and "gpt-oss-120b" are one model."""
+    return re.sub(r"[^a-z0-9.]", "", name.lower())
+
+
+def note(text: str) -> None:
+    """Something for a person to look at; in a GitHub Actions run it shows on the run's page."""
+    print(f"::warning::{text}" if os.environ.get("GITHUB_ACTIONS") else f"Note: {text}")
 
 
 def read_api(key: str) -> list[dict]:
     """Every model on Artificial Analysis's free API, page by page."""
     rows: list[dict] = []
     for page in range(1, MAX_PAGES + 1):
-        request = urllib.request.Request(f"{API}?page={page}",
-                                         headers={"x-api-key": key, "User-Agent": "ixelai.com docs"})
+        request = urllib.request.Request(f"{API}?page={page}", headers={"User-Agent": "ixelai.com docs"})
+        request.add_unredirected_header("x-api-key", key)
         try:
-            with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - a fixed https address
+            with OPENER.open(request, timeout=60) as response:
                 body = json.load(response)
         except urllib.error.HTTPError as error:
             why = {401: "the key is missing or wrong", 429: "today's requests are used up"}.get(error.code, error.reason)
+            if 300 <= error.code < 400:
+                why = "it sent the request somewhere else, which isn't followed"
             raise SystemExit(f"Artificial Analysis answered {error.code} ({why}); data.json is left as it was")
         rows += body.get("data") or []
         if not (body.get("pagination") or {}).get("has_more"):
@@ -250,36 +282,52 @@ def fetch(data: dict) -> dict:
     if not key:
         raise SystemExit("--fetch needs your Artificial Analysis API key in AA_API_KEY")
     rows = read_api(key)
-    before = {(m["name"], m.get("effort")): m for m in data["models"]}
-    open_makers = {m["creator"] for m in data["models"] if m.get("open")}
+    before = {(same(m["name"]), m.get("effort")): m for m in data["models"]}
+    by_name = {same(m["name"]): m for m in data["models"]}
+    makers = {m["creator"] for m in data["models"]}
+    some_open = {m["creator"] for m in data["models"] if m.get("open")}
+    # Makers whose every model here is open, so a new one with its size in its name is open too. A maker
+    # with closed models as well (Google's Gemini beside Gemma) could have a closed "Flash-8B".
+    open_makers = {c for c in some_open if all(m.get("open") for m in data["models"] if m["creator"] == c)}
     models = []
     for r in rows:
         score = (r.get("evaluations") or {}).get("artificial_analysis_intelligence_index")
-        if not isinstance(score, (int, float)):
+        if not isinstance(score, (int, float)) or score < 0:
             continue
         full = r.get("name") or ""
         match = EFFORT.match(full)
         name, effort = (match.group(1), level(match.group(2))) if match else (full, None)
         creator = (r.get("model_creator") or {}).get("name") or ""
         cost = ((r.get("artificial_analysis_intelligence_index_cost") or {}).get("cost_per_task") or {}).get("total_cost")
-        m = {"name": name, "creator": creator, "effort": effort, "score": round(score),
+        m = {"name": name, "creator": creator, "effort": effort, "score": math.floor(score + 0.5),  # as they show it
              "cost": cost if known(cost) else None}
         size = r.get("parameters") or {}
-        old = before.get((name, effort)) or next((k for (n, _), k in before.items() if n == name), None)
+        old = before.get((same(name), effort)) or by_name.get(same(name))
         if (r.get("licensing") or {}).get("is_open_weights") and known(size.get("total")):  # paid tiers say
             m.update({"open": True, "params": float(size["total"])})
             if known(size.get("active")) and size["active"] < size["total"]:
                 m["active"] = float(size["active"])
         elif old and old.get("open"):
             m.update({k: old[k] for k in ("open", "params", "active") if k in old})
-        elif creator in open_makers and (found := SIZE.search(name)):
+        elif (creator in open_makers and (found := SIZE.search(name))
+              and not re.search(r"\d+x\d+(?:\.\d+)?B", name, re.IGNORECASE)):
             m.update({"open": True, "params": float(found.group(1))})
             if found.group(2):
                 m["active"] = float(found.group(2))
+        elif not old and "licensing" not in r and (creator in some_open or creator not in makers):
+            note(f"New from {creator}: {full} (score {m['score']}). If its weights are open, add \"open\" and "
+                 "\"params\" for it in docs/models/data.json so the Local models page can list it.")
         models.append(m)
     if len(models) < len(data["models"]) / 2:
         raise SystemExit(f"Artificial Analysis sent {len(models)} models with a score, under half the "
                          f"{len(data['models'])} in data.json, so it looks incomplete; data.json is left as it was")
+    was_open = {same(m["name"]) for m in data["models"] if m.get("open")}
+    still_open = {same(m["name"]) for m in models if m.get("open")}
+    if len(was_open & still_open) < len(was_open) / 2:
+        raise SystemExit(f"Only {len(was_open & still_open)} of the {len(was_open)} open models in data.json "
+                         "came back, so the Local models page would lose most of its picks; data.json is left as it was")
+    for gone in sorted(was_open - still_open):
+        note(f"{by_name[gone]['name']}, an open model, isn't in Artificial Analysis's list now.")
     return {**data, "read_on": dt.date.today().isoformat(), "read_from": "its API",
             "source_url": "https://artificialanalysis.ai/leaderboards/models", "models": models}
 
