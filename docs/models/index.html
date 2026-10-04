@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Which model for each job · Ixel docs</title>
+<meta name="description" content="Which AI model to pick for each job in an Ixel review: who writes the verdict, the big model that verifies, the models that draft, and the model that decides in Triage, from Artificial Analysis's benchmarks.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Which model for each job">
+<meta property="og:description" content="Picks for each part of an Ixel review, from a benchmark that keeps up.">
+<meta property="og:url" content="https://ixelai.com/docs/models/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/models/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/" aria-current="page">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Models</div>
+      <h1>Which model for each job</h1>
+      <p class="lede">A review has four jobs, and they don't need the same model. Put your strongest model where it counts, and let cheaper ones do the rest.</p>
+      <!-- models:fresh -->
+      <p class="fresh"><span>Picks from <a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis</a>, read 4 October 2026</span></p>
+      <!-- /models:fresh -->
+
+      <h2 id="the-jobs">The four jobs</h2>
+      <div class="table">
+        <table>
+          <thead><tr><th>Job</th><th>What it does</th><th>What matters</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Writes the verdict</strong></td><td>Reads every answer and every review, and writes the final answer.</td><td>Being right. It's the answer you read.</td></tr>
+            <tr><td><strong>Big model that verifies</strong></td><td>In Saver, reads the drafts and the reviews and says, in a few words, which draft is right or what's wrong.</td><td>Being right. It reads a lot but writes little, so it costs less than you'd think.</td></tr>
+            <tr><td><strong>Models that draft</strong></td><td>In Saver, answer the question and review each other.</td><td>Good enough, cheap, and from different makers, so they don't all make the same mistake.</td></tr>
+            <tr><td><strong>Decides, in Triage</strong></td><td>Answers short questions between rounds: how much checking does this need, do these answers agree?</td><td>Fast and cheap, and good enough to judge.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Outside Saver, every model on your panel answers and reviews; the picks for drafting are good panel members too.</p>
+
+      <h2 id="picks">The picks</h2>
+      <p>Score is out of 100. Cost is in US dollars, to compare models with (<a href="#how-picked">how the picks are made</a> says which cost); what you pay depends on how long your questions and answers are.</p>
+      <!-- models:picks -->
+      <div class="table picks">
+        <table>
+          <thead><tr><th>Job</th><th>Pick</th><th>Score</th><th>Cost</th><th>Why, and how to add it</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>Writes the verdict</td>
+            <td><b>Claude Opus 5.5 (max)</b><small>Anthropic</small></td>
+            <td class="num">58</td>
+            <td class="num">$5.99</td>
+            <td>The highest score, so the final answer is the best it can be. At <b>high</b> effort it scores 54 for $1.83 a task.<small>From other makers: Gemini 4 Argon (high) (53), GPT-6 Astra (max) (53), MiMo-V2.6-Pro (46).</small><small><a href="../setup/#api-keys">An Anthropic key, or Claude Code</a></small></td>
+          </tr>
+          <tr>
+            <td>Big model that verifies</td>
+            <td><b>Claude Opus 5.5 (max)</b><small>Anthropic</small></td>
+            <td class="num">58</td>
+            <td class="num">$5.99</td>
+            <td>The same top model. In Saver it reads the drafts and replies in a few words, so it costs far less here than writing answers.<small><a href="../setup/#api-keys">An Anthropic key, or Claude Code</a></small></td>
+          </tr>
+          <tr>
+            <td>Models that draft</td>
+            <td><b>GPT-6.1 Sol (xhigh)</b><small>OpenAI</small></td>
+            <td class="num">51</td>
+            <td class="num">$0.40</td>
+            <td>The best score at a tenth of the top model's cost or less.<small><a href="../setup/#api-keys">An OpenAI key, or Codex</a></small></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>MiMo-V2.6-Pro</b><small>Xiaomi</small></td>
+            <td class="num">46</td>
+            <td class="num">$0.13</td>
+            <td>Another maker, so the drafts don't share blind spots.<small><a href="../setup/#other-models">OpenCode, or its maker&#x27;s OpenAI-compatible API</a>, or <a href="../local-models/">run it yourself</a></small></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>GLM-5.3-Flash</b><small>Z AI</small></td>
+            <td class="num">42</td>
+            <td class="num">$0.25</td>
+            <td>Also good.<small><a href="../setup/#other-models">OpenCode, or its maker&#x27;s OpenAI-compatible API</a>, or <a href="../local-models/">run it yourself</a></small></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>Claude Sonnet 5.5 (low)</b><small>Anthropic</small></td>
+            <td class="num">36</td>
+            <td class="num">$0.43</td>
+            <td>Also good.<small><a href="../setup/#api-keys">An Anthropic key, or Claude Code</a></small></td>
+          </tr>
+          <tr>
+            <td>Decides, in Triage</td>
+            <td><b>GPT-6 Luna (high)</b><small>OpenAI</small></td>
+            <td class="num">33</td>
+            <td class="num">$0.031</td>
+            <td>The cheapest model that scores at least half the top score: Triage asks it short questions between rounds.<small><a href="../setup/#api-keys">An OpenAI key, or Codex</a></small></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>MiMo-V2.6-Pro</b><small>Xiaomi</small></td>
+            <td class="num">46</td>
+            <td class="num">$0.13</td>
+            <td>The cheapest from another maker.<small><a href="../setup/#other-models">OpenCode, or its maker&#x27;s OpenAI-compatible API</a>, or <a href="../local-models/">run it yourself</a></small></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>GLM-5.3-Flash</b><small>Z AI</small></td>
+            <td class="num">42</td>
+            <td class="num">$0.25</td>
+            <td>The cheapest from another maker.<small><a href="../setup/#other-models">OpenCode, or its maker&#x27;s OpenAI-compatible API</a>, or <a href="../local-models/">run it yourself</a></small></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- /models:picks -->
+      <div class="callout tip"><span class="label">On a subscription</span><p>Through Claude Code, Codex or Gemini CLI, a model's calls count against your plan rather than costing per token, so the cost column doesn't apply. The score still does.</p></div>
+      <p>For models that run on your own computer, and which fit how much memory you have, see <a href="../local-models/">Local models</a>.</p>
+
+      <h2 id="how-picked">How the picks are made</h2>
+      <p>A script on this site reads the benchmark's numbers and applies the same rules every time, so the picks change only when the numbers do:</p>
+      <ul>
+        <li><strong>Writes the verdict, and verifies:</strong> the highest score among models with a known cost. When the same model at a lower thinking setting scores within 5 points for a third of the cost or less, the table says so.</li>
+        <li><strong>Models that draft:</strong> the best score among models that cost a tenth of the top pick's or less, one per maker.</li>
+        <li><strong>Decides, in Triage:</strong> the cheapest models that score at least half the top score, one per maker.</li>
+        <li><strong>Thinking settings Ixel can use:</strong> Ixel sends each model only the thinking settings it takes: up to <code>max</code> for current Claude and GPT models, up to <code>xhigh</code> for Grok, and up to <code>high</code> for Gemini and every other maker. A higher setting is sent as the highest one the model takes, so the picks only count settings Ixel can send.</li>
+      </ul>
+      <!-- models:method -->
+      <p>Score is Artificial Analysis's <b>Intelligence Index</b>, which combines its tests of reasoning, knowledge, math and coding into one number. Cost is cost per task: Artificial Analysis&#x27;s average cost to run one task of its tests at that setting, in US dollars. Use it to compare models, not as a bill. The picks come from its public leaderboard and open-weights pages, read on 2026-10-04.</p>
+      <!-- /models:method -->
+      <p>A benchmark is one view. Your own questions may favor a different model, and Ixel shows you how each model did in every review, so trust what you see there too.</p>
+
+      <h2 id="set-each-job">Set each job</h2>
+      <p>In the app, open <strong>Settings</strong>. Or set them in your settings file (<code>~/.config/ixel-mat/config.toml</code>), by the name each model has on your panel:</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Job</th><th>In Settings</th><th>In the file</th></tr></thead>
+          <tbody>
+            <tr><td>Writes the verdict</td><td>Asking, <strong>Who writes the verdict</strong></td><td><code>[review] moderator</code></td></tr>
+            <tr><td>Big model that verifies</td><td>Saver, <strong>Big model that verifies</strong></td><td><code>[saver] verifier</code></td></tr>
+            <tr><td>Models that draft</td><td>Saver, <strong>Models that draft</strong></td><td><code>[saver] drafters</code></td></tr>
+            <tr><td>Decides, in Triage</td><td>Triage, <strong>The model that decides</strong></td><td><code>[triage] agent</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="code"><code>[review]
+moderator = "opus"            # writes the verdict (left out: the author of the best-rated answer)
+
+[saver]
+verifier = "opus"             # your big model
+drafters = ["gpt", "gemini", "qwen"]   # left out: every model but the verifier
+verifier_effort = "low"       # checking is easier than writing
+
+[triage]
+enabled = true
+agent = "luna"                # a fast, cheap model of yours</code></pre>
+      <p>The names (<code>opus</code>, <code>gpt</code>, <code>luna</code>) are what you called each model in <code>ixel setup</code>. Each one's model and thinking setting are picked in <strong>Settings</strong>, Models, or with <code>ixel model</code>; <a href="../setup/#pick-a-model">Set up your models</a> says how.</p>
+
+      <h2 id="credit">Where the numbers come from</h2>
+      <p>The scores and costs are from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, an independent company that tests AI models and keeps its results up to date as new ones come out. Ixel isn't connected with them. This page is refreshed from their numbers, and the date at the top says when. Your Ixel app doesn't contact them; only the script that updates this page does.</p>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../handoff/"><span>Previous</span>Handoff: agents as a team</a>
+        <a class="next" href="../local-models/"><span>Next</span>Local models</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#the-jobs">The four jobs</a></li>
+        <li><a href="#picks">The picks</a></li>
+        <li><a href="#how-picked">How the picks are made</a></li>
+        <li><a href="#set-each-job">Set each job</a></li>
+        <li><a href="#credit">Where the numbers come from</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

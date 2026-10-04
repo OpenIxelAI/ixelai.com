@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>In the terminal · Ixel docs</title>
+<meta name="description" content="Use Ixel from a terminal: the ixel chat, reviewing your code changes, asking one model, making pictures, the plugin for Claude Desktop, Claude Code, Codex and Cursor, and every command.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Ixel in the terminal">
+<meta property="og:description" content="The ixel chat, code reviews, and every command.">
+<meta property="og:url" content="https://ixelai.com/docs/terminal/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/terminal/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/" aria-current="page">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Use Ixel</div>
+      <h1>In the terminal</h1>
+      <p class="lede">Everything the app does with the panel, you can do from a terminal: a chat where each question gets the panel's verdict, one-line reviews of your code changes, and commands for scripts.</p>
+
+      <h2 id="chat">The ixel chat</h2>
+      <pre class="code"><code>ixel</code></pre>
+      <p>Type a question and press <kbd>Enter</kbd>. The panel answers and you get its verdict. A question typed on its own runs a quick review (answers, then a verdict), unless you picked another mode in <code>ixel setup</code> or with <code>plain_questions</code> in your settings file.</p>
+      <p>Follow-ups work like a chat: each question goes along with your last three questions and the panel's answers, so "and in Python?" or "why?" make sense. <code>/new</code> starts a fresh topic. The moon at the prompt grows as the conversation does (<code>☾ ◗ ◕ ●</code>), and turns gold when the panel is seeing three earlier exchanges.</p>
+      <p>The prompt is drawn inline, so your terminal's scrollback, selection and copy and paste work as always. During a review, each round scrolls up into your terminal's history when it's done, and only the round that's running stays live.</p>
+
+      <h3 id="keys">Keys</h3>
+      <div class="table">
+        <table>
+          <thead><tr><th>Key</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Enter</kbd></td><td>Send</td></tr>
+            <tr><td><kbd>Ctrl</kbd> <kbd>J</kbd>, or <kbd>\</kbd> then <kbd>Enter</kbd></td><td>A new line instead of sending (<kbd>Alt</kbd> <kbd>Enter</kbd> too, where your terminal passes it on)</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>Complete a <code>/command</code>, an <code>--option</code>, a model's name, or a file path</td></tr>
+            <tr><td><kbd>↑</kbd> <kbd>↓</kbd>, <kbd>Ctrl</kbd> <kbd>R</kbd></td><td>Earlier questions from this session, and search through them</td></tr>
+            <tr><td><kbd>Ctrl</kbd> <kbd>C</kbd></td><td>Clear the line. While a review runs, cancel it: the models are stopped and you're back at the prompt. Twice on an empty line to leave.</td></tr>
+            <tr><td><kbd>Ctrl</kbd> <kbd>D</kbd>, <kbd>Ctrl</kbd> <kbd>L</kbd></td><td>Leave, clear the screen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="slash-commands">Commands in the chat</h3>
+      <div class="table">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>/review &lt;question&gt;</code></td><td>A full review: answers, peer review, verdict. Add <code>--quick</code> or <code>--deep</code>, and <code>--diff</code>, <code>--staged</code>, <code>--base main</code> or <code>--file PATH</code> to review code.</td></tr>
+            <tr><td><code>/saver &lt;question&gt;</code></td><td>Cheaper models draft and review; your big model only checks the result.</td></tr>
+            <tr><td><code>/auto &lt;question&gt;</code></td><td>Triage picks Quick, Review or Deep for this question.</td></tr>
+            <tr><td><code>/compare &lt;prompt&gt;</code></td><td>Every model answers side by side, with no review.</td></tr>
+            <tr><td><code>/answers</code></td><td>Every answer from the last review, in full.</td></tr>
+            <tr><td><code>/new</code></td><td>A fresh topic: the next question won't see earlier ones.</td></tr>
+            <tr><td><code>/saves</code></td><td>What Saver saved, and what reviews have cost.</td></tr>
+            <tr><td><code>/agents</code>, <code>/config</code>, <code>/help</code>, <code>/quit</code></td><td>Your models, your settings, help, and leave.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="from-your-shell">From your shell</h2>
+      <p>One line, one answer. Handy in scripts:</p>
+      <pre class="code"><code>ixel review "Is this regex safe against catastrophic backtracking? ^(a+)+$"
+ixel review --saver "Summarize the tradeoffs of SQLite vs Postgres for a desktop app"
+ixel review --auto "Why does this deadlock?"
+ixel review --continue "And for Postgres 17?"
+echo "Why is this slow?" | ixel review -
+ixel review --json "…" &gt; result.json</code></pre>
+      <p><code>--continue</code> (or <code>-c</code>) is a follow-up to your last <code>ixel review</code>. <code>-</code> reads the question from what's piped in. With <code>--json</code>, only the JSON goes to the output.</p>
+      <p>Each review ends with what it used, counted from what each model reports:</p>
+      <figure class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+        <pre><span class="dim">  Cost: $0.042 on API keys · 3 calls on your subscriptions · 1 free on your own hardware · 12.3k tokens in, 2,100 out</span></pre>
+      </figure>
+      <p>API keys are priced per token. Subscriptions (Claude Code, Codex, Gemini CLI, Copilot) count against your plan, so they're counted as calls. Local models are free. <code>ixel saves</code> keeps the running total for this month and in all.</p>
+
+      <h2 id="review-your-code">Review your code</h2>
+      <p>Hand the panel a diff or the files you choose, and ask about them, or just let it review:</p>
+      <pre class="code"><code>ixel review --diff                            # your changes since the last commit
+ixel review --staged "Is this safe to push?"  # only what you've staged
+ixel review --base main                       # everything on this branch since it left main
+ixel review --diff --new-files                # your changes, and new files git doesn't track yet
+ixel review -f app.py -f config.toml "Why does the retry loop never stop?"</code></pre>
+      <p>With no question, the panel looks for bugs, security problems and anything that would break. It's read-only: Ixel reads the diff or files once, before the panel starts, and sends them as text. Models get no shell and none of your other files. Before anything is sent:</p>
+      <ul>
+        <li><strong>Secrets are refused.</strong> A diff or file that holds what looks like a private key, an API key or a token, or a file such as <code>.env</code> or <code>id_rsa</code>, isn't sent, and you're told where it is. It's a check for the common kinds of keys; passwords aren't caught, so look over what you send.</li>
+        <li><strong>Hidden characters are shown.</strong> Invisible characters that can make code read differently from what it does reach the models as visible markers like <code>[U+202E]</code>.</li>
+        <li><strong>Your repository runs nothing.</strong> Git settings a cloned repository could use to run a program are switched off for the diff, and git doesn't go on the network.</li>
+      </ul>
+      <p>A review takes up to 60,000 characters, and up to 20 files named with <code>-f</code>, since every model reads it in every round.</p>
+
+      <h2 id="one-model">One model, or pictures</h2>
+      <p>Not everything needs a panel:</p>
+      <pre class="code"><code>ixel ask --list                                   # the models you can ask
+ixel ask --agent gemini "Make me a list of open-source projects like this one" -f README.md
+ixel ask --agent codex --diff "Review this"       # one model reads your changes
+ixel image "a lighthouse at dusk, watercolor"     # saved in Pictures/Ixel
+ixel image -f README.md -n 2 "a poster for my project" --provider grok</code></pre>
+      <p><code>ixel image</code> uses xAI (Grok Imagine) or OpenAI, with the key you saved in <code>ixel setup</code>. Given files, one of your chat models reads them first and describes the picture, and only that description goes to the picture service.</p>
+
+      <h2 id="plugin">Inside Claude Desktop, Claude Code, Codex and Cursor</h2>
+      <p>Ixel can run as a plugin (an MCP server) in the AI apps you use, so you can ask for a second opinion without leaving them:</p>
+      <pre class="code"><code>ixel mcp --setup</code></pre>
+      <p>It prints the settings to paste into each app, with the right paths for your computer. The plugin adds two tools: <code>ixel_review</code> asks the panel, and <code>ixel_panel</code> says who's on it. Then ask your app: <em>"Get a second opinion from the Ixel panel on this."</em></p>
+      <div class="callout tip"><span class="label">Windows</span><p>If you set up the plugin on Windows before, run <code>ixel mcp --setup</code> again and use the new command it prints. It starts the plugin through Python, since Smart App Control can block <code>ixel.exe</code>.</p></div>
+      <p>ChatGPT's app only connects to plugins over the internet, and Ixel never listens on the network. To use a ChatGPT subscription, set up Codex, which signs in with the same account.</p>
+
+      <h2 id="every-command">Every command</h2>
+      <div class="table">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>ixel</code></td><td>The chat</td></tr>
+            <tr><td><code>ixel setup</code></td><td>Find your models and save your keys (<a href="../setup/">Set up your models</a>)</td></tr>
+            <tr><td><code>ixel review "question"</code></td><td>Ask the panel; <code>--diff</code> reviews your changes</td></tr>
+            <tr><td><code>ixel ask --agent NAME "question"</code></td><td>One model answers on its own; <code>--list</code> shows who you can ask</td></tr>
+            <tr><td><code>ixel image "description"</code></td><td>Make pictures with xAI or OpenAI</td></tr>
+            <tr><td><code>ixel app</code></td><td>The Ixel app, in a window of its own</td></tr>
+            <tr><td><code>ixel gui</code></td><td>The Ixel app, as a tab in your browser</td></tr>
+            <tr><td><code>ixel machines</code></td><td>List your SSH machines; <code>connect NAME</code>, or <code>import ssh</code></td></tr>
+            <tr><td><code>ixel mcp --setup</code></td><td>The plugin for Claude Desktop, Claude Code, Codex and Cursor</td></tr>
+            <tr><td><code>ixel model [agent] [model]</code></td><td>See each model, or change one (<code>latest</code> is always the newest)</td></tr>
+            <tr><td><code>ixel saves</code></td><td>What Saver saved, and what reviews have cost</td></tr>
+            <tr><td><code>ixel triage</code></td><td>Check Triage: its settings, its key, and a test call</td></tr>
+            <tr><td><code>ixel doctor</code></td><td>Check each part of Ixel; <code>--check</code> tests your models too</td></tr>
+            <tr><td><code>ixel status</code>, <code>ixel agents</code>, <code>ixel config</code></td><td>Your models and settings at a glance</td></tr>
+            <tr><td><code>ixel update</code></td><td>Get the latest Ixel; <code>--check</code> only says whether one is out</td></tr>
+            <tr><td><code>ixel docs</code></td><td>Open these docs in your browser</td></tr>
+            <tr><td><code>ixel version</code>, <code>ixel help</code></td><td>The version, and this list</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A command can be shortened to its first letters when nothing else starts the same way: <code>ixel rev</code> is <code>ixel review</code>.</p>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../app/"><span>Previous</span>The Ixel app</a>
+        <a class="next" href="../handoff/"><span>Next</span>Handoff: agents as a team</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#chat">The ixel chat</a></li>
+        <li><a href="#from-your-shell">From your shell</a></li>
+        <li><a href="#review-your-code">Review your code</a></li>
+        <li><a href="#one-model">One model, or pictures</a></li>
+        <li><a href="#plugin">Inside Claude Desktop, Claude Code, Codex and Cursor</a></li>
+        <li><a href="#every-command">Every command</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

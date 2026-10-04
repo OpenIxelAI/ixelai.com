@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Set up your models · Ixel docs</title>
+<meta name="description" content="Add API keys, subscription programs such as Claude Code and Codex, and local models to Ixel, and choose which model does each job.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Set up your models in Ixel">
+<meta property="og:description" content="Keys, subscriptions and local models, and the job each one does.">
+<meta property="og:url" content="https://ixelai.com/docs/setup/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/setup/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/" aria-current="page">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Get started</div>
+      <h1>Set up your models</h1>
+      <p class="lede">Ixel has no models of its own. It uses yours: API keys, the subscription programs you're already signed in to, and models running on your own computer. Mix them freely; a panel holds up to eight.</p>
+
+      <h2 id="what-ixel-can-use">What Ixel can use</h2>
+      <div class="table">
+        <table>
+          <thead><tr><th>Kind</th><th>Which</th><th>Paid how</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#api-keys">API keys</a></td><td>OpenAI, Anthropic, Google Gemini and xAI (Grok)</td><td>Per token, on your account with that company</td></tr>
+            <tr><td><a href="#subscriptions">Subscription programs</a></td><td>Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode</td><td>Your plan with that company; no API key needed</td></tr>
+            <tr><td><a href="../local-models/">Local models</a></td><td>Ollama, LM Studio, or any server that speaks the OpenAI chat API</td><td>Free: they run on your own hardware</td></tr>
+            <tr><td><a href="#other-models">Other models</a></td><td>DeepSeek, Kimi, GLM, MiMo and others, through OpenCode or their own API</td><td>Their company's prices</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <span class="label">Three or more</span>
+        <p>With two models, a disagreement is a tie. If you have fewer than three, <code>ixel setup</code> shows what you can add at no cost: Gemini CLI (free with a Google account) and Ollama (open models on your own computer).</p>
+      </div>
+
+      <h2 id="ixel-setup">Run ixel setup</h2>
+      <p>In a terminal:</p>
+      <pre class="code"><code>ixel setup</code></pre>
+      <p>It walks you through the rest, and you can press <kbd>Enter</kbd> to keep each default or answer <kbd>n</kbd> to skip:</p>
+      <ol class="steps-doc">
+        <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it to <code>~/.config/ixel-mat/.env</code>, a file only you can read. For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
+        <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot or OpenCode is installed, it offers to add it. Sign in to each one first, in the program itself.</p></li>
+        <li><h3>Local models</h3><p>If Ollama or LM Studio is running on this computer, their models are listed, and you add the ones you want with no key.</p></li>
+        <li><h3>How you like to ask</h3><p>Your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
+        <li><h3>Saver and Triage</h3><p>Which model verifies in Saver mode, and whether to turn on Triage. Both are explained under <a href="#jobs">the jobs on your panel</a>.</p></li>
+      </ol>
+      <p>When it's done, check everything works:</p>
+      <pre class="code"><code>ixel status            # keys checked with each company, and each model's connection
+ixel doctor --check    # every part of Ixel, and asks each model's server whether it answers</code></pre>
+      <div class="callout warn">
+        <span class="label">Running setup again</span>
+        <p><code>ixel setup</code> writes your settings file again from your answers. The old one is kept beside it as <code>config.toml.bak</code>, but a model you added to the file by hand isn't carried over: copy it back from the <code>.bak</code> file. To change a model you already have, use <strong>Settings</strong> in the app or <code>ixel model</code> instead.</p>
+      </div>
+
+      <h2 id="api-keys">API keys</h2>
+      <p>Each company gives you a key in its own console. Ixel sends a key only to the company it belongs to, over HTTPS.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Company</th><th>Get a key</th><th>Saved as</th></tr></thead>
+          <tbody>
+            <tr><td>Anthropic (Claude)</td><td><a href="https://console.anthropic.com/settings/keys">console.anthropic.com</a></td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+            <tr><td>OpenAI (GPT)</td><td><a href="https://platform.openai.com/api-keys">platform.openai.com</a></td><td><code>OPENAI_API_KEY</code></td></tr>
+            <tr><td>Google (Gemini)</td><td><a href="https://aistudio.google.com/apikey">aistudio.google.com</a></td><td><code>GOOGLE_API_KEY</code></td></tr>
+            <tr><td>xAI (Grok)</td><td><a href="https://console.x.ai/">console.x.ai</a></td><td><code>XAI_API_KEY</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>You can also paste, replace or remove a key in the app, under <strong>Settings</strong>, <strong>Keys</strong>. It's never shown again once saved. A key set in your system or shell wins over one saved in Ixel, and the page says so.</p>
+
+      <h2 id="subscriptions">Subscription programs</h2>
+      <p>These use the plan you already pay for, not API credits. Install the program, sign in to it once on its own, then run <code>ixel setup</code>.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Program</th><th>Uses</th><th>Install</th></tr></thead>
+          <tbody>
+            <tr><td>Claude Code</td><td>Your Claude Pro or Max plan</td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
+            <tr><td>Codex</td><td>Your ChatGPT plan</td><td><code>npm install -g @openai/codex</code></td></tr>
+            <tr><td>Gemini CLI</td><td>Your Google account, or a free Gemini API key saved in Ixel</td><td><code>npm install -g @google/gemini-cli</code></td></tr>
+            <tr><td>GitHub Copilot</td><td>Your Copilot plan</td><td><code>npm install -g @github/copilot</code></td></tr>
+            <tr><td>OpenCode</td><td>Whatever you've signed in to in OpenCode (not its free tier, which turns Ixel down)</td><td><code>npm install -g opencode-ai</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>On the panel they only answer: each runs in a fresh, empty folder with its tools switched off, so it can't run commands or change your files. <a href="../privacy/#what-goes-where">Privacy</a> has the details. <code>ixel status</code> checks that each one is installed, not that you're signed in; if its answers come back as a login error, run it once on its own and sign in.</p>
+
+      <h2 id="other-models">Other models</h2>
+      <p>Two ways to add a model from a company Ixel doesn't set up for you:</p>
+      <ul>
+        <li><strong>Through OpenCode.</strong> OpenCode can sign in to many companies. Set it up with the model you want, then add OpenCode in <code>ixel setup</code>.</li>
+        <li><strong>Through its company's API</strong>, if it speaks the OpenAI chat API (most do). Add it to <code>~/.config/ixel-mat/config.toml</code> by hand, with the full address ending in <code>/v1/chat/completions</code>, and put its key in <code>~/.config/ixel-mat/.env</code> under the name you give in <code>token_env</code>:</li>
+      </ul>
+      <pre class="code"><code>[agents.deepseek]
+type = "http"
+url = "https://api.deepseek.com/v1/chat/completions"
+token_env = "DEEPSEEK_API_KEY"
+model = "deepseek-chat"
+label = "DeepSeek"</code></pre>
+      <p>The address and model name here are an example: use the ones the company's own docs give. Give the model by name: <code>latest</code> works only for OpenAI, Anthropic, Gemini and xAI.</p>
+
+      <h2 id="jobs">The jobs on your panel</h2>
+      <p>Every model on the panel answers and reviews. A few jobs go to one model, and you choose which in <strong>Settings</strong> in the app (or in <code>config.toml</code>). <a href="../models/">Which model for each job</a> has picks from a benchmark.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Job</th><th>What it does</th><th>Where you set it</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Writes the verdict</strong></td><td>Reads every answer and every review, and writes the final answer, saying where the panel disagreed. Unless you pick one, it's the author of the best-rated answer.</td><td>Settings, Asking: <strong>Who writes the verdict</strong><br><code>[review] moderator</code></td></tr>
+            <tr><td><strong>Big model that verifies</strong></td><td>In Saver mode, checks the cheaper models' drafts and replies in a few words: confirmed, or what's wrong. It writes an answer only if you tell it to fix wrong drafts itself.</td><td>Settings, Saver: <strong>Big model that verifies</strong><br><code>[saver] verifier</code></td></tr>
+            <tr><td><strong>Models that draft</strong></td><td>In Saver mode, answer and review each other before the big model looks. Every model but the verifier, unless you choose.</td><td>Settings, Saver: <strong>Models that draft</strong><br><code>[saver] drafters</code></td></tr>
+            <tr><td><strong>Decides, in Triage</strong></td><td>Answers short questions between rounds: how much checking a question needs (for Auto mode), and whether the answers agree. Off unless you turn it on.</td><td>Settings, Triage<br><code>[triage] agent</code>, or <code>provider = "typesafe"</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="shot">
+        <img src="../images/app-settings-roles.webp" width="2560" height="2360" alt="The app's Settings page: Asking, with who writes the verdict; Saver, with the big model that verifies and the models that draft; and Triage">
+        <figcaption>Settings in the app: each choice is saved as you make it. (Example models.)</figcaption>
+      </figure>
+      <h3 id="triage-choice">Who decides, in Triage</h3>
+      <ul>
+        <li><strong>One of your own models.</strong> Pick a fast, cheap one. No new account, and nothing goes anywhere your panel doesn't already. Its confidence is its own estimate, so leave "Skip review when the answers agree" off, or keep its threshold high.</li>
+        <li><strong>TypeSafe's decision API.</strong> Built for exactly this: calibrated answers in about a second, for a fraction of a cent. It needs your own TypeSafe key, and sends TypeSafe your questions and the models' answers (never your other keys, or which model wrote what). Get the key only from <a href="https://typesafe.ai">typesafe.ai</a> itself.</li>
+      </ul>
+
+      <h2 id="pick-a-model">Change a model</h2>
+      <p>In the app, <strong>Settings</strong>, <strong>Models</strong> lists each model on your panel. Pick its model from a list: the company's own list when Ixel has a key for it, what <code>opencode models</code> says for OpenCode, what your local server has, or a list built into Ixel (which says it may be out of date). <strong>Other…</strong> takes any name. In a terminal, <code>ixel model</code> does the same:</p>
+      <pre class="code"><code>ixel model                    # every model on your panel, and what "latest" means today
+ixel model opus               # the models that one can use
+ixel model opus latest-fast   # change it</code></pre>
+      <ul>
+        <li><code>latest</code> is the company's newest top model, looked up from your account each time Ixel starts, so a new release is used the day it comes out. <code>latest-fast</code> is its newest small, fast one, a good drafter.</li>
+        <li>For a subscription program, leaving the model empty uses the program's own default, which its maker keeps current.</li>
+      </ul>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../install/"><span>Previous</span>Install</a>
+        <a class="next" href="../app/"><span>Next</span>The Ixel app</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#what-ixel-can-use">What Ixel can use</a></li>
+        <li><a href="#ixel-setup">Run ixel setup</a></li>
+        <li><a href="#api-keys">API keys</a></li>
+        <li><a href="#subscriptions">Subscription programs</a></li>
+        <li><a href="#other-models">Other models</a></li>
+        <li><a href="#jobs">The jobs on your panel</a></li>
+        <li><a href="#pick-a-model">Change a model</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>
