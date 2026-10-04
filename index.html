@@ -184,7 +184,7 @@
               <ul class="points">
                 <li>A plugin for Claude Desktop, Claude Code and Codex. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
                 <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't change the history.</li>
-                <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what, what's blocked, and everything that happened.</li>
+                <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what and what's blocked, and <code>handoff show T-2</code> shows everything that happened to a task.</li>
               </ul>
               <ul class="chips">
                 <li>Claude Desktop</li>
@@ -271,7 +271,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
             <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
-            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose your models, and <code>handoff setup --write</code> in a project's folder to connect Claude and Codex. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH. Ixel opens from the Start Menu, Applications (in your home folder), or your app menu.</p>
+            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose your models. To connect Claude and Codex, go to your project's folder (it needs to be a git repository), run <code>handoff setup --write</code>, and restart the apps. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH. Ixel opens from the Start Menu, Applications (in your home folder), or your app menu.</p>
           </div>
         </div>
         <div class="install-more">
