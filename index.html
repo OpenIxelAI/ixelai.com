@@ -139,7 +139,7 @@
               <h3>Ixel MAT</h3>
               <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and agree on a verdict.</p>
               <ul class="points">
-                <li>Answers are shuffled and labeled A, B, C for each reviewer, and a model's grade of its own answer doesn't count. You see who was flagged, and who conceded.</li>
+                <li>Answers are labeled A, B, C in a random order, and each reviewer sees them in a different order. A model's grade of its own answer doesn't count. You see who was flagged, and who conceded.</li>
                 <li>Usage saver mode lets cheaper and local models draft and review, while your best model only checks the result.</li>
                 <li>Uses the keys and subscriptions you already have: Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode, and local models through Ollama or LM Studio.</li>
               </ul>
@@ -183,7 +183,7 @@
               <p class="lede">Let Claude and Codex work as partners on the same project. Say "Codex, take the tests; Claude, do the API," and the work passes between them. You stop being the copy-paste courier.</p>
               <ul class="points">
                 <li>A plugin for Claude Desktop, Claude Code and Codex. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
-                <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and the history is append-only.</li>
+                <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't change the history.</li>
                 <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what, what's blocked, and everything that happened.</li>
               </ul>
               <ul class="chips">
@@ -260,18 +260,18 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it)</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it). On Debian and Ubuntu, also <code>python3-venv</code></li>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">It downloads the tools from GitHub, needs no administrator rights, and updates them when you run it again. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
+            <p class="note">It downloads the tools from GitHub, and updates them when you run it again. The installer itself needs no administrator rights (getting Git or Python may). It never deletes changes of yours in a tool's folder: where it would have to, it stops and says so. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
             <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
             <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
-            <p>Then open a new window and run <code>ixel setup</code> to choose your models, and <code>handoff setup --write</code> in a project's folder to connect Claude and Codex. Ixel opens from the Start Menu, Applications, or your app menu.</p>
+            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose your models, and <code>handoff setup --write</code> in a project's folder to connect Claude and Codex. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH. Ixel opens from the Start Menu, Applications (in your home folder), or your app menu.</p>
           </div>
         </div>
         <div class="install-more">
@@ -302,7 +302,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
         <div class="section-head">
           <div class="eyebrow">How we build</div>
           <h2>Built the same careful way, all three.</h2>
-          <p>Every Ixel project ships a written threat model and tests that attack its own protections. Here is what that means for each tool.</p>
+          <p>Each tool ships a written threat model (its SECURITY.md) and tests that attack its own protections. Here is what that means for each one.</p>
         </div>
 
         <table class="matrix">
@@ -324,18 +324,18 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <tr>
               <th scope="row">Keeps secrets out of reach</th>
               <td data-label="Ixel MAT">API keys live in a file only you can read, and go only to the providers you set up.</td>
-              <td data-label="Handoff">Text that looks like an API key, token or private key is refused, not stored.</td>
+              <td data-label="Handoff">Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</td>
               <td data-label="Machines">It stores no passwords: your own ssh keys or ssh-agent sign in, and a password is typed in the terminal.</td>
             </tr>
             <tr>
               <th scope="row">Limits what can run</th>
               <td data-label="Ixel MAT">Subscription CLIs run answer-only: no shell, no file writes, in an empty folder.</td>
-              <td data-label="Handoff">Runs nothing itself. The optional worker stays in its own git worktree and never pushes.</td>
-              <td data-label="Machines">Only what you type or pick runs. No model can reach your machines, and nothing goes through a shell on your computer.</td>
+              <td data-label="Handoff">Runs an agent only for a task you approve. Edits happen in their own git worktree and are never pushed; answers, reviews and pictures go through Ixel MAT and change nothing in the project.</td>
+              <td data-label="Machines">Only what you type or pick runs. No model can reach your machines, and an address or user name can't pass for an ssh option.</td>
             </tr>
             <tr>
               <th scope="row">Attacked in its own tests</th>
-              <td data-label="Ixel MAT">A fake model tells each real CLI to run a command and read the key file. The test suite fails if anything happens.</td>
+              <td data-label="Ixel MAT">A test points each installed CLI at a fake model that tells it to run a command and read the key file, and fails if anything happens. It's run by hand, on Linux or macOS.</td>
               <td data-label="Handoff">Tests include a crafted board built to hijack an agent, and an attack on the worker.</td>
               <td data-label="Machines">Tested against a real SSH server: a swapped host key is refused by <code>ssh</code> itself, and option-like addresses never get through.</td>
             </tr>

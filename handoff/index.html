@@ -147,7 +147,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
         <ul class="who">
           <li><h3>Use both Claude and Codex</h3><p>Give each one the part it does best, and let them pass the work back and forth.</p></li>
           <li><h3>Are tired of copying between chats</h3><p>Notes, acceptance checks and reviews travel on the board instead of through your clipboard.</p></li>
-          <li><h3>Want a record of who did what</h3><p>Every note, handoff and review is kept in order with its time, and agents can't edit or delete it.</p></li>
+          <li><h3>Want a record of who did what</h3><p>Every note, handoff and review is kept in order with its time, and agents' Handoff tools can't edit or delete it. (An agent with a shell on your account could still run the <code>handoff</code> command as you.)</p></li>
           <li><h3>Care about reviews</h3><p>Nobody reviews their own work, and a task needs a review or a reason to be done. Your Ixel MAT panel can give a second opinion too.</p></li>
         </ul>
       </div>
@@ -178,18 +178,18 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
         <dl class="features">
           <div><dt>A plugin in each app</dt><dd>Claude Desktop, Claude Code and Codex each get Handoff's tools: an inbox, the board, and tools to create, claim, hand off and review tasks.</dd></div>
           <div><dt>Your board in the terminal</dt><dd><code>handoff board</code> shows who's doing what and what's blocked. <code>handoff show T-12</code> prints a task's whole history.</dd></div>
-          <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, nobody reviews their own work, and agents can't delete tasks or rewrite history.</dd></div>
+          <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't delete tasks or rewrite history.</dd></div>
           <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned: the second as it claims them, the first in its inbox and on its next note.</dd></div>
           <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
-          <div><dt>The worker (preview)</dt><dd>Approve one task and let Claude Code work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Windows it edits files only, for now.</dd></div>
+          <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux it runs Claude Code or Codex in a sandbox (with bubblewrap installed); on macOS and Windows it runs Claude Code, editing files only, for now.</dd></div>
         </dl>
         <div class="safe">
           <div class="eyebrow">Built to be safe</div>
           <ul class="points">
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted, so one agent's text can't take over another.</li>
-            <li>Text that looks like an API key, token or private key is refused, not stored.</li>
-            <li>The worker runs only tasks you approved on this computer, stays in its worktree, and never pushes.</li>
+            <li>Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</li>
+            <li>The worker runs only tasks you approved on this computer, and never pushes. On Linux its sandbox keeps it in its worktree; on macOS and Windows, Claude Code's own edit-only mode keeps its file tools there.</li>
           </ul>
         </div>
       </div>
@@ -206,18 +206,18 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it)</li>
+              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it). On Debian and Ubuntu, also <code>python3-venv</code></li>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
-              <li>Claude (Desktop or Claude Code) and Codex</li>
+              <li>At least one of Claude (Desktop or Claude Code) and Codex; both, to pass work between them</li>
             </ul>
-            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub, needs no administrator rights, and updates it when you run it again. You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
+            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub, and updates it when you run it again. The installer itself needs no administrator rights (getting Git or Python may). You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
             <pre class="code"><code>irm https://ixelai.com/handoff/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
             <pre class="code"><code>curl -fsSL https://ixelai.com/handoff/install.sh | sh</code></pre>
-            <p>Then open a new window, go to your project's folder, run <code>handoff setup --write</code>, and restart Claude and Codex.</p>
+            <p>Then open a new terminal window, go to your project's folder, run <code>handoff setup --write</code>, and restart Claude and Codex. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH.</p>
           </div>
         </div>
         <div class="install-more">
