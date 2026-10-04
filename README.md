@@ -13,6 +13,7 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 | `about/` | Our mission and what we believe |
 | `docs/` | The docs: install, setup, the app, the terminal, Handoff, model picks, local models and privacy. See [The docs](#the-docs) |
 | `scripts/make-docs.py`, `scripts/make-models.py`, `scripts/docs-screenshots.py` | Keep the docs' menus, model picks and app pictures up to date |
+| `.github/workflows/model-picks.yml` | Refreshes the model picks every week; see [The weekly refresh](#the-weekly-refresh) |
 | `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
 | `fonts/` | The site's fonts, self-hosted so visitors never contact Google, with their licenses |
@@ -78,10 +79,21 @@ to change nothing and fail if a page is out of date; a third retakes the picture
 - **`python scripts/make-models.py`** writes the model picks on `docs/models/` and `docs/local-models/`
   from `docs/models/data.json`, by the rules in its `pick()`, which the models page states in words. The
   data is [Artificial Analysis](https://artificialanalysis.ai/)'s; they ask to be credited, which the
-  pages do. To refresh it, make a free API key at artificialanalysis.ai and run
-  `AA_API_KEY=... python scripts/make-models.py --fetch`, then look over the diff and commit. Without a
-  key, edit `data.json` by hand from their public pages and set `read_on`. Each page shows the date the
-  numbers were read.
+  pages do. `--fetch` reads [their free API](https://artificialanalysis.ai/data-api/docs) first, with a
+  free key from artificialanalysis.ai: `AA_API_KEY=... python scripts/make-models.py --fetch`. It replaces
+  every model's score and cost, so hand edits to those don't last; whether a model is open and its size
+  (`open`, `params`, `active`) do, since their free API doesn't say. It prints a note for each new model
+  that might be open, to add those by hand. It changes nothing when the API refuses, sends under half as
+  many models as `data.json` has, or gives no costs. Each page shows the date the numbers were read.
+
+### The weekly refresh
+
+`.github/workflows/model-picks.yml` runs `make-models.py --fetch` every Monday and pushes the new picks
+to `main`, which publishes them. It needs the key saved as a repository secret: **Settings → Secrets and
+variables → Actions → New repository secret**, named `AA_API_KEY`. Without it, the job stops with a
+warning and changes nothing. To refresh now, open **Actions → Refresh model picks → Run workflow**. A
+run's page shows the notes about new models. The key is sent only to Artificial Analysis. GitHub Actions
+is free for public repositories like this one.
 - **`python scripts/docs-screenshots.py --ixel-mat ../ixel-mat`** retakes the app pictures in
   `docs/images/`. It runs the real app from an Ixel MAT checkout, with stand-in models that give scripted
   answers, an example project board and example machines, in a home folder of its own, so nothing of
