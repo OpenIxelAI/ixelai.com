@@ -103,7 +103,7 @@
             <td><b>Claude Opus 5.5 (max)</b><small>Anthropic</small></td>
             <td class="num">58</td>
             <td class="num">$5.99</td>
-            <td>The highest score, so the final answer is the best it can be. At <b>high</b> effort it scores 54 for $1.83 a task.<small>From other makers: Gemini 4 Argon (high) (53), GPT-6 Astra (high) (51), MiMo-V2.6-Pro (46).</small><small><a href="../setup/#api-keys">An Anthropic key, or Claude Code</a></small></td>
+            <td>The highest score, so the final answer is the best it can be. At <b>high</b> effort it scores 54 for $1.83 a task.<small>From other makers: Gemini 4 Argon (high) (53), GPT-6 Astra (max) (53), MiMo-V2.6-Pro (46).</small><small><a href="../setup/#api-keys">An Anthropic key, or Claude Code</a></small></td>
           </tr>
           <tr>
             <td>Big model that verifies</td>
@@ -114,9 +114,9 @@
           </tr>
           <tr>
             <td>Models that draft</td>
-            <td><b>GPT-6.1 Sol (high)</b><small>OpenAI</small></td>
-            <td class="num">50</td>
-            <td class="num">$0.33</td>
+            <td><b>GPT-6.1 Sol (xhigh)</b><small>OpenAI</small></td>
+            <td class="num">51</td>
+            <td class="num">$0.40</td>
             <td>The best score at a tenth of the top model's cost or less.<small><a href="../setup/#api-keys">An OpenAI key, or Codex</a></small></td>
           </tr>
           <tr>
@@ -174,7 +174,7 @@
         <li><strong>Writes the verdict, and verifies:</strong> the highest score among models with a known cost. When the same model at a lower thinking setting scores within 5 points for a third of the cost or less, the table says so.</li>
         <li><strong>Models that draft:</strong> the best score among models that cost a tenth of the top pick's or less, one per maker.</li>
         <li><strong>Decides, in Triage:</strong> the cheapest models that score at least half the top score, one per maker.</li>
-        <li><strong>Thinking settings Ixel can use:</strong> through the API Ixel uses for every maker but Anthropic, <code>xhigh</code> and <code>max</code> are sent as <code>high</code>. So those settings only count for Claude models.</li>
+        <li><strong>Thinking settings Ixel can use:</strong> Ixel sends each model only the thinking settings it takes: up to <code>max</code> for current Claude and GPT models, up to <code>xhigh</code> for Grok, and up to <code>high</code> for Gemini and every other maker. A higher setting is sent as the highest one the model takes, so the picks only count settings Ixel can send.</li>
       </ul>
       <!-- models:method -->
       <p>Score is Artificial Analysis's <b>Intelligence Index</b>, which combines its tests of reasoning, knowledge, math and coding into one number. Cost is cost per task: Artificial Analysis&#x27;s average cost to run one task of its tests at that setting, in US dollars. Use it to compare models, not as a bill. The picks come from its public leaderboard and open-weights pages, read on 2026-10-04.</p>

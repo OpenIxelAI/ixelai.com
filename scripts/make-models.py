@@ -70,11 +70,20 @@ def known(cost) -> bool:
     return isinstance(cost, (int, float)) and cost > 0
 
 
-def usable(m: dict) -> bool:
-    """Whether Ixel can run the model at this setting. Ixel sends xhigh and max as high through the
-    OpenAI-style API it uses for every maker but Anthropic (and for model servers on your computer), so
-    those settings only count for Claude."""
-    return m["creator"] == "Anthropic" or (m.get("effort") or "").lower() not in ("xhigh", "max")
+LEVELS = ["minimal", "low", "medium", "high", "xhigh", "max"]
+# The highest thinking level Ixel sends each maker's current models (ixel_mat/effort.py in Ixel MAT): a
+# higher one is sent as this. Other makers' APIs and model servers on your own computer take up to high.
+TOP_LEVEL = {"Anthropic": "max", "OpenAI": "max", "SpaceXAI": "xhigh", "xAI": "xhigh", "Google": "high"}
+
+
+def usable(m: dict, local: bool = False) -> bool:
+    """Whether Ixel can run the model at this setting: a setting above what Ixel sends that maker (or, run
+    on your own computer, above high) would be sent as a lower one, so its score wouldn't be what you get."""
+    effort = (m.get("effort") or "").lower()
+    if effort not in LEVELS:  # no setting, or one that isn't a thinking level ("reasoning")
+        return True
+    top = "high" if local else TOP_LEVEL.get(m["creator"], "high")
+    return LEVELS.index(effort) <= LEVELS.index(top)
 
 
 def pick(all_models: list[dict]) -> dict:
@@ -105,7 +114,8 @@ def pick(all_models: list[dict]) -> dict:
     # Local: for each amount of memory, the best open models that fit. Amounts with the same picks are
     # one row ("32 to 128 GB").
     local = []
-    open_models = best_per([m for m in models if m.get("open") and m.get("params")], lambda m: m["name"])
+    open_models = best_per([m for m in all_models if m.get("open") and m.get("params") and usable(m, local=True)],
+                           lambda m: m["name"])
     for tier in MEMORY_TIERS:
         fits = sorted([m for m in open_models if gb_needed(m) <= tier], key=lambda m: (-m["score"], m["params"]))[:3]
         if not fits:

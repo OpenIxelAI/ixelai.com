@@ -33,7 +33,7 @@
     {"name": "GPT-6.1 Sol", "creator": "OpenAI", "effort": "high", "score": 50, "cost": 0.325},
     {"name": "GPT-6.1 Sol", "creator": "OpenAI", "effort": "medium", "score": 48, "cost": 0.215},
     {"name": "GPT-6.1 Sol", "creator": "OpenAI", "effort": "low", "score": 42, "cost": 0.136},
-    {"name": "GPT-6 Luna", "creator": "OpenAI", "effort": "max", "score": 38, "cost": 0.007},
+    {"name": "GPT-6 Luna", "creator": "OpenAI", "effort": "max", "score": 38, "cost": null},
     {"name": "GPT-6 Luna", "creator": "OpenAI", "effort": "high", "score": 33, "cost": 0.031},
     {"name": "Gemini 4 Argon", "creator": "Google", "effort": "high", "score": 53, "cost": 1.990},
     {"name": "Gemini 3.8 Flash", "creator": "Google", "effort": "high", "score": 41, "cost": 1.242},

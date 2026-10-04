@@ -172,7 +172,7 @@ verifier_effort = "low"           # it only has to check</code></pre>
       <p>A local model doesn't get the pictures you attach in the app, since most can't read them. For one that can, such as a vision model, turn it on in <strong>Settings</strong>, Pictures, or add <code>accepts = ["image"]</code> to its section of the settings file.</p>
 
       <h2 id="thinking">Thinking settings</h2>
-      <p>Ixel sends a local model's thinking setting the way it does OpenAI's, so <code>xhigh</code> and <code>max</code> are sent as <code>high</code>, and whether the model uses it is up to the model and the server. The table above only counts the settings Ixel can send.</p>
+      <p>A model server on your computer gets thinking settings from <code>minimal</code> to <code>high</code>, so <code>xhigh</code> and <code>max</code> are sent as <code>high</code>. Whether the model uses it is up to the model and the server. The table above only counts the settings Ixel can send.</p>
 
       <h2 id="what-stays-home">What stays on your computer</h2>
       <p>With only local models on your panel, and Triage off or deciding with one of them, your questions, your code and the answers go no further than the computer running the model. A few parts of Ixel reach the internet for other reasons, and none of them sends your questions:</p>
