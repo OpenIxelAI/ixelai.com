@@ -8,6 +8,12 @@ example screen.
 | `ixel-mat.mp4` | ixelai.com/ixel-mat/ |
 | `handoff.mp4` | ixelai.com/handoff/ |
 | `machines.mp4` | ixelai.com/machines/ |
+| `ixel-commercial.mp4` | ixelai.com, "The film" (with the voiceover) |
+| `ixel-commercial-no-voice.mp4` | the GitHub READMEs (music only) |
+| `ixel-panel-loop.gif` | the GitHub READMEs (a 7-second loop from the film) |
+
+The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it. Its source and
+how it was made are in the project's `ad/` folder, not in this repository.
 
 ## Making one on Windows
 
