@@ -43,7 +43,7 @@
       <div class="hero-copy">
         <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents</div>
         <h1>Ixel Console is now Machines</h1>
-        <p class="lede">Everything it did is in the Ixel app now, with more.</p>
+        <p class="lede">Its SSH side is in the Ixel app now, with more. Gateway chat isn't: Machines connects over SSH.</p>
         <p>Machines keeps your servers and the OpenClaw or Hermes agent on each, connects in one click with each server's key pinned, makes a key and copies it to a server, and can run one command on several machines at once. Ixel Console itself is no longer updated.</p>
         <div class="actions">
           <a class="btn btn-moon" href="../machines/">See Machines</a>
@@ -116,7 +116,7 @@
         <ol class="steps">
           <li><h3>Install Ixel</h3><p>On Windows: <code>irm https://ixelai.com/install.ps1 | iex</code> in PowerShell. On a Mac or Linux: <code>curl -fsSL https://ixelai.com/install.sh | sh</code>.</p></li>
           <li><h3>Import</h3><p>Open the Ixel app, pick <strong>Machines</strong>, press <strong>Import</strong> and pick Ixel Console. Your SSH machines come over with their agents and the keys Ixel Console pinned. (Gateway chat profiles stay behind: Machines connects over SSH.)</p></li>
-          <li><h3>Remove Ixel Console</h3><p>Run <code>ixel-console uninstall</code>. Key passphrases it kept in your system keychain stay there until you remove them.</p></li>
+          <li><h3>Remove Ixel Console</h3><p>Run <code>ixel-console uninstall</code>. The gateway tokens it kept in your system keychain stay there until you remove them. So do its profiles, pinned keys and log, in <code>~/.config/ixel-console</code> and <code>~/.local/share/ixel-console</code>.</p></li>
         </ol>
       </div>
     </section>

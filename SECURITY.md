@@ -8,8 +8,8 @@ that's GitHub's, not ours.
 
 Please report anything that looks wrong privately: email **openixel.ai@gmail.com**, or use GitHub's
 **Report a vulnerability** button on this repository's **Security** tab if it's there. Don't open a public
-issue. For problems
-in one of the tools, use that tool's own repository.
+issue. For a problem in one of the tools, email the same address. Once a tool's repository is public, you
+can also use its own Security tab.
 
 ## How the site protects visitors
 

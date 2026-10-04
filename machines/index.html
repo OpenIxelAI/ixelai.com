@@ -173,7 +173,7 @@
           <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands: the TUI, status, sessions and logs. Or a shell, or a command you type.</dd></div>
           <div><dt>Import what you have</dt><dd>Bring in the hosts in <code>~/.ssh/config</code> (ssh keeps using their settings, jump hosts included), or Ixel Console's machines with the keys it pinned.</dd></div>
           <div><dt>Host key pinning</dt><dd>A key is pinned only after you've seen its fingerprint (or said yes to it in Ixel Console), and ssh is told to accept that key and no other. Checking it sends nothing of yours along. A changed key stops everything until you forget the old one on purpose.</dd></div>
-          <div><dt>Run on machines</dt><dd>One command on the machines you pick, up to 8 at once, each with a time limit. You see how each one ended and its output.</dd></div>
+          <div><dt>Run on machines</dt><dd>One command on the machines you pick, up to 8 at once, each with a time limit. Nothing is asked along the way, so each machine signs in with a key or ssh-agent, and its key must be pinned first. You see how each one ended and its output (the first 64 KB).</dd></div>
           <div><dt>SSH keys, made easy</dt><dd>Make an ed25519 key, then Copy my key to it adds it to the server's <code>authorized_keys</code>, once, even on Windows.</dd></div>
           <div><dt>A log on your computer</dt><dd>Every connection, run, import, new key and key pinned or forgotten is logged on your computer, and nowhere else.</dd></div>
         </dl>
@@ -198,7 +198,7 @@
         <div class="install">
           <div class="prose">
             <p>Install Ixel (or Ixel MAT on its own: the app comes with it), open the app, and pick <strong>Machines</strong> on the left. In a terminal, <code>ixel machines</code> lists them and <code>ixel machines connect NAME</code> connects.</p>
-            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package.</p>
+            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens Konsole, GNOME Terminal, kitty, Alacritty or xterm; with none of them, it gives you the line to run in your own terminal.</p>
             <p class="note"><strong>Coming from Ixel Console?</strong> In Machines, press <strong>Import</strong> and pick Ixel Console: your SSH machines come over with the keys it pinned. Then remove Ixel Console with <code>ixel-console uninstall</code>.</p>
           </div>
           <div class="install-steps">
