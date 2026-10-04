@@ -279,6 +279,12 @@
 .picks td:first-child { white-space: nowrap; color: var(--bright); }
 .picks .num { font-family: var(--f-mono); white-space: nowrap; }
 .picks small { display: block; color: var(--faint); font-size: 0.8125rem; }
+
+/* The companies' own rules, on the privacy page: wide enough to read, and it scrolls on a phone */
+.terms table { min-width: 680px; }
+.terms td:first-child { width: 26%; }
+.terms b { color: var(--bright); font-weight: 600; }
+.terms small { display: block; margin-top: 6px; color: var(--faint); font-size: 0.8125rem; }
 .fresh {
   display: inline-flex;
   align-items: center;
