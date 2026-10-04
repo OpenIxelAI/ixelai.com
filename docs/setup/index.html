@@ -80,7 +80,7 @@
           <thead><tr><th>Kind</th><th>Which</th><th>Paid how</th></tr></thead>
           <tbody>
             <tr><td><a href="#api-keys">API keys</a></td><td>OpenAI, Anthropic, Google Gemini and xAI (Grok)</td><td>Per token, on your account with that company</td></tr>
-            <tr><td><a href="#subscriptions">Subscription programs</a></td><td>Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode</td><td>Your plan with that company; no API key needed</td></tr>
+            <tr><td><a href="#subscriptions">Subscription programs</a></td><td>Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode</td><td>Your plan with that company; no API key needed, except for Gemini CLI</td></tr>
             <tr><td><a href="../local-models/">Local models</a></td><td>Ollama, LM Studio, or any server that speaks the OpenAI chat API</td><td>Free: they run on your own hardware</td></tr>
             <tr><td><a href="#other-models">Other models</a></td><td>DeepSeek, Kimi, GLM, MiMo and others, through OpenCode or their own API</td><td>Their company's prices</td></tr>
           </tbody>
@@ -88,7 +88,7 @@
       </div>
       <div class="callout tip">
         <span class="label">Three or more</span>
-        <p>With two models, a disagreement is a tie. If you have fewer than three, <code>ixel setup</code> shows what you can add at no cost: Gemini CLI (free with a Gemini API key, though outside the EEA, Switzerland and the UK, Google <a href="../privacy/#training">trains on the free tier</a>) and Ollama (open models on your own computer).</p>
+        <p>With two models, a disagreement is a tie. If you have fewer than three, <code>ixel setup</code> shows what you can add at no cost: Gemini CLI (free with a Gemini API key, though Google <a href="../privacy/#training">trains on the free tier</a>, except in the EEA, Switzerland and the UK) and Ollama (open models on your own computer).</p>
       </div>
 
       <h2 id="ixel-setup">Run ixel setup</h2>
@@ -133,7 +133,7 @@ ixel doctor --check    # every part of Ixel, and asks each model's server whethe
           <tbody>
             <tr><td>Claude Code</td><td>Your Claude Pro or Max plan</td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
             <tr><td>Codex</td><td>Your ChatGPT plan</td><td><code>npm install -g @openai/codex</code></td></tr>
-            <tr><td>Gemini CLI</td><td>A Gemini API key saved in Ixel (outside the EEA, Switzerland and the UK, Google <a href="../privacy/#training">trains on the free tier</a>), or a work Google account with Gemini Code Assist. Since June 2026 a personal Google account can't sign in to it</td><td><code>npm install -g @google/gemini-cli</code></td></tr>
+            <tr><td>Gemini CLI</td><td>A Gemini API key saved in Ixel (Google <a href="../privacy/#training">trains on the free tier</a>, except in the EEA, Switzerland and the UK), or a work Google account with Gemini Code Assist Standard or Enterprise. Since June 2026 a personal Google account can't sign in to it: if <code>gemini</code> still has one saved, switch it to an API key with <code>/auth</code> in <code>gemini</code></td><td><code>npm install -g @google/gemini-cli</code></td></tr>
             <tr><td>GitHub Copilot</td><td>Your Copilot plan</td><td><code>npm install -g @github/copilot</code></td></tr>
             <tr><td>OpenCode</td><td>Whatever you've signed in to in OpenCode (not its free tier, which turns Ixel down)</td><td><code>npm install -g opencode-ai</code></td></tr>
           </tbody>
@@ -153,7 +153,7 @@ url = "https://api.deepseek.com/v1/chat/completions"
 token_env = "DEEPSEEK_API_KEY"
 model = "deepseek-chat"
 label = "DeepSeek"</code></pre>
-      <p>The address and model name here are an example: use the ones the company's own docs give. Give the model by name: <code>latest</code> works only for OpenAI, Anthropic, Gemini and xAI.</p>
+      <p>Some of these companies, DeepSeek and Kimi among them, train on what you send: <a href="../privacy/#training">Which companies may train on it</a> has the details. The address and model name here are an example: use the ones the company's own docs give. Give the model by name: <code>latest</code> works only for OpenAI, Anthropic, Gemini and xAI.</p>
 
       <h2 id="jobs">The jobs on your panel</h2>
       <p>Every model on the panel answers and reviews. A few jobs go to one model, and you choose which in <strong>Settings</strong> in the app (or in <code>config.toml</code>). <a href="../models/">Which model for each job</a> has picks from a benchmark.</p>
