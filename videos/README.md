@@ -1,13 +1,20 @@
 # Demo videos
 
 Each tool page shows its recording from this folder as soon as the file is here. Until then, it shows the
-example screen.
+example screen. The commercial is different: the home page links its files directly, and the no-voice cut and
+the loop are only used by the GitHub READMEs.
 
 | File | Shown on |
 |---|---|
 | `ixel-mat.mp4` | ixelai.com/ixel-mat/ |
 | `handoff.mp4` | ixelai.com/handoff/ |
 | `machines.mp4` | ixelai.com/machines/ |
+| `ixel-commercial.mp4` | ixelai.com, "The film" (with the voiceover) |
+| `ixel-commercial-no-voice.mp4` | the GitHub READMEs (music only) |
+| `ixel-panel-loop.gif` | the GitHub READMEs (a 7-second loop from the film) |
+
+The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it. Its source and
+how it was made are in the project's `ad/` folder, not in this repository.
 
 ## Making one on Windows
 
