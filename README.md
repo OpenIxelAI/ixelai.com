@@ -68,9 +68,9 @@ Keep it.
 ## The docs
 
 `docs/` holds one folder per page, each an `index.html`, plus `docs.css`, `docs.js` (the tabs for each
-system, and the menu on a phone; it stores nothing) and `images/`. Write a page's content by hand; three
-scripts fill in the rest, each between `<!-- name -->` and `<!-- /name -->` markers, and each takes
-`--check` to change nothing and fail if a page is out of date:
+system, and the menu on a phone; it stores nothing) and `images/`. Write a page's content by hand. Two
+scripts fill in the rest, between `<!-- name -->` and `<!-- /name -->` markers, and each takes `--check`
+to change nothing and fail if a page is out of date; a third retakes the pictures:
 
 - **`python scripts/make-docs.py`** writes every docs page's header, menu, "On this page" list, previous
   and next links, and footer, from the list of pages at the top of the script. Add a page there, then run

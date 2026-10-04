@@ -78,7 +78,7 @@
       <ul>
         <li><strong>No telemetry.</strong> No analytics, no crash reports, no usage pings. We don't know who uses Ixel or how.</li>
         <li><strong>No Ixel account, and no Ixel server.</strong> Your questions go from your computer to the AI companies you chose, and nowhere else.</li>
-        <li><strong>Your keys stay yours.</strong> Each key goes only to its own company, never over plain <code>http://</code> except to your own computer.</li>
+        <li><strong>Your keys stay yours.</strong> Each key goes only to its own company, and never over plain <code>http://</code> except to your own computer (a git host's token also across your Tailscale network, which encrypts it).</li>
         <li><strong>Local models keep it at home.</strong> With only <a href="../local-models/">local models</a>, your questions and their answers stay on your computer or your network.</li>
         <li><strong>Some things are kept on your computer,</strong> listed <a href="#on-your-computer">below</a> with how to clear them.</li>
       </ul>
@@ -91,15 +91,15 @@
           <thead><tr><th>To</th><th>When</th><th>What's sent</th></tr></thead>
           <tbody>
             <tr><td>The companies of the models on your panel, through your API keys</td><td>When you ask a question</td><td>Your question, up to three earlier questions and answers in the same conversation, code or files you attach, and in later rounds the other models' answers. Pictures you attach go only to the models that can see them.</td></tr>
-            <tr><td>Claude Code, Codex, Gemini CLI, Copilot or OpenCode</td><td>When you ask a question</td><td>The same, handed to the program on your computer, which sends it to its company. Ixel switches off saving the session where the program allows it (Claude Code, Codex and OpenCode). Gemini CLI and Copilot have no such switch.</td></tr>
+            <tr><td>Claude Code, Codex, Gemini CLI, Copilot or OpenCode</td><td>When you ask a question</td><td>The same, handed to the program on your computer, which sends it to its company. Ixel switches off saving the session where the program allows it (Claude Code and Codex). Gemini CLI, Copilot and OpenCode keep their own history; Ixel turns off OpenCode's share links.</td></tr>
             <tr><td>A model server on your computer or network</td><td>When you ask a question</td><td>The same, kept between your machines.</td></tr>
             <tr><td>The same companies</td><td>When Ixel picks the newest model (<code>latest</code>), lists models in Settings or setup, or checks your keys</td><td>Your key, to get the list of models. No question.</td></tr>
-            <tr><td>TypeSafe AI</td><td>Only if you choose TypeSafe for Triage</td><td>Your question, up to three earlier questions, and the models' answers. Never your keys, or which model wrote what.</td></tr>
+            <tr><td>TypeSafe AI</td><td>Only if you choose TypeSafe for Triage</td><td>Your question, up to three earlier questions, and the models' answers. Never your other keys, or which model wrote what.</td></tr>
             <tr><td>OpenAI or Groq</td><td>When you use <strong>Sound</strong></td><td>The recording or sound file, to be written out. Ixel doesn't keep it.</td></tr>
             <tr><td>xAI or OpenAI</td><td>When you make pictures</td><td>Your description. Files you name are read by one of your chat models first, and only its description goes on.</td></tr>
-            <tr><td>Your project's git host (GitHub, GitLab, Codeberg, or your own)</td><td>When you open a project's Board</td><td>The repository's name, to list its pull requests, and your token for it if you saved one.</td></tr>
+            <tr><td>Your project's git host (GitHub, GitLab, Codeberg, or your own)</td><td>When you open a project's Board, or press <strong>Review…</strong> or <strong>Fix…</strong> on a pull request</td><td>The repository's name, to list its pull requests, and your token for it if you saved one. <strong>Review…</strong> and <strong>Fix…</strong> fetch the pull request with git, using your own git login.</td></tr>
             <tr><td>GitHub</td><td>When the terminal chat starts, at most once a day</td><td>A check for a new version, with git. No Ixel data; GitHub sees your IP address. Off with <code>[updates] check = false</code>.</td></tr>
-            <tr><td>GitHub and the Python Package Index</td><td>When you install or run <code>ixel update</code> or <code>handoff update</code></td><td>Downloads, like any install.</td></tr>
+            <tr><td>ixelai.com, GitHub and the Python Package Index</td><td>When you install or run <code>ixel update</code> or <code>handoff update</code></td><td>Downloads, like any install.</td></tr>
             <tr><td>Your own servers</td><td>When you press <strong>Check key</strong>, <strong>Connect</strong> or <strong>Run on machines</strong></td><td>An <code>ssh</code> connection you started.</td></tr>
           </tbody>
         </table>
@@ -120,7 +120,8 @@
             <tr><td><code>machines.json</code>, <code>machines_known_hosts</code></td><td>Your machines and their pinned keys</td><td>Until you remove them</td></tr>
             <tr><td><code>machines.log</code></td><td>Every connection, import and key change, and each command you ran on your machines</td><td>Up to 5 MB, then it starts a new file and keeps one old one</td></tr>
             <tr><td><code>update_check.json</code>, <code>device_key</code></td><td>When Ixel last checked for an update; a key for OpenClaw gateways</td><td>Kept</td></tr>
-            <tr><td>The app window's profile</td><td>The Edge or Chrome profile Ixel's window uses on Windows and Linux, kept apart from your own browsing</td><td>Kept</td></tr>
+            <tr><td><code>app.json</code></td><td>Your Appearance choice: System, Light or Dark</td><td>Kept</td></tr>
+            <tr><td>The app window's browser storage</td><td>The Edge or Chrome profile Ixel's window uses on Windows and Linux (<code>%LOCALAPPDATA%\IxelMAT\window</code>, <code>~/.local/state/ixel-mat/window</code>), or WebKit's storage for the Mac app. It may hold an open window's conversations, and the project folders you opened on the Board</td><td>Until you delete it</td></tr>
             <tr><td>Your Pictures folder, in <code>Ixel</code></td><td>Pictures you make (not what you asked for)</td><td>Yours to keep or delete</td></tr>
           </tbody>
         </table>
@@ -136,7 +137,7 @@
           </tbody>
         </table>
       </div>
-      <p><strong>Never written to disk:</strong> the terminal chat's conversation and your earlier questions in it (gone when you leave), pictures you attach (kept in memory for 30 minutes at most), and sound (not kept at all). The app's conversations live in the window's session and are cleared when you close it.</p>
+      <p><strong>Never written to disk:</strong> the terminal chat's conversation and your earlier questions in it (gone when you leave), pictures you attach (kept in memory for 30 minutes at most), and sound (not kept at all). Ixel doesn't write the app's conversations to a file either; see the window's browser storage above.</p>
 
       <h2 id="protections">What Ixel strips or refuses</h2>
       <ul>
@@ -152,13 +153,14 @@
         <li><strong>Keys are kept in plain text</strong>, in a file only you can read, not in your system's keychain.</li>
         <li><strong>On Windows and Linux, the app window is Edge or Chrome.</strong> Its own background services follow Microsoft's or Google's settings, not Ixel's.</li>
         <li><strong>A question typed on the command line</strong> (<code>ixel review "…"</code>) is saved in your shell's history, like any command. Type it in the <code>ixel</code> chat to avoid that.</li>
+        <li><strong>The app's window can keep its conversations.</strong> The page holds an open window's conversations in its session storage. Ixel never saves them, but the window's browser may write that storage to its profile folder, where it can stay after you close the window. <a href="#leave-no-trace">Clear it</a> if that matters to you.</li>
         <li><strong>Deleted board text can linger</strong> in the database file's free space until the database is compacted. Deleting the <code>.handoff</code> folder removes it all.</li>
       </ul>
 
       <h2 id="leave-no-trace">Leave as little as possible</h2>
       <ol class="steps-doc">
         <li><h3>Use local models</h3><p>For anything that mustn't leave your computer. See <a href="../local-models/">Local models</a>.</p></li>
-        <li><h3>Ask in the chat or the app</h3><p>Rather than with <code>ixel review "…"</code>, which keeps your last three questions in <code>conversation.json</code> and puts the question in your shell's history. Ixel doesn't write the chat's or the app's conversations to a file.</p></li>
+        <li><h3>Ask in the chat or the app</h3><p>Rather than with <code>ixel review "…"</code>, which keeps your last three questions in <code>conversation.json</code> and puts the question in your shell's history. Ixel doesn't write the chat's conversations anywhere, or the app's to a file of its own.</p></li>
         <li><h3>Clear what's kept</h3>
           <div class="tabs">
             <section class="tab-panel" data-tab="windows">
@@ -174,6 +176,7 @@
               <pre class="code"><code>rm -f ~/.config/ixel-mat/conversation.json ~/.config/ixel-mat/machines.log*</code></pre>
             </section>
           </div>
+          <p>With Ixel closed, delete the window's browser storage too: <code>%LOCALAPPDATA%\IxelMAT\window</code> on Windows, <code>~/.local/state/ixel-mat/window</code> on Linux, and <code>~/Library/WebKit/com.ixelai.ixel</code> (and <code>~/Library/Application Support/IxelMAT/window</code>, if Ixel ever used Chrome there) on a Mac.</p>
           <p>For a project's board, <code>handoff delete T-N</code> removes one task, or delete the project's <code>.handoff</code> folder to remove them all.</p>
         </li>
         <li><h3>Turn off the update check</h3><p>Add this to <code>config.toml</code>, and run <code>ixel update</code> yourself now and then:</p><pre class="code"><code>[updates]

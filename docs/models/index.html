@@ -92,7 +92,7 @@
       <p>Outside Saver, every model on your panel answers and reviews; the picks for drafting are good panel members too.</p>
 
       <h2 id="picks">The picks</h2>
-      <p>Score is out of 100. Cost is what the benchmark's run of each model cost per task, in US dollars, to compare models with; what you pay depends on how long your questions and answers are.</p>
+      <p>Score is out of 100. Cost is in US dollars, to compare models with (<a href="#how-picked">how the picks are made</a> says which cost); what you pay depends on how long your questions and answers are.</p>
       <!-- models:picks -->
       <div class="table picks">
         <table>
@@ -171,8 +171,8 @@
       <h2 id="how-picked">How the picks are made</h2>
       <p>A script on this site reads the benchmark's numbers and applies the same rules every time, so the picks change only when the numbers do:</p>
       <ul>
-        <li><strong>Writes the verdict, and verifies:</strong> the highest score. When the same model at a lower thinking setting scores within 5 points for a third of the cost or less, the table says so.</li>
-        <li><strong>Models that draft:</strong> the best score among models that cost a tenth of the top pick's cost per task or less, one per maker.</li>
+        <li><strong>Writes the verdict, and verifies:</strong> the highest score among models with a known cost. When the same model at a lower thinking setting scores within 5 points for a third of the cost or less, the table says so.</li>
+        <li><strong>Models that draft:</strong> the best score among models that cost a tenth of the top pick's or less, one per maker.</li>
         <li><strong>Decides, in Triage:</strong> the cheapest models that score at least half the top score, one per maker.</li>
         <li><strong>Thinking settings Ixel can use:</strong> through the API Ixel uses for every maker but Anthropic, <code>xhigh</code> and <code>max</code> are sent as <code>high</code>. So those settings only count for Claude models.</li>
       </ul>
@@ -208,7 +208,7 @@ agent = "luna"                # a fast, cheap model of yours</code></pre>
       <p>The names (<code>opus</code>, <code>gpt</code>, <code>luna</code>) are what you called each model in <code>ixel setup</code>. Each one's model and thinking setting are picked in <strong>Settings</strong>, Models, or with <code>ixel model</code>; <a href="../setup/#pick-a-model">Set up your models</a> says how.</p>
 
       <h2 id="credit">Where the numbers come from</h2>
-      <p>The scores and costs are from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, an independent company that tests AI models and keeps its results up to date as new ones come out. Ixel isn't connected with them. This page is refreshed from their numbers, and the date at the top says when. Your Ixel app doesn't contact them; only this site's build does.</p>
+      <p>The scores and costs are from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, an independent company that tests AI models and keeps its results up to date as new ones come out. Ixel isn't connected with them. This page is refreshed from their numbers, and the date at the top says when. Your Ixel app doesn't contact them; only the script that updates this page does.</p>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->
         <a class="prev" href="../handoff/"><span>Previous</span>Handoff: agents as a team</a>

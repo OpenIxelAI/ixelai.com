@@ -216,7 +216,7 @@ Files: tests/test_orders.py</pre>
       <pre class="code"><code>handoff approve T-7 codex       # you approve one task, for one run
 handoff worker --agent codex    # runs it, then waits for your next approval</code></pre>
       <ul>
-        <li><strong>Linux:</strong> the agent runs inside a sandbox (bubblewrap) that shows it only that copy, with no network and none of your home folder. It can run your tests and builds.</li>
+        <li><strong>Linux:</strong> the agent runs inside a sandbox (bubblewrap) that shows it only that copy of your files and none of your home folder, and the commands it runs have no network. It can run your tests and builds.</li>
         <li><strong>Mac and Windows, for now:</strong> Claude Code only, and edit-only: it can read and change files, but can't run commands, tests or builds, and its handback says so.</li>
       </ul>
       <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and merge it yourself. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>

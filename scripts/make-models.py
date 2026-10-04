@@ -65,6 +65,11 @@ def best_per(models: list[dict], key) -> list[dict]:
     return list(best.values())
 
 
+def known(cost) -> bool:
+    """A cost to compare by. A price of 0 or none means the benchmark didn't say, not that it's free."""
+    return isinstance(cost, (int, float)) and cost > 0
+
+
 def usable(m: dict) -> bool:
     """Whether Ixel can run the model at this setting. Ixel sends xhigh and max as high through the
     OpenAI-style API it uses for every maker but Anthropic (and for model servers on your computer), so
@@ -75,8 +80,11 @@ def usable(m: dict) -> bool:
 def pick(all_models: list[dict]) -> dict:
     """The picks, by the rules the models page states."""
     models = [m for m in all_models if usable(m)]
-    priced = [m for m in models if m.get("cost") is not None]
-    top = max(models, key=lambda m: (m["score"], -(m.get("cost") or 0)))
+    priced = [m for m in models if known(m.get("cost"))]
+    if not priced:
+        raise SystemExit("No model in data.json has a cost, so there's nothing to pick by")
+    # The top pick needs a cost: the other picks are measured against it
+    top = max(priced, key=lambda m: (m["score"], -m["cost"]))
     family = [m for m in priced if m["name"] == top["name"]]
     # The same model at a setting that costs a third as much or less, if one scores within 5
     cheaper = [m for m in family if m["cost"] <= top["cost"] / 3 and m["score"] >= top["score"] - 5]
@@ -117,7 +125,7 @@ def e(text) -> str:
 
 
 def money(cost) -> str:
-    return "not shown" if cost is None else f"${cost:,.3f}" if cost < 0.1 else f"${cost:,.2f}"
+    return "not shown" if not known(cost) else f"${cost:,.3f}" if cost < 0.1 else f"${cost:,.2f}"
 
 
 def how(m: dict, up: str) -> str:
@@ -159,7 +167,8 @@ def picks_html(data: dict, p: dict) -> str:
 
 
 def fresh_html(data: dict) -> str:
-    when = dt.date.fromisoformat(data["read_on"]).strftime("%-d %B %Y")
+    day = dt.date.fromisoformat(data["read_on"])
+    when = f"{day.day} {day:%B %Y}"  # (%-d isn't on Windows)
     return (f'\n      <p class="fresh"><span>Picks from <a href="{e(data["source_url"])}">{e(data["source"])}</a>, '
             f'read {e(when)}</span></p>\n      ')
 
@@ -192,8 +201,8 @@ def local_html(data: dict, p: dict) -> str:
 
 # ── Reading Artificial Analysis ───────────────────────────────────────────
 
-EFFORT = re.compile(r"^(.*?)\s*\(([^()]*)\)\s*$")
-SIZE = re.compile(r"(\d+(?:\.\d+)?)B(?:\s*A(\d+(?:\.\d+)?)B)?\b")
+EFFORT = re.compile(r"^(.*?)\s*\(([^()\d]*)\)\s*$")  # "(high)", "(max)"; not a date like "(Sep '25)"
+SIZE = re.compile(r"(\d+(?:\.\d+)?)B(?:\s*A(\d+(?:\.\d+)?)B)?\b", re.IGNORECASE)
 
 
 def fetch(data: dict) -> dict:
@@ -203,7 +212,7 @@ def fetch(data: dict) -> dict:
     request = urllib.request.Request(API, headers={"x-api-key": key, "User-Agent": "ixelai.com docs"})
     with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - a fixed https address
         rows = json.load(response).get("data", [])
-    known = {(m["name"], m.get("effort")): m for m in data["models"]}
+    before = {(m["name"], m.get("effort")): m for m in data["models"]}
     open_makers = {m["creator"] for m in data["models"] if m.get("open")}
     models = []
     for r in rows:
@@ -215,8 +224,9 @@ def fetch(data: dict) -> dict:
         name, effort = (match.group(1), match.group(2)) if match else (full, None)
         creator = (r.get("model_creator") or {}).get("name") or ""
         price = (r.get("pricing") or {}).get("price_1m_blended_3_to_1")
+        price = price if known(price) else None
         m = {"name": name, "creator": creator, "effort": effort, "score": round(score), "cost": price}
-        old = known.get((name, effort)) or next((k for (n, _), k in known.items() if n == name), None)
+        old = before.get((name, effort)) or next((k for (n, _), k in before.items() if n == name), None)
         if old and old.get("open"):
             m.update({k: old[k] for k in ("open", "params", "active") if k in old})
         elif creator in open_makers and (size := SIZE.search(name)):
@@ -255,8 +265,9 @@ def main() -> int:
     data = json.loads(DATA.read_text(encoding="utf-8"))
     if args.fetch:
         data = fetch(data)
+    p = pick(data["models"])  # before data.json changes: data the picks can't be made from isn't kept
+    if args.fetch:
         DATA.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    p = pick(data["models"])
     pages = {
         MODELS_PAGE: {"fresh": fresh_html(data), "picks": picks_html(data, p), "method": method_html(data, p)},
         LOCAL_PAGE: {"fresh": fresh_html(data), "local": local_html(data, p)},
