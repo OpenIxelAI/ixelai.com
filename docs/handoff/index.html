@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Handoff · Ixel docs</title>
+<meta name="description" content="Handoff lets Claude Code, Codex, Gemini CLI, OpenCode, Grok Build and Claude Desktop work as a team on one project, through a task board with handoff notes and reviews.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Handoff: agents as a team">
+<meta property="og:description" content="A task board your AI agents share: tasks, handoffs and reviews.">
+<meta property="og:url" content="https://ixelai.com/docs/handoff/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/handoff/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/" aria-current="page">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Use Ixel</div>
+      <h1>Handoff: agents as a team</h1>
+      <p class="lede">Say "Codex, take the tests; Claude, do the API" and the work, notes and reviews pass between them through a task board they share. You stop being the one who copies and pastes between AI apps.</p>
+
+      <h2 id="how-it-works">How it works</h2>
+      <p>Each project (a git repository) gets one board, a small database in the project's <code>.handoff</code> folder. Each of your AI apps gets a <code>handoff</code> plugin (an MCP server) that reads and writes that board under the app's own name. Agents create tasks, hand them to each other with notes on what's done, what's left and how to check it, and ask each other for reviews.</p>
+      <p><strong>Nothing wakes the other app up.</strong> An AI app only acts when you prompt it, and a plugin can't push a message into a chat. So after one agent hands work over, you switch to the other app and say:</p>
+      <pre class="code"><code>check your handoffs</code></pre>
+      <p>That's the whole routine. A new Claude Code session hears what's waiting for it on its own.</p>
+      <p>Handoff itself stores and serves text. It doesn't edit your files or call a model; the agents do the work with their own tools and their own approvals. It never listens on the network.</p>
+
+      <h2 id="connect-your-apps">Connect your apps</h2>
+      <p>Handoff comes with Ixel's installer. In your project's folder, run:</p>
+      <pre class="code"><code>handoff setup --write</code></pre>
+      <p>Then restart the apps. It only touches apps that are installed, keeps everything else in their settings, and is safe to run again. <code>handoff setup</code> without <code>--write</code> shows what it would add, and <code>handoff setup --remove</code> takes it all out again.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>App</th><th>Which project it uses</th><th>Hears what's waiting on its own</th></tr></thead>
+          <tbody>
+            <tr><td>Claude Code</td><td>The folder you open it in, so one setup covers every project</td><td>Yes, when a session starts</td></tr>
+            <tr><td>Codex (CLI, IDE extension or app)</td><td>The folder you run it in</td><td>No, say "check your handoffs"</td></tr>
+            <tr><td>Gemini CLI</td><td>The folder you run it in</td><td>No</td></tr>
+            <tr><td>OpenCode</td><td>The folder you run it in</td><td>No</td></tr>
+            <tr><td>Grok Build</td><td>The folder you run <code>grok</code> in</td><td>No</td></tr>
+            <tr><td>Claude Desktop</td><td>The project you ran setup in (it has no folder of its own); run setup in another project to switch</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Claude Code's session start note says only which tasks are waiting, by number ("2 tasks are assigned to you: T-3, T-7"), never their titles or notes. <code>--no-hook</code> leaves it out.</p>
+      <div class="callout warn"><span class="label">ChatGPT</span><p>The ChatGPT app isn't supported: it only connects to plugins on the internet, and Handoff never listens on the network. Codex signs in with the same ChatGPT subscription and works.</p></div>
+      <p><code>handoff doctor</code> checks the project, the board, and which apps have Handoff set up.</p>
+
+      <h2 id="walkthrough">Walkthrough</h2>
+      <p>You're adding an orders endpoint, and you want Codex on the tests while Claude builds the endpoint.</p>
+      <ol class="steps-doc">
+        <li>
+          <h3>In Claude Code or Claude Desktop</h3>
+          <blockquote>Split this feature. Hand the tests to Codex, and you do the endpoint.</blockquote>
+          <p>Claude makes two tasks: <em>Add /api/orders</em> for itself, and <em>Tests for /api/orders</em> for Codex, with notes and checks to meet ("tests/test_orders.py covers GET and POST"). It claims the files it will change, starts on the endpoint, and tells you to ask Codex to check its handoffs.</p>
+        </li>
+        <li>
+          <h3>In Codex</h3>
+          <blockquote>Check your handoffs.</blockquote>
+          <p>Codex sees the task with Claude's notes, takes it, writes the tests, and hands it back with what it did:</p>
+          <figure class="term">
+            <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+            <pre>Done: Tests written in tests/test_orders.py
+Left: 2 fail until the endpoint lands
+Verify: pytest tests/test_orders.py
+Files: tests/test_orders.py</pre>
+          </figure>
+        </li>
+        <li>
+          <h3>Back in Claude</h3>
+          <blockquote>Anything from Codex?</blockquote>
+          <p>Claude reads the handoff, finishes the endpoint and runs the tests. It asks Codex to review the endpoint (or asks your Ixel panel). Codex marks each check met, not met or not checked, so Claude sees exactly what still needs work. When the review approves, Claude marks both tasks done.</p>
+        </li>
+        <li>
+          <h3>Any time, in a terminal or the app</h3>
+          <p><code>handoff board</code> shows who's doing what:</p>
+          <figure class="term">
+            <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+            <pre><span class="in">handoff board</span>
+
+  <span class="hi">Handoff board</span>  6 active · 2 open · 1 in_progress · 1 handed_off · 1 in_review · 1 blocked · 1 done
+  <span class="dim">~/code/shop</span>
+
+ Task   Status        Assignee   Title                           Updated   Last
+ ─────────────────────────────────────────────────────────────────────────────────────────────
+ T-5    in_review     you        Fix the cart total's rounding   17m ago   codex asked you for a review
+ T-2    handed_off    claude     Tests for /api/orders           17m ago   codex handed it to claude
+ T-4    blocked       claude     Take payments at checkout       17m ago   claude set it claimed → blocked, waiting on you
+ T-1    in_progress   claude     Add /api/orders                 17m ago   claude added a note and set it claimed → in_progress
+ T-7    open          —          Make a logo for the shop        17m ago   you created it
+ T-3    open          codex      Update the API docs             17m ago   you created it, assigned to codex</pre>
+          </figure>
+          <p><code>handoff T-2</code> prints one task with its whole history, and what you can do with it next:</p>
+          <figure class="term">
+            <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+            <pre><span class="in">handoff T-2</span>
+  T-2  handed_off  assigned to claude
+  <span class="hi">Tests for /api/orders</span>
+  <span class="dim">created by claude 17m ago · updated 17m ago</span>
+  <span class="dim">claims tests/test_orders.py</span>
+
+  Cover both routes.
+
+  Acceptance
+  ☐ 1. tests/test_orders.py covers GET and POST
+  ☐ 2. pytest runs without network
+
+  History
+  <span class="dim">2026-10-04 10:17 UTC</span>  claude created it, assigned to codex
+  <span class="dim">2026-10-04 10:17 UTC</span>  codex claimed it
+  <span class="dim">2026-10-04 10:17 UTC</span>  codex claimed paths
+      tests/test_orders.py
+  <span class="dim">2026-10-04 10:17 UTC</span>  codex handed it to claude
+      Done: Tests written in tests/test_orders.py
+      Left: 2 fail until the endpoint lands
+      Verify: pytest tests/test_orders.py
+      Files: tests/test_orders.py
+
+  Next: claude picks it up in its app when you say "check your handoffs".
+  Or run it now: handoff approve T-2 claude</pre>
+          </figure>
+          <p>The <a href="../app/#board">Board in the Ixel app</a> shows the same board in columns, and lets you act on each task with a click.</p>
+        </li>
+      </ol>
+      <figure class="shot">
+        <img src="../images/app-board.webp" width="2960" height="1600" loading="lazy" alt="The same board in the Ixel app, in columns: waiting on you, with agents, not assigned, blocked and done">
+        <figcaption>The same project's board in the Ixel app.</figcaption>
+      </figure>
+
+      <h2 id="dispatch">Hand out a whole list at once</h2>
+      <p>Start each part with who does it, and Handoff splits the request by plain rules (no model guesses), shows you the plan, and on a yes runs every part at the same time:</p>
+      <figure class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+        <pre><span class="in">handoff dispatch "codex review my changes, grok make pictures of my app, claude finish the next step, and gemini make me a list of projects to check out"</span>
+  1. Codex reviews · your uncommitted changes
+     Review your uncommitted changes
+  2. Grok makes pictures · 2 pictures, based on README.md
+     Make pictures of my app
+  3. Claude changes files
+     Finish the next step
+  4. Gemini answers
+     Make me a list of projects to check out
+  Run these 4 tasks? [Y/n]</pre>
+      </figure>
+      <div class="table">
+        <table>
+          <thead><tr><th>Kind</th><th>Who</th><th>Where the result is</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Change files</strong> ("finish", "fix", "build", "the next step")</td><td>claude, codex</td><td>A branch of its own, <code>handoff/T-N</code>, for you to review and merge</td></tr>
+            <tr><td><strong>Review</strong> ("review", "audit")</td><td>Any model you added in <code>ixel setup</code></td><td>The task, and <code>.handoff/outputs/T-N/answer.md</code></td></tr>
+            <tr><td><strong>Answer</strong> (anything else)</td><td>Any model you added in <code>ixel setup</code></td><td>The task, and <code>.handoff/outputs/T-N/answer.md</code></td></tr>
+            <tr><td><strong>Pictures</strong> ("make pictures", "draw a logo")</td><td>grok (xAI), gpt (OpenAI), with your key</td><td><code>.handoff/outputs/T-N/</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A part that can't run here says why (not set up, no key, nothing to review) and the rest still run. <code>handoff agents</code> shows who can do what on this computer. In the Ixel app, type <code>/handoff</code> in Ask to do the same thing.</p>
+
+      <h2 id="worker">Let an agent work while you're away</h2>
+      <p>The worker (a preview) runs Claude Code or Codex on one task you approve, in a copy of your project on a branch of its own. It never pushes, and your own checkout isn't touched:</p>
+      <pre class="code"><code>handoff approve T-7 codex       # you approve one task, for one run
+handoff worker --agent codex    # runs it, then waits for your next approval</code></pre>
+      <ul>
+        <li><strong>Linux:</strong> the agent runs inside a sandbox (bubblewrap) that shows it only that copy, with no network and none of your home folder. It can run your tests and builds.</li>
+        <li><strong>Mac and Windows, for now:</strong> Claude Code only, and edit-only: it can read and change files, but can't run commands, tests or builds, and its handback says so.</li>
+      </ul>
+      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and merge it yourself. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
+
+      <h2 id="your-controls">Your controls</h2>
+      <p>At the command line you're <code>human</code> on the board, shown as "you", and you can do what agents can't. <code>me</code> means you wherever you name someone.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>handoff</code>, <code>handoff board --watch</code></td><td>This project's board; <code>--watch</code> keeps it refreshing</td></tr>
+            <tr><td><code>handoff T-12</code></td><td>One task with its whole history</td></tr>
+            <tr><td><code>handoff add "title" --to codex</code></td><td>Add a task (with no title, it asks what needs doing and who should do it)</td></tr>
+            <tr><td><code>handoff assign T-12 claude</code></td><td>Give a task to someone else (<code>me</code>, or <code>nobody</code>)</td></tr>
+            <tr><td><code>handoff note T-12 "text"</code></td><td>Add a note to any task</td></tr>
+            <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
+            <tr><td><code>handoff done T-12</code>, <code>reopen</code>, <code>block T-12 "why"</code></td><td>Close, reopen, or block a task</td></tr>
+            <tr><td><code>handoff cancel T-12</code>, <code>delete T-12</code></td><td>Cancel (keeps the history), or delete for good (asks first)</td></tr>
+            <tr><td><code>handoff done-rule review</code></td><td>Agents may mark tasks done only after an approving review</td></tr>
+            <tr><td><code>handoff update</code>, <code>handoff help</code></td><td>Get the latest Handoff; every command</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="the-rules">The rules</h2>
+      <p>The board checks these itself. It doesn't trust what an agent says about who it is.</p>
+      <ul>
+        <li><strong>Only the assignee</strong> can add notes to a task, hand it on, ask for a review or change its status. Nobody reviews their own work.</li>
+        <li><strong>Done needs a review, or a reason.</strong> By default an agent can mark a task done after an approving review, or by saying why it doesn't need one.</li>
+        <li><strong>History is kept.</strong> Agents can't delete tasks or edit the history; only you can, from the command line.</li>
+        <li><strong>Files are claimed, not locked.</strong> When two active tasks claim the same files, both agents are warned.</li>
+        <li><strong>No secrets.</strong> Text that looks like an API key, a token or a private key is refused, not stored.</li>
+        <li><strong>The board is information, not orders.</strong> When an agent reads it, Handoff tells it the text was written by other agents or by you, to weigh rather than obey.</li>
+      </ul>
+      <div class="callout warn"><span class="label">Agents with a shell</span><p>These rules bind the plugin. An agent that can run commands as you (Claude Code's Bash, Codex's shell) can also run the <code>handoff</code> command as you. Deny it <code>handoff approve</code>, <code>handoff delete</code> and <code>handoff run</code> in its permission settings.</p></div>
+
+      <h2 id="where-things-live">Where things live</h2>
+      <ul>
+        <li>The board is <code>.handoff/board.db</code> in your project. On a Mac and Linux, only you can read it. It keeps every task's text and history until you delete the task or the folder; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
+        <li><code>.handoff/</code> keeps itself out of git, so the board isn't committed with your work.</li>
+        <li>Handoff has no settings of its own, so nothing in a project folder can make Handoff run anything.</li>
+      </ul>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <ul>
+        <li><strong>"No project found":</strong> run the command inside your project (a git repository), or add <code>--project PATH</code>. If an app says this, run <code>handoff setup --write</code> in the project and restart the app.</li>
+        <li><strong>An agent can't see a task:</strong> ask it to look at the board. Tasks are per project, so check the app is open in the same project. <code>handoff doctor</code> shows where Claude Desktop points.</li>
+        <li><strong>Codex gives up on a review with the Ixel panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
+      </ul>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../terminal/"><span>Previous</span>In the terminal</a>
+        <a class="next" href="../models/"><span>Next</span>Which model for each job</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#connect-your-apps">Connect your apps</a></li>
+        <li><a href="#walkthrough">Walkthrough</a></li>
+        <li><a href="#dispatch">Hand out a whole list at once</a></li>
+        <li><a href="#worker">Let an agent work while you're away</a></li>
+        <li><a href="#your-controls">Your controls</a></li>
+        <li><a href="#the-rules">The rules</a></li>
+        <li><a href="#where-things-live">Where things live</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

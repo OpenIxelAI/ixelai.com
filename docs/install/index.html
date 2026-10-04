@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Install · Ixel docs</title>
+<meta name="description" content="Install Ixel on Windows, macOS or Linux with one command, step by step: what it asks, what it changes, how to update it and how to remove it.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Install Ixel">
+<meta property="og:description" content="One command on Windows, macOS or Linux, step by step.">
+<meta property="og:url" content="https://ixelai.com/docs/install/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/install/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/" aria-current="page">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Get started</div>
+      <h1>Install Ixel</h1>
+      <p class="lede">One command installs Ixel MAT, Handoff and the Ixel app. It needs no administrator rights, and running it again updates everything it installed.</p>
+
+      <h2 id="before-you-start">Before you start</h2>
+      <div class="table">
+        <table>
+          <thead><tr><th>You need</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 10 or 11, macOS 12 or newer, or Linux</td><td>On Linux it's been tried on Ubuntu, Debian, Fedora and Arch.</td></tr>
+            <tr><td>Python 3.10 or newer</td><td>On Windows, and on a Mac with Homebrew, the installer offers to install it. On Debian and Ubuntu you also need <code>python3-venv</code>.</td></tr>
+            <tr><td>Git</td><td>On Windows the installer offers to install it. On a Mac it comes with Apple's Command Line Tools, which the installer offers to open.</td></tr>
+            <tr><td>At least one AI</td><td>An API key, a subscription program such as Claude Code or Codex, or a local model in Ollama or LM Studio. You add them after installing, in <a href="../setup/">setup</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>You can read the installers before you run them: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> for Windows and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a> for macOS and Linux.</p>
+
+      <h2 id="pick">Everything, or one tool</h2>
+      <p>Most people want all of Ixel. If you only want one tool, each has its own line, and you can add the other later by running its line.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Installs</th><th>Windows (PowerShell)</th><th>macOS and Linux</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Ixel</strong>: Ixel MAT, Handoff and the app</td><td><code>irm https://ixelai.com/install.ps1 | iex</code></td><td><code>curl -fsSL https://ixelai.com/install.sh | sh</code></td></tr>
+            <tr><td>Ixel MAT and the app</td><td><code>irm https://ixelai.com/ixel-mat/install.ps1 | iex</code></td><td><code>curl -fsSL https://ixelai.com/ixel-mat/install.sh | sh</code></td></tr>
+            <tr><td>Handoff</td><td><code>irm https://ixelai.com/handoff/install.ps1 | iex</code></td><td><code>curl -fsSL https://ixelai.com/handoff/install.sh | sh</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="step-by-step">Step by step</h2>
+      <div class="tabs">
+        <section class="tab-panel" data-tab="windows">
+          <h3 class="tab-title">Windows</h3>
+          <ol class="steps-doc">
+            <li>
+              <h3>Open PowerShell</h3>
+              <p>Press the Windows key, type <strong>PowerShell</strong>, and open <strong>Windows PowerShell</strong>. Open it the normal way, not with "Run as administrator": Ixel installs into your own user folder.</p>
+            </li>
+            <li>
+              <h3>Run the installer</h3>
+              <p>Paste this line and press <kbd>Enter</kbd>:</p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </li>
+            <li>
+              <h3>Say yes to Git and Python, if it asks</h3>
+              <p>If Git is missing, it asks <q>Git is needed to download Ixel. Install Git now with winget? [Y/n]</q>. If Python is missing or older than 3.10, it asks <q>Install Python 3.13 now with winget (Microsoft's installer)? [Y/n]</q>. Press <kbd>Enter</kbd> for yes. winget is the installer that comes with Windows; it may show its own progress, and Windows may ask you to allow the change.</p>
+            </li>
+            <li>
+              <h3>Wait for "Ixel is installed"</h3>
+              <p>It downloads Ixel MAT and Handoff with Git, makes a private Python environment for each, and adds the <code>ixel</code> and <code>handoff</code> commands and an <strong>Ixel</strong> entry in the Start Menu. Then it says:</p>
+              <figure class="term ps">
+                <div class="term-bar"><i></i><i></i><i></i><span>Windows PowerShell</span></div>
+                <pre><span class="ok">Ixel is installed.</span>
+Open Ixel from the Start Menu.
+Open a new terminal window first, so it finds the new commands. Then:
+  ixel setup               add your models and keys
+  handoff setup --write    in a project folder: connect Claude Code, Codex and Claude Desktop
+To update Ixel later, run the same install command again.</pre>
+                <figcaption>The installer's last lines, as <code>install.ps1</code> prints them.</figcaption>
+              </figure>
+            </li>
+            <li>
+              <h3>Open a new window, and add your models</h3>
+              <p>Close PowerShell and open a new window, so it finds the new commands. Then run <code>ixel setup</code>: see <a href="../setup/">Set up your models</a>.</p>
+            </li>
+          </ol>
+          <div class="callout">
+            <span class="label">Smart App Control</span>
+            <p>Windows 11's Smart App Control blocks programs that aren't signed, and the <code>ixel.exe</code> that Python's installer writes isn't. So the installer makes <code>ixel</code> a small <code>ixel.cmd</code> that runs the environment's own <code>python.exe</code>, which is signed, and the Start Menu's Ixel starts the same way. Handoff does the same where Smart App Control is on.</p>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-tab="mac">
+          <h3 class="tab-title">macOS</h3>
+          <ol class="steps-doc">
+            <li>
+              <h3>Open Terminal</h3>
+              <p>It's in Applications, in the Utilities folder, or press <kbd>⌘</kbd> <kbd>Space</kbd> and type <strong>Terminal</strong>.</p>
+            </li>
+            <li>
+              <h3>Run the installer</h3>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </li>
+            <li>
+              <h3>Install Apple's Command Line Tools, if it asks</h3>
+              <p>They bring Git and the compiler that builds Ixel's Mac app. If they're missing, the installer asks <q>Open Apple's installer for them now? [Y/n]</q>. Press <kbd>Enter</kbd>, finish Apple's installer in its own window, then run the same command again.</p>
+            </li>
+            <li>
+              <h3>Install Python, if it asks</h3>
+              <p>If you have no Python 3.10 or newer and you use Homebrew, it offers <code>brew install python@3.13</code>. Without Homebrew, get Python from <a href="https://www.python.org/downloads/">python.org</a> and run the command again.</p>
+            </li>
+            <li>
+              <h3>Open a new window, and add your models</h3>
+              <p>When it says <q>Ixel is installed</q>, open a new Terminal window and run <code>ixel setup</code>. Ixel is in the <strong>Applications</strong> folder inside your home folder (<code>~/Applications</code>), and Spotlight finds it.</p>
+            </li>
+          </ol>
+          <div class="callout">
+            <span class="label">The Mac app</span>
+            <p>The installer builds <strong>Ixel.app</strong>, a native window with its own Dock icon, using the Command Line Tools. If it can't, Ixel opens in Chrome's or Edge's app mode until you install them and run <code>ixel update</code>. If you already have an app called Ixel that isn't this one, Ixel's is called <strong>Ixel MAT</strong> instead, and the installer says so.</p>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-tab="linux">
+          <h3 class="tab-title">Linux</h3>
+          <ol class="steps-doc">
+            <li>
+              <h3>Run the installer</h3>
+              <p>In a terminal:</p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+              <p>It never uses <code>sudo</code>. If Git, Python or <code>python3-venv</code> is missing, it stops and prints the command that installs it for your system (<code>sudo apt install python3-venv</code> on Debian and Ubuntu, for example). Run that, then the same command again.</p>
+            </li>
+            <li>
+              <h3>Read what it did</h3>
+              <figure class="term">
+                <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+                <pre><span class="in">curl -fsSL https://ixelai.com/install.sh | sh</span>
+Installing Ixel: Ixel MAT and Handoff.
+
+<span class="hi">== Ixel MAT</span>
+Getting the source into /home/you/.local/share/ixel-mat/repo
+Using Python 3.11.15 at /usr/bin/python3
+Added /home/you/.local/bin to PATH in /home/you/.bashrc
+
+Ixel MAT installed from /home/you/.local/share/ixel-mat/repo
+Command: /home/you/.local/bin/ixel
+App:     Ixel in your app menu (or: ixel app), in Chrome's app mode or your browser for now
+  For Ixel's own window:  sudo apt install python3-gi gir1.2-webkit2-4.1
+Next:    ixel setup
+Update:  ixel update
+<span class="dim">…</span>
+
+<span class="hi">== Handoff</span>
+Getting the source into /home/you/.local/share/handoff/repo
+Using Python 3.11.15 at /usr/bin/python3
+
+Handoff installed from /home/you/.local/share/handoff/repo
+Command: /home/you/.local/bin/handoff
+Next:    cd into a project, then run: handoff setup --write
+<span class="dim">…</span>
+
+<span class="ok">Ixel is installed.</span>
+Open Ixel from your app menu.
+Open a new terminal window first, so it finds the new commands. Then:
+  ixel setup               add your models and keys
+  handoff setup --write    in a project folder: connect Claude Code, Codex and Claude Desktop
+To update Ixel later, run the same install command again.</pre>
+                <figcaption>A real run on Ubuntu, which took 40 seconds. Two lines of each tool's "Remove" and PATH notes are left out.</figcaption>
+              </figure>
+            </li>
+            <li>
+              <h3>Get Ixel's own window (optional)</h3>
+              <p>Ixel opens in a native GTK window when your system's Python has GTK and WebKit. Without them it uses Chrome's or Chromium's app mode, or your browser. To get the window:</p>
+              <pre class="code"><code>sudo apt install python3-gi gir1.2-webkit2-4.1</code></pre>
+              <p>or on Fedora <code>sudo dnf install python3-gobject webkit2gtk4.1</code>.</p>
+            </li>
+            <li>
+              <h3>Open a new window, and add your models</h3>
+              <p>Open a new terminal window and run <code>ixel setup</code>. Ixel is in your app menu.</p>
+            </li>
+          </ol>
+          <div class="callout">
+            <span class="label">Another shell</span>
+            <p>The installer adds <code>~/.local/bin</code> to your PATH for bash, zsh and fish. With another shell it prints the line to add instead. For sh, dash or ksh, put <code>export PATH="$HOME/.local/bin:$PATH"</code> in <code>~/.profile</code>, then log out and back in.</p>
+          </div>
+        </section>
+      </div>
+
+      <h2 id="what-it-changes">What the installer changes</h2>
+      <p>Everything goes in your own user folder:</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>What</th><th>Windows</th><th>macOS and Linux</th></tr></thead>
+          <tbody>
+            <tr><td>Ixel MAT: its code and a private Python environment</td><td><code>%LOCALAPPDATA%\IxelMAT</code></td><td><code>~/.local/share/ixel-mat</code></td></tr>
+            <tr><td>Handoff: the same</td><td><code>%LOCALAPPDATA%\Handoff</code></td><td><code>~/.local/share/handoff</code></td></tr>
+            <tr><td>The <code>ixel</code> and <code>handoff</code> commands</td><td><code>%USERPROFILE%\.local\bin</code>, added to your user PATH</td><td><code>~/.local/bin</code>, added to your shell's startup file</td></tr>
+            <tr><td>The Ixel app</td><td>Start Menu: <strong>Ixel</strong></td><td>Mac: <code>~/Applications/Ixel.app</code>. Linux: your app menu</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>It never touches your system's Python, and never deletes work of yours: if a tool's folder holds changes you made, it stops and says so instead of replacing them.</p>
+
+      <h2 id="check">Check that it worked</h2>
+      <p>In a new terminal window:</p>
+      <pre class="code"><code>ixel doctor</code></pre>
+      <p>It checks each part of Ixel (your settings, each model, Handoff, Git, the window, and SSH once you have machines), and prints the one line that fixes each problem. <code>ixel doctor --check</code> also asks each model's server whether it answers. The app's <strong>Health</strong> page shows the same. For Handoff, run <code>handoff doctor</code> in a project folder.</p>
+
+      <h2 id="update">Update</h2>
+      <p>Run <code>ixel update</code> and <code>handoff update</code>, or run the install command again. The <code>ixel</code> chat in the terminal looks once a day and tells you when there's something new (it runs <code>git fetch</code> against GitHub). To turn that off, add this to Ixel's settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
+      <pre class="code"><code>[updates]
+check = false</code></pre>
+
+      <h2 id="uninstall">Uninstall</h2>
+      <p>First take Handoff out of the apps it connected (Claude Code, Codex and the rest):</p>
+      <pre class="code"><code>handoff setup --remove</code></pre>
+      <p>Then remove the programs:</p>
+      <div class="tabs">
+        <section class="tab-panel" data-tab="windows">
+          <h3 class="tab-title">Windows</h3>
+          <pre class="code"><code>Remove-Item -Recurse -Force "$env:LOCALAPPDATA\IxelMAT", "$HOME\.local\bin\ixel.cmd", "$([Environment]::GetFolderPath('Programs'))\Ixel.lnk"
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\Handoff", "$HOME\.local\bin\handoff.exe"</code></pre>
+          <p>Where Smart App Control is on, Handoff's command is <code>handoff.cmd</code> instead of <code>handoff.exe</code>.</p>
+        </section>
+        <section class="tab-panel" data-tab="mac">
+          <h3 class="tab-title">macOS</h3>
+          <pre class="code"><code>rm -rf ~/.local/share/ixel-mat ~/.local/bin/ixel ~/Applications/Ixel.app
+rm -rf ~/.local/share/handoff ~/.local/bin/handoff</code></pre>
+        </section>
+        <section class="tab-panel" data-tab="linux">
+          <h3 class="tab-title">Linux</h3>
+          <pre class="code"><code>rm -rf ~/.local/share/ixel-mat ~/.local/bin/ixel "${XDG_DATA_HOME:-$HOME/.local/share}/applications/ixel.desktop"
+rm -rf ~/.local/share/handoff ~/.local/bin/handoff</code></pre>
+        </section>
+      </div>
+      <p>If the installer named Ixel's app <strong>Ixel MAT</strong> (because you had another app called Ixel), use that name: <code>Ixel MAT.lnk</code>, <code>Ixel MAT.app</code> or <code>ixel-mat.desktop</code>. Your settings, keys and history stay until you delete them; <a href="../privacy/#on-your-computer">Privacy</a> lists every file and where it is.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <h3 id="not-found">"ixel" isn't found</h3>
+      <p>Open a new terminal window: the one you installed from doesn't know about the new commands yet. If a new window doesn't find it either, your shell isn't one the installer knows; add <code>~/.local/bin</code> to your PATH as the installer said.</p>
+      <h3 id="install-stopped">"Install stopped"</h3>
+      <p>The lines above it say why, and what to install or change. Fix that and run the same command again. Running it more than once is safe: it updates what's there.</p>
+      <h3 id="git-login">Git asks for a username and password</h3>
+      <p>The installer downloads Ixel MAT and Handoff from their repositories on GitHub. While a repository isn't public yet, Git asks for a GitHub login that has access to it. Git doesn't take your GitHub password there: run <code>gh auth login</code> first with the <a href="https://cli.github.com">GitHub CLI</a>, or paste a personal access token when it asks for a password.</p>
+      <h3 id="windows-admin">It says I need to be an administrator</h3>
+      <p>Ixel itself doesn't. Installing Git or Python with winget may ask Windows for permission; that's winget, and you can say no and install them yourself instead.</p>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../"><span>Previous</span>Overview</a>
+        <a class="next" href="../setup/"><span>Next</span>Set up your models</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#before-you-start">Before you start</a></li>
+        <li><a href="#pick">Everything, or one tool</a></li>
+        <li><a href="#step-by-step">Step by step</a></li>
+        <li><a href="#what-it-changes">What the installer changes</a></li>
+        <li><a href="#check">Check that it worked</a></li>
+        <li><a href="#update">Update</a></li>
+        <li><a href="#uninstall">Uninstall</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

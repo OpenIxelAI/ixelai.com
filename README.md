@@ -11,6 +11,8 @@ The IxelAI company site: a few static pages, no build step. This repository is i
 | `install.ps1`, `install.sh` | The one-line installers; see [The installers](#the-installers). Keep them ASCII |
 | `scripts/make-installers.py` | Makes the one-tool installers in `ixel-mat/` and `handoff/` from the root ones |
 | `about/` | Our mission and what we believe |
+| `docs/` | The docs: install, setup, the app, the terminal, Handoff, model picks, local models and privacy. See [The docs](#the-docs) |
+| `scripts/make-docs.py`, `scripts/make-models.py`, `scripts/docs-screenshots.py` | Keep the docs' menus, model picks and app pictures up to date |
 | `styles.css`, `site.js` | Styles and the script (starfield, copy buttons, demo videos) every page shares |
 | `videos/` | The tool pages' demo recordings; see [videos/README.md](videos/README.md) |
 | `fonts/` | The site's fonts, self-hosted so visitors never contact Google, with their licenses |
@@ -23,7 +25,8 @@ GitHub Pages serves but a double-clicked file doesn't, so to click around locall
 `python -m http.server` in this folder and open `http://localhost:8000`. To change it, edit it here and
 push to `main`.
 
-Every page has the same header and footer. When you change one, change it on every page.
+Every page has the same header and footer. When you change one, change it on every page (the docs pages
+get theirs from `scripts/make-docs.py`).
 
 The site makes no requests to anyone else: fonts are in `fonts/` (SIL Open Font License, licenses
 alongside), and every page has a Content Security Policy that allows only this site's own files. Don't add
@@ -61,6 +64,29 @@ GitHub Pages serves all six as they are. The empty `.nojekyll` file at the root 
 nothing is built from the repository's files. Without it, Jekyll turns `README.md`, `SECURITY.md` and
 `videos/README.md` into themed pages that load a script from a CDN, which this site promises never to do.
 Keep it.
+
+## The docs
+
+`docs/` holds one folder per page, each an `index.html`, plus `docs.css`, `docs.js` (the tabs for each
+system, and the menu on a phone; it stores nothing) and `images/`. Write a page's content by hand; three
+scripts fill in the rest, each between `<!-- name -->` and `<!-- /name -->` markers, and each takes
+`--check` to change nothing and fail if a page is out of date:
+
+- **`python scripts/make-docs.py`** writes every docs page's header, menu, "On this page" list, previous
+  and next links, and footer, from the list of pages at the top of the script. Add a page there, then run
+  it. It also fails on a link to a heading that isn't there.
+- **`python scripts/make-models.py`** writes the model picks on `docs/models/` and `docs/local-models/`
+  from `docs/models/data.json`, by the rules in its `pick()`, which the models page states in words. The
+  data is [Artificial Analysis](https://artificialanalysis.ai/)'s; they ask to be credited, which the
+  pages do. To refresh it, make a free API key at artificialanalysis.ai and run
+  `AA_API_KEY=... python scripts/make-models.py --fetch`, then look over the diff and commit. Without a
+  key, edit `data.json` by hand from their public pages and set `read_on`. Each page shows the date the
+  numbers were read.
+- **`python scripts/docs-screenshots.py --ixel-mat ../ixel-mat`** retakes the app pictures in
+  `docs/images/`. It runs the real app from an Ixel MAT checkout, with stand-in models that give scripted
+  answers, an example project board and example machines, in a home folder of its own, so nothing of
+  yours shows. It needs Ixel MAT, Handoff, Playwright's Chromium and Pillow. Look at every picture before
+  committing it, and run it again whenever the app's pages change.
 
 ## GitHub Pages
 

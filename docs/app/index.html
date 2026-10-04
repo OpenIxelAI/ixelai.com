@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>The Ixel app · Ixel docs</title>
+<meta name="description" content="How to use the Ixel app: ask the panel, read its verdict, run your agents' task board, reach your servers, check Ixel's health and change its settings.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="The Ixel app">
+<meta property="og:description" content="Ask, Board, Machines, Health and Settings, with pictures.">
+<meta property="og:url" content="https://ixelai.com/docs/app/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/app/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/" aria-current="page">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Use Ixel</div>
+      <h1>The Ixel app</h1>
+      <p class="lede">One window for all of Ixel. The rail down the left side switches between <strong>Ask</strong>, <strong>Board</strong>, <strong>Machines</strong>, <strong>Health</strong> and <strong>Settings</strong>.</p>
+      <p class="note">The pictures on this page show the app with example models, an example project and example machines. The answers in them are scripted for the pictures.</p>
+
+      <h2 id="open-it">Open it</h2>
+      <ul>
+        <li><strong>Windows:</strong> <strong>Ixel</strong> in the Start Menu. It's Edge (or Chrome) in app mode: no tabs or address bar, and a browser profile of its own, so it doesn't touch your normal browsing.</li>
+        <li><strong>Mac:</strong> <strong>Ixel</strong> in the Applications folder in your home folder, or Spotlight. A native window with its own Dock icon and menus.</li>
+        <li><strong>Linux:</strong> <strong>Ixel</strong> in your app menu. A native window when your system has GTK and WebKit, otherwise Chrome's or Chromium's app mode.</li>
+        <li><strong>From a terminal:</strong> <code>ixel app</code> opens the same window, and <code>ixel gui</code> opens it as a tab in your usual browser.</li>
+      </ul>
+      <p>Ixel stops when you close its window. The page and its server run only on your computer: the server listens on <code>127.0.0.1</code> and needs a one-time key that's in the link Ixel opens, so other people on your network and other websites can't use it.</p>
+
+      <h2 id="ask">Ask</h2>
+      <p>Ask is the panel. Your conversations and the models on your panel are down the side, and each question is a thread.</p>
+      <figure class="shot">
+        <img src="../images/app-ask.webp" width="2560" height="1600" loading="lazy" alt="The Ask page before a question: the panel of four models down the side, and what happens when you ask">
+        <figcaption>Ask, ready for a question. The side shows each model and whether it's ready; the badges say who writes the verdict and who verifies.</figcaption>
+      </figure>
+      <ol class="steps-doc">
+        <li><h3>Type your question</h3><p>Paste code, an error, or a decision you're weighing. <kbd>/</kbd> jumps to the box from anywhere on the page.</p></li>
+        <li><h3>Pick a mode</h3><p>Under the box. The line below says how many model calls it will make.</p></li>
+        <li><h3>Press Ask</h3><p>Or <kbd>Ctrl</kbd> <kbd>Enter</kbd> (<kbd>⌘</kbd> <kbd>Enter</kbd> on a Mac). <strong>Stop</strong> cancels it, and closing the window cancels it too, so a review nobody is watching makes no more calls.</p></li>
+      </ol>
+      <div class="table">
+        <table>
+          <thead><tr><th>Mode</th><th>What happens</th><th>Calls, with 3 models</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Quick</strong></td><td>Every model answers, then one writes the verdict. No peer review.</td><td>4</td></tr>
+            <tr><td><strong>Review</strong></td><td>Answers, then each model grades the others' answers without knowing whose they are, then the verdict.</td><td>7</td></tr>
+            <tr><td><strong>Deep</strong></td><td>Review, plus a round where each model revises its answer after reading the reviews.</td><td>10</td></tr>
+            <tr><td><strong>Saver</strong></td><td>Cheaper models draft and review; your big model only checks the result.</td><td>4 cheap and 1 big, more if a draft is sent back</td></tr>
+            <tr><td><strong>Auto</strong></td><td>Triage picks Quick, Review or Deep for each question. Shown when Triage is on.</td><td>Depends on the question</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="while-it-works">While the panel works</h3>
+      <p>A grid shows each model's progress, round by round: who's answering, who's done and how long it took. With three or more models, one slow model doesn't hold up the rest: once the others are done with a round, it gets as long again as they took (at least 30 seconds), and the review goes on without it if it's still working.</p>
+      <figure class="shot">
+        <img src="../images/app-ask-working.webp" width="2560" height="1600" loading="lazy" alt="A review in progress: round 1 of 3, two models have answered and two are still answering">
+        <figcaption>Round 1 of 3: two models have answered, two are still at it.</figcaption>
+      </figure>
+
+      <h3 id="the-verdict">The verdict</h3>
+      <p>The verdict comes as it's written (from Claude Code or an API model; the other programs deliver it all at once). It says how confident the panel is, what it corrected, and where it disagreed. "High" confidence stands only if some answer was rated correct by every reviewer who graded it; otherwise it shows as medium.</p>
+      <figure class="shot">
+        <img src="../images/app-ask-verdict.webp" width="2560" height="1600" loading="lazy" alt="The verdict: high confidence, the answer, and a correction of one model's mistake, with the run's calls and tokens below">
+        <figcaption>The verdict, with what it corrected. Below it: how many calls the run made, and what it cost.</figcaption>
+      </figure>
+      <p>Under the verdict, <strong>Peer review</strong> shows each model's score and who flagged whom, and <strong>Answers</strong> shows every answer in full. Answers are labeled A, B, C in a random order, and each reviewer sees them in a different order. A model's grade of its own answer doesn't count. When a model rates another answer above its own, the page says it conceded.</p>
+      <figure class="shot">
+        <img src="../images/app-ask-scores.webp" width="2560" height="1600" loading="lazy" alt="The peer review tab: each model's score, the answer that was flagged as wrong, and how much the reviewers agreed">
+        <figcaption>Peer review: the answer that said the pattern was safe was flagged by every other reviewer.</figcaption>
+      </figure>
+
+      <h3 id="follow-ups">Follow-ups</h3>
+      <p>After an answer, your next question is a follow-up: the panel also sees your last three questions and its answers, so "and in Python?" makes sense. <strong>New conversation</strong> starts over, and earlier conversations are down the side. They last as long as the window: closing it clears them.</p>
+
+      <h3 id="attach">Code, pictures and sound</h3>
+      <ul>
+        <li><strong>Code</strong> opens a box for a diff, a file or a document for the panel to check alongside your question. Ixel refuses to send it if it holds what looks like a key or a token, and shows hidden characters as visible markers.</li>
+        <li><strong>Picture</strong> attaches up to 8 pictures (or paste a screenshot, or drop them on the page). Ixel redraws each one, which drops what a camera writes into a photo, such as where it was taken, and keeps it in memory only. Only models that can see pictures get them, and the page says which before you ask. A video gives six of its frames as pictures, and its sound as text.</li>
+        <li><strong>Sound</strong> records a voice note or takes a sound file, and writes its words into your question for you to read over. No model hears the sound: it goes to OpenAI or Groq, with your key, to be written out. Add an <code>OPENAI_API_KEY</code> or <code>GROQ_API_KEY</code> under Settings, Keys, to turn it on.</li>
+      </ul>
+
+      <h3 id="handoff-in-ask">Hand work to several agents</h3>
+      <p>With Handoff installed, type <code>/handoff</code> in Ask and say who does what:</p>
+      <pre class="code"><code>/handoff codex review my changes, grok make pictures of my app, claude finish the next step</code></pre>
+      <p>Ixel asks which project it's for, shows who gets each part and what kind of work it is, and runs them side by side when you press <strong>Run</strong>. Every result comes back on the project's board. See <a href="../handoff/#dispatch">Handoff</a>.</p>
+
+      <h2 id="board">Board</h2>
+      <p>The Board is <a href="../handoff/">Handoff</a>'s task board for a project: the same board your agents use and <code>handoff board</code> shows. Type a project's folder (a git repository) and press <strong>Open</strong>, or pick one of the projects it lists. Tasks are in columns: waiting on you, with agents, not assigned, blocked, and done. A dot on the rail says when tasks are waiting on you.</p>
+      <figure class="shot">
+        <img src="../images/app-board.webp" width="2960" height="1600" loading="lazy" alt="The Board: a review and a blocked task waiting on you, three tasks with agents, one not assigned, and one done">
+        <figcaption>A project's board: two tasks wait on you (a review, and a question the agent is blocked on).</figcaption>
+      </figure>
+      <p>Open a task to read it, its acceptance checks, and its whole history, and to act on it:</p>
+      <ul>
+        <li><strong>Run it now</strong>: pick an agent and what it does. Claude Code and Codex can change files, on a branch of their own. Any model can answer, or review your changes. Pictures are made by xAI or OpenAI with your key.</li>
+        <li><strong>Mark done</strong>, <strong>Assign</strong>, <strong>Block</strong>, <strong>Add a note</strong>, approve a review or send it back. Everything you do here is done as you, under the board's own rules.</li>
+        <li><strong>New task</strong> adds one.</li>
+      </ul>
+      <figure class="shot">
+        <img src="../images/app-board-task.webp" width="2960" height="1600" loading="lazy" alt="A task opened on the Board: its details, acceptance checks, the files it's working on, and its history, including Codex's handoff note">
+        <figcaption>A task's history: Codex wrote the tests, then handed the task back to Claude with what's done, what's left, and how to check it.</figcaption>
+      </figure>
+      <p><strong>Pull requests</strong> are listed above the columns when the project's <code>origin</code> is on GitHub, GitLab or Codeberg, or your own Gitea, Forgejo, GitLab or GitHub Enterprise. <strong>Review…</strong> has the agent you pick review one; <strong>Fix…</strong> has Claude Code or Codex change it on a branch of its own. Nothing is pushed: when it's done, the Board shows the one line that adds the work to the pull request, for you to run once you've looked. Ixel only reads from the host. It never comments, approves or merges there.</p>
+
+      <h2 id="machines">Machines</h2>
+      <p>Your servers, from a $5 VPS to the computer in the closet, and the OpenClaw or Hermes agent on each.</p>
+      <figure class="shot">
+        <img src="../images/app-machines.webp" width="2560" height="1600" loading="lazy" alt="Machines: three servers in two groups, each with what runs when you connect and a button to check its key">
+        <figcaption>Three machines, in two groups. Each one's key is checked once, then pinned.</figcaption>
+      </figure>
+      <ul>
+        <li><strong>Add machine</strong> takes its address (or a <code>Host</code> from your <code>~/.ssh/config</code>), user, port and key file, and what runs when you connect: the agent's own command, a shell, or a command you type. <strong>Import</strong> brings in the hosts in your <code>~/.ssh/config</code>.</li>
+        <li><strong>Check key</strong> asks the server for its key without signing in, and shows you its fingerprint. Once you say yes, it's pinned, and from then on <code>ssh</code> itself refuses that machine if its key ever changes.</li>
+        <li><strong>Connect</strong> opens a terminal running <code>ssh</code>, so a password or passphrase prompt works there. <strong>Run on machines</strong> runs one command you type on the machines you pick, up to 8 at once, and shows how each one ended and its output.</li>
+      </ul>
+      <p>Ixel uses the <code>ssh</code> you already have (on Windows, the OpenSSH Client that comes with it). Every connection and run is noted in a log on your computer; <a href="../privacy/#on-your-computer">Privacy</a> says where.</p>
+
+      <h2 id="health">Health</h2>
+      <p>Whether each part of Ixel is ready: your settings, each model, Handoff, Git, the window, and SSH once you have machines. Each problem comes with the one line that fixes it, ready to copy. Opening the page sends nothing anywhere; <strong>Check now</strong> also asks each model's server whether it answers and takes its key (without asking it anything), and asks each program for its version. A dot on the rail says when something needs fixing. In a terminal, <code>ixel doctor</code> runs the same checks.</p>
+      <figure class="shot">
+        <img src="../images/app-health.webp" width="2560" height="3280" loading="lazy" alt="Health after Check now: Ixel, its models, Handoff, the window and Machines, each ready or with what to look at">
+        <figcaption>After <strong>Check now</strong>. The two things to look at are there because this picture was taken on a server: no Edge or Chrome for a window of its own, and no desktop to open a terminal on.</figcaption>
+      </figure>
+
+      <h2 id="settings">Settings</h2>
+      <p>The choices among what's already set up, each saved as you make it:</p>
+      <ul>
+        <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list.</li>
+        <li><strong>Asking:</strong> the mode Ask starts on, and who writes the verdict.</li>
+        <li><strong>Saver</strong> and <strong>Triage</strong>: the big model that verifies, the models that draft, and the model that decides. <a href="../models/">Which model for each job</a> has picks.</li>
+        <li><strong>Pictures</strong> and <strong>Sound</strong>: which models see pictures, and which service makes pictures or writes out sound.</li>
+        <li><strong>Appearance:</strong> System (the default) matches your computer's light or dark mode, or keep it Light or Dark.</li>
+        <li><strong>Keys:</strong> paste, replace or remove a key. Keys are never shown again.</li>
+      </ul>
+      <figure class="shot">
+        <img src="../images/app-settings.webp" width="2560" height="1600" loading="lazy" alt="The Settings page: Appearance, then the models on the panel, each with a model and effort to pick, and the Docs button at the top">
+        <figcaption>Settings: Appearance, then each model on the panel with the model and effort it uses. <strong>Docs</strong> is at the top right.</figcaption>
+      </figure>
+      <p>Settings changes only those lines of your settings file and keeps your comments. The file from before each change is kept as <code>config.toml.bak</code>. If the file changed since the page read it, it shows you the new one instead of saving over it. Adding a model, or changing where one's requests go, stays with <code>ixel setup</code> and the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser.</p>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../setup/"><span>Previous</span>Set up your models</a>
+        <a class="next" href="../terminal/"><span>Next</span>In the terminal</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#open-it">Open it</a></li>
+        <li><a href="#ask">Ask</a></li>
+        <li><a href="#board">Board</a></li>
+        <li><a href="#machines">Machines</a></li>
+        <li><a href="#health">Health</a></li>
+        <li><a href="#settings">Settings</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

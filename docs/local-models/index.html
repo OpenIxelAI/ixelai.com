@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Local models · Ixel docs</title>
+<meta name="description" content="Use models running on your own computer in Ixel, through Ollama, LM Studio or any OpenAI-compatible server, and see which open models fit how much memory you have.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Local models in Ixel">
+<meta property="og:description" content="Ollama, LM Studio, and which open models fit your computer.">
+<meta property="og:url" content="https://ixelai.com/docs/local-models/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/local-models/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../../ixel-mat/">Ixel MAT</a>
+      <a href="../../handoff/">Handoff</a>
+      <a href="../../machines/">Machines</a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="../">Overview</a></li>
+            <li><a href="../install/">Install</a></li>
+            <li><a href="../setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="../app/">The Ixel app</a></li>
+            <li><a href="../terminal/">In the terminal</a></li>
+            <li><a href="../handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="../models/">Which model for each job</a></li>
+            <li><a href="../local-models/" aria-current="page">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Models</div>
+      <h1>Local models</h1>
+      <p class="lede">A model running on your own computer costs nothing per question, has no usage limit, and keeps your questions at home. Ixel works with Ollama, LM Studio, and any model server that speaks OpenAI's chat API.</p>
+      <!-- models:fresh -->
+      <p class="fresh"><span>Picks from <a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis</a>, read 4 October 2026</span></p>
+      <!-- /models:fresh -->
+
+      <h2 id="set-up">Set one up</h2>
+      <p>Ixel doesn't run models itself: a model server does, and Ixel asks it. Pick one:</p>
+      <div class="tabs">
+        <section class="tab-panel" data-tab="ollama">
+          <h4 class="tab-title">Ollama</h4>
+          <ol class="steps-doc">
+            <li><h3>Install Ollama</h3><p>From <a href="https://ollama.com">ollama.com</a>. It runs in the background, ready for Ixel at <code>127.0.0.1:11434</code>.</p></li>
+            <li><h3>Download a model</h3><p>Pick one from the <a href="#what-fits">table below</a>, find it in Ollama's library, and download it:</p><pre class="code"><code>ollama pull &lt;model&gt;</code></pre></li>
+            <li><h3>Add it to Ixel</h3><p>Run <code>ixel setup</code>. It sees Ollama running, lists your models, and asks which to add. No key needed.</p></li>
+          </ol>
+        </section>
+        <section class="tab-panel" data-tab="lmstudio">
+          <h4 class="tab-title">LM Studio</h4>
+          <ol class="steps-doc">
+            <li><h3>Install LM Studio</h3><p>From <a href="https://lmstudio.ai">lmstudio.ai</a>, and download a model in it. Pick one from the <a href="#what-fits">table below</a>.</p></li>
+            <li><h3>Start its server</h3><p>Turn on LM Studio's local server, so other programs can ask the model. It listens at <code>127.0.0.1:1234</code>.</p></li>
+            <li><h3>Add it to Ixel</h3><p>Run <code>ixel setup</code>. It sees LM Studio's server, lists your models, and asks which to add. No key needed.</p></li>
+          </ol>
+        </section>
+        <section class="tab-panel" data-tab="other">
+          <h4 class="tab-title">Another server</h4>
+          <p>Any server with OpenAI's chat API works (llama.cpp's server, vLLM, and others), on this computer or another one of yours. <code>ixel setup</code> only looks for Ollama and LM Studio on this computer, so add the others to your settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
+          <pre class="code"><code>[agents.gpubox]
+type = "http"
+url = "http://gpu-box:8000/v1/chat/completions"   # the server's address, with /v1/chat/completions
+model = "the-model-name"                          # as the server lists it
+label = "My GPU box (local)"</code></pre>
+          <p>Then add <code>"gpubox"</code> to <code>[review] agents</code> if you've set that list, or leave it unset to have every model on the panel.</p>
+        </section>
+      </div>
+      <div class="callout warn"><span class="label">Before you run setup again</span><p><code>ixel setup</code> writes your settings file afresh. A model you added by hand isn't kept; copy it back from <code>config.toml.bak</code>, which setup leaves beside it.</p></div>
+
+      <h3 id="another-computer">A model on another computer</h3>
+      <p>A model server on another computer of yours works the same way: put its address in the <code>url</code>. Ixel counts a server on your own network or your Tailscale network as local, so its calls are free in the cost line. Plain <code>http://</code> across a network isn't encrypted; over Tailscale it is.</p>
+
+      <h2 id="what-fits">Which model fits your computer</h2>
+      <p>The best open models a computer with that much memory can run. On a Mac, count all your memory, since the graphics share it. On a PC, count your graphics card's memory: a model that doesn't fit there still runs, but much more slowly.</p>
+      <!-- models:local -->
+      <div class="table picks">
+        <table>
+          <thead><tr><th>Memory</th><th>Best open model</th><th>Score</th><th>Needs</th><th>Next best</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>8 to 16 GB</td>
+            <td><b>K2 Horizon 7B</b><small>Institute of Foundation Models · 7B</small></td>
+            <td class="num">21</td>
+            <td class="num">about 6 GB</td>
+            <td>Also: K2 Horizon 3.7B (16); MiniCPM5-2B (12)</td>
+          </tr>
+          <tr>
+            <td>24 to 64 GB</td>
+            <td><b>Qwen3.8 27B (medium)</b><small>Alibaba · 27B</small></td>
+            <td class="num">28</td>
+            <td class="num">about 18 GB</td>
+            <td>Also: K2 Horizon MoVA 36B A4B (25); K2 Horizon 7B (21)</td>
+          </tr>
+          <tr>
+            <td>128 GB</td>
+            <td><b>Qwen3.8 27B (medium)</b><small>Alibaba · 27B</small></td>
+            <td class="num">28</td>
+            <td class="num">about 18 GB</td>
+            <td>Also: K2 Horizon MoVA 36B A4B (25); Ling-3.0-flash-VL (25)</td>
+          </tr>
+          <tr>
+            <td>256 to 512 GB</td>
+            <td><b>GLM-5.3-Flash</b><small>Z AI · 320B, 18B active</small></td>
+            <td class="num">42</td>
+            <td class="num">about 194 GB</td>
+            <td>Also: K2 Horizon 375B A23B (31); Qwen3.8 27B (medium) (28)</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The best open models overall: MiMo-V2.6-Pro (46, 1000B, about 602 GB), GLM-5.3-Flash (42, 320B, about 194 GB), K2 Horizon 375B A23B (31, 375B, about 227 GB). Those need a server, or a Mac with a lot of memory.</p>
+      <!-- /models:local -->
+      <p>"Needs" is an estimate: about 0.6 GB for each billion parameters, which is a typical 4-bit download, plus 2 GB for the conversation. A smaller download of the same model needs less and answers a little worse; a larger one needs more. Model servers often name models differently from the benchmark, so search for the model's name in Ollama's or LM Studio's library.</p>
+      <p>Scores are on the same scale as <a href="../models/">the cloud picks</a>, so you can see what you give up. Today's best local models score well below the best cloud ones, which is why the mix below works well.</p>
+
+      <h2 id="mix">Mix local and cloud</h2>
+      <p>The cheapest panel that still gets things right: local models do the drafting and reviewing, and one strong cloud model checks their work. That's <strong>Saver</strong>:</p>
+      <pre class="code"><code>[saver]
+verifier = "opus"                 # one strong model, on a key or a subscription
+drafters = ["qwen", "gpubox"]     # your local models
+verifier_effort = "low"           # it only has to check</code></pre>
+      <p>Or in the app: <strong>Settings</strong>, Saver. The drafters' calls are free; the big model reads their drafts and replies in a few words, so it costs far less than writing the answer itself. <a href="../models/#the-jobs">The four jobs</a> says more.</p>
+      <p>Each review's cost line counts local calls as free:</p>
+      <figure class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
+        <pre><span class="dim">  Cost: $0.042 on API keys · 3 calls on your subscriptions · 1 free on your own hardware · 12.3k tokens in, 2,100 out</span></pre>
+      </figure>
+
+      <h2 id="pictures">Pictures</h2>
+      <p>A local model doesn't get the pictures you attach in the app, since most can't read them. For one that can, such as a vision model, turn it on in <strong>Settings</strong>, Pictures, or add <code>accepts = ["image"]</code> to its section of the settings file.</p>
+
+      <h2 id="thinking">Thinking settings</h2>
+      <p>Ixel sends a local model's thinking setting the way it does OpenAI's, so <code>xhigh</code> and <code>max</code> are sent as <code>high</code>, and whether the model uses it is up to the model and the server. The table above only counts the settings Ixel can send.</p>
+
+      <h2 id="what-stays-home">What stays on your computer</h2>
+      <p>With only local models on your panel, and Triage off or deciding with one of them, your questions, your code and the answers go no further than the computer running the model. A few parts of Ixel reach the internet for other reasons, and none of them sends your questions:</p>
+      <ul>
+        <li>The terminal chat checks GitHub for a new version once a day. <code>[updates] check = false</code> turns it off.</li>
+        <li><strong>Sound</strong> sends a recording to OpenAI or Groq, and making pictures sends your description to xAI or OpenAI, only when you use them.</li>
+        <li>The Board reads a project's pull requests from its git host when you open it.</li>
+      </ul>
+      <p><a href="../privacy/">Privacy</a> has the whole list.</p>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="prev" href="../models/"><span>Previous</span>Which model for each job</a>
+        <a class="next" href="../privacy/"><span>Next</span>Privacy</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#set-up">Set one up</a></li>
+        <li><a href="#what-fits">Which model fits your computer</a></li>
+        <li><a href="#mix">Mix local and cloud</a></li>
+        <li><a href="#pictures">Pictures</a></li>
+        <li><a href="#thinking">Thinking settings</a></li>
+        <li><a href="#what-stays-home">What stays on your computer</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../../docs/">Docs</a>
+        <a href="../../docs/privacy/">Privacy</a>
+        <a href="../../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../../site.js"></script>
+<script src="../docs.js"></script>
+</body>
+</html>

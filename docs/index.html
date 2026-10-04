@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Ixel docs</title>
+<meta name="description" content="How to install Ixel on Windows, macOS and Linux, set up your models, and use the Ixel app, the terminal and Handoff.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Ixel docs">
+<meta property="og:description" content="Install Ixel, set up your models, and put them to work together.">
+<meta property="og:url" content="https://ixelai.com/docs/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/docs/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body class="docs">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+<!-- docs:header -->
+  <header class="wrap top">
+    <a class="brand" href="../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../ixel-mat/">Ixel MAT</a>
+      <a href="../handoff/">Handoff</a>
+      <a href="../machines/">Machines</a>
+      <a href="../docs/" aria-current="page">Docs</a>
+      <a href="../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+  <!-- /docs:header -->
+  <div class="docs-shell">
+    <nav class="docs-nav" aria-label="Docs"><!-- docs:nav -->
+      <details open>
+        <summary>Docs menu</summary>
+        <div class="docs-nav-body">
+          <h2>Get started</h2>
+          <ul>
+            <li><a href="./" aria-current="page">Overview</a></li>
+            <li><a href="install/">Install</a></li>
+            <li><a href="setup/">Set up your models</a></li>
+          </ul>
+          <h2>Use Ixel</h2>
+          <ul>
+            <li><a href="app/">The Ixel app</a></li>
+            <li><a href="terminal/">In the terminal</a></li>
+            <li><a href="handoff/">Handoff: agents as a team</a></li>
+          </ul>
+          <h2>Models</h2>
+          <ul>
+            <li><a href="models/">Which model for each job</a></li>
+            <li><a href="local-models/">Local models</a></li>
+          </ul>
+          <h2>Your data</h2>
+          <ul>
+            <li><a href="privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </details>
+      <!-- /docs:nav --></nav>
+    <main class="doc" id="main">
+      <div class="eyebrow">Ixel docs</div>
+      <h1>Put your AI models to work together</h1>
+      <p class="lede">Ixel runs on your computer and uses the AI you already have: API keys, the Claude Code or Codex you're signed in to, and models running on your own machine. Your keys stay with you, and there's no Ixel account.</p>
+
+      <h2 id="what-you-get">What you get</h2>
+      <p>One install gives you three tools and an app that holds them:</p>
+      <ul>
+        <li><strong>Ixel MAT</strong>, a panel of models. Ask a question and several models answer it, grade each other's answers without knowing whose they are, and one of them writes the verdict. You see who was wrong and why.</li>
+        <li><strong>Handoff</strong>, a task board your agents share. Claude Code, Codex, Gemini CLI, OpenCode and the rest hand work to each other with notes and reviews, instead of you copying and pasting between them.</li>
+        <li><strong>Machines</strong>, your SSH servers in one list, and the OpenClaw or Hermes agent on each, a click away.</li>
+        <li><strong>The Ixel app</strong>, one window with all of it: Ask, Board, Machines, Health and Settings.</li>
+      </ul>
+      <figure class="shot">
+        <img src="images/app-ask-verdict.webp" width="2560" height="1600" alt="The Ixel app's Ask page: the panel's verdict on a question about a regular expression, with a correction where one model was wrong">
+        <figcaption>The panel's verdict in the Ixel app. One model said the pattern was safe; the others caught it. (An example: the answers are scripted for the picture.)</figcaption>
+      </figure>
+
+      <h2 id="quickstart">Quickstart</h2>
+      <p>About five minutes, most of it the download.</p>
+      <ol class="steps-doc">
+        <li>
+          <h3>Install Ixel</h3>
+          <div class="tabs">
+            <section class="tab-panel" data-tab="windows">
+              <h4 class="tab-title">Windows</h4>
+              <p>In a normal PowerShell window (not "Run as administrator"):</p>
+              <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
+            </section>
+            <section class="tab-panel" data-tab="mac">
+              <h4 class="tab-title">macOS</h4>
+              <p>In Terminal:</p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </section>
+            <section class="tab-panel" data-tab="linux">
+              <h4 class="tab-title">Linux</h4>
+              <p>In a terminal:</p>
+              <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
+            </section>
+          </div>
+          <p>If Git or Python is missing, the installer says how to get it, and on Windows and on a Mac with Homebrew it offers to install it for you. The <a href="install/">install guide</a> goes through each step.</p>
+        </li>
+        <li>
+          <h3>Add your models</h3>
+          <p>Open a <strong>new</strong> terminal window, so it finds the new commands, and run:</p>
+          <pre class="code"><code>ixel setup</code></pre>
+          <p>It finds the AI you already have (Claude Code, Codex, Gemini CLI, Ollama, LM Studio), and asks for any API keys you want to add. Three models or more is best: with two, a disagreement is a tie. <a href="setup/">More about setup</a>.</p>
+        </li>
+        <li>
+          <h3>Ask the panel</h3>
+          <p>Open <strong>Ixel</strong> from the Start Menu, your Applications folder or your app menu (or run <code>ixel app</code>), type a question, and press <strong>Ask</strong>. Or stay in the terminal: run <code>ixel</code> and type your question there.</p>
+        </li>
+        <li>
+          <h3>Connect your agents (optional)</h3>
+          <p>To let Claude Code, Codex and your other agents share work, go to a project's folder (a git repository) and run:</p>
+          <pre class="code"><code>handoff setup --write</code></pre>
+          <p>Then restart those apps. <a href="handoff/">How Handoff works</a>.</p>
+        </li>
+      </ol>
+
+      <h2 id="find-your-way">Find your way</h2>
+      <div class="cards">
+        <a href="install/"><b>Install</b><span>Windows, macOS and Linux, step by step. Updating and removing Ixel.</span></a>
+        <a href="setup/"><b>Set up your models</b><span>Keys, subscriptions and local models, and the job each one does.</span></a>
+        <a href="app/"><b>The Ixel app</b><span>Ask, Board, Machines, Health and Settings, with pictures.</span></a>
+        <a href="terminal/"><b>In the terminal</b><span>The <code>ixel</code> chat, reviewing your code, and every command.</span></a>
+        <a href="models/"><b>Which model for each job</b><span>Picks from a benchmark that keeps up, for each part of a review.</span></a>
+        <a href="local-models/"><b>Local models</b><span>Ollama, LM Studio, and which open models fit your computer.</span></a>
+        <a href="handoff/"><b>Handoff</b><span>Your agents as a team: tasks, handoffs and reviews.</span></a>
+        <a href="privacy/"><b>Privacy</b><span>What stays on your computer, and what goes to which company.</span></a>
+      </div>
+
+      <h2 id="get-help">Get help</h2>
+      <ul>
+        <li><strong>Something not working?</strong> Run <code>ixel doctor</code> (or open <strong>Health</strong> in the app). It checks each part of Ixel and gives the one line that fixes each problem. <code>handoff doctor</code> does the same for Handoff.</li>
+        <li><strong>Open these docs from Ixel:</strong> <code>ixel docs</code> in a terminal, or <strong>Docs</strong> on the app's Settings page.</li>
+        <li><strong>Found a bug, or a security problem?</strong> Email <a href="mailto:openixel.ai@gmail.com">openixel.ai@gmail.com</a>. For a security problem, please don't open a public issue.</li>
+      </ul>
+
+      <nav class="pager" aria-label="More docs"><!-- docs:pager -->
+        <a class="next" href="install/"><span>Next</span>Install</a>
+        <!-- /docs:pager --></nav>
+    </main>
+    <aside class="docs-toc" aria-label="On this page"><!-- docs:toc -->
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#quickstart">Quickstart</a></li>
+        <li><a href="#find-your-way">Find your way</a></li>
+        <li><a href="#get-help">Get help</a></li>
+      </ul>
+      <!-- /docs:toc --></aside>
+  </div>
+<!-- docs:footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../docs/">Docs</a>
+        <a href="../docs/privacy/">Privacy</a>
+        <a href="../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- /docs:footer -->
+</div>
+<script src="../site.js"></script>
+<script src="docs.js"></script>
+</body>
+</html>
