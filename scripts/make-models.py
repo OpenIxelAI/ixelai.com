@@ -18,9 +18,9 @@ same numbers as their pages, and replaces every model's in data.json. It doesn't
 open or how big they are (their paid tiers do, and are used when the key is one), so a model already
 marked open in data.json keeps that and its size, matched by name. A new model counts as open only when
 its name has its size in it (27B, 36B A4B) and its maker's models here are all open; other new models
-from makers with open models are printed as notes, to add by hand. --fetch changes nothing when the API
-refuses or redirects, sends under half as many models as data.json has, gives no costs, or would leave
-under half of the open models.
+from makers with open models are listed once, on the run that first sees them, to add by hand. --fetch
+changes nothing when the API refuses or redirects, sends under half as many models as data.json has,
+gives no costs, or would leave under half of the open models.
 """
 from __future__ import annotations
 
@@ -102,7 +102,7 @@ def pick(all_models: list[dict]) -> dict:
         raise SystemExit("No model in data.json has a cost, so there's nothing to pick by")
     # The top pick needs a cost: the other picks are measured against it
     top = max(priced, key=lambda m: (m["score"], -m["cost"]))
-    family = [m for m in priced if m["name"] == top["name"] and levels_in(m.get("effort") or "")]
+    family = [m for m in priced if m["name"] == top["name"] and m.get("effort") in LEVELS]
     # The same model at a setting that costs a third as much or less, if one scores within 5
     cheaper = [m for m in family if m["cost"] <= top["cost"] / 3 and m["score"] >= top["score"] - 5]
     cheaper = max(cheaper, key=lambda m: m["score"]) if cheaper else None
@@ -242,9 +242,12 @@ def levels_in(setting: str) -> list[str]:
 
 def level(setting: str) -> str:
     """A thinking setting as Ixel names it ("Reasoning, Max Effort" is max), or as it's written when it
-    names no level ("Reasoning", "Non-reasoning")."""
+    names no level ("Reasoning") or has thinking off ("Non-reasoning, Low Effort"), so that one is never
+    shown as the thinking setting of the same name."""
     found = levels_in(setting)
-    return max(found, key=LEVELS.index) if found else setting
+    if not found or re.search(r"\bnon[\s-]*reasoning\b", setting, re.IGNORECASE):
+        return setting
+    return max(found, key=LEVELS.index)
 
 
 def same(name: str) -> str:
@@ -252,9 +255,16 @@ def same(name: str) -> str:
     return re.sub(r"[^a-z0-9.]", "", name.lower())
 
 
-def note(text: str) -> None:
-    """Something for a person to look at; in a GitHub Actions run it shows on the run's page."""
-    print(f"::warning::{text}" if os.environ.get("GITHUB_ACTIONS") else f"Note: {text}")
+def notes(title: str, lines: list[str]) -> None:
+    """Things for a person to look at. In a GitHub Actions run they go on the run's summary page, with one
+    warning that says how many, since a run's page shows only the first ten warnings."""
+    if not lines:
+        return
+    print(f"{title}:", *lines, sep="\n  ")
+    if summary := os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(summary, "a", encoding="utf-8") as out:
+            out.write(f"### {title}\n\n" + "".join(f"- {line}\n" for line in lines) + "\n")
+        print(f"::warning::{title}: {len(lines)}. They're listed on this run's summary.")
 
 
 def read_api(key: str) -> list[dict]:
@@ -289,7 +299,7 @@ def fetch(data: dict) -> dict:
     # Makers whose every model here is open, so a new one with its size in its name is open too. A maker
     # with closed models as well (Google's Gemini beside Gemma) could have a closed "Flash-8B".
     open_makers = {c for c in some_open if all(m.get("open") for m in data["models"] if m["creator"] == c)}
-    models = []
+    models, maybe_open = [], {}
     for r in rows:
         score = (r.get("evaluations") or {}).get("artificial_analysis_intelligence_index")
         if not isinstance(score, (int, float)) or score < 0:
@@ -315,8 +325,9 @@ def fetch(data: dict) -> dict:
             if found.group(2):
                 m["active"] = float(found.group(2))
         elif not old and "licensing" not in r and (creator in some_open or creator not in makers):
-            note(f"New from {creator}: {full} (score {m['score']}). If its weights are open, add \"open\" and "
-                 "\"params\" for it in docs/models/data.json so the Local models page can list it.")
+            best = maybe_open.get(same(name))
+            if not best or m["score"] > best["score"]:
+                maybe_open[same(name)] = m
         models.append(m)
     if len(models) < len(data["models"]) / 2:
         raise SystemExit(f"Artificial Analysis sent {len(models)} models with a score, under half the "
@@ -326,8 +337,12 @@ def fetch(data: dict) -> dict:
     if len(was_open & still_open) < len(was_open) / 2:
         raise SystemExit(f"Only {len(was_open & still_open)} of the {len(was_open)} open models in data.json "
                          "came back, so the Local models page would lose most of its picks; data.json is left as it was")
-    for gone in sorted(was_open - still_open):
-        note(f"{by_name[gone]['name']}, an open model, isn't in Artificial Analysis's list now.")
+    notes("Open models no longer in Artificial Analysis's list",
+          [by_name[gone]["name"] for gone in sorted(was_open - still_open)])
+    notes('New models that may be open (if one is, add "open" and "params" for it in docs/models/data.json '
+          "so the Local models page can list it)",
+          [f'{m["name"]}, from {m["creator"]}, scores {m["score"]}'
+           for m in sorted(maybe_open.values(), key=lambda m: -m["score"])])
     return {**data, "read_on": dt.date.today().isoformat(), "read_from": "its API",
             "source_url": "https://artificialanalysis.ai/leaderboards/models", "models": models}
 

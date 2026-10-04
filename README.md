@@ -82,19 +82,9 @@ to change nothing and fail if a page is out of date; a third retakes the picture
   pages do. `--fetch` reads [their free API](https://artificialanalysis.ai/data-api/docs) first, with a
   free key from artificialanalysis.ai: `AA_API_KEY=... python scripts/make-models.py --fetch`. It replaces
   every model's score and cost, so hand edits to those don't last; whether a model is open and its size
-  (`open`, `params`, `active`) do, since their free API doesn't say. It prints a note for each new model
-  that might be open, to add those by hand. It changes nothing when the API refuses, sends under half as
-  many models as `data.json` has, or gives no costs. Each page shows the date the numbers were read.
-
-### The weekly refresh
-
-`.github/workflows/model-picks.yml` runs `make-models.py --fetch` every Monday, pushes the new picks to
-`main` and asks GitHub Pages to publish them (a push made with a workflow's own token doesn't start a
-Pages build by itself). It needs the key saved as a repository secret: **Settings → Secrets and
-variables → Actions → New repository secret**, named `AA_API_KEY`. Without it, the job stops with a
-warning and changes nothing. To refresh now, open **Actions → Refresh model picks → Run workflow**. A
-run's page shows the notes about new models. The key is sent only to Artificial Analysis. GitHub Actions
-is free for public repositories like this one.
+  (`open`, `params`, `active`) do, since their free API doesn't say. It lists each new model that may be
+  open, to add those by hand. It changes nothing when the API refuses, sends under half as many models as
+  `data.json` has, or gives no costs. Each page shows the date the numbers were read.
 - **`python scripts/docs-screenshots.py --ixel-mat ../ixel-mat`** retakes the app pictures in
   `docs/images/`. It runs the real app from an Ixel MAT checkout, with stand-in models that give scripted
   answers, an example project board and example machines, in a home folder of its own, so nothing of
@@ -102,6 +92,16 @@ is free for public repositories like this one.
   computers and Private use a stand-in Ollama at port 11434, so they need that port and the other model
   servers' ports free; the script skips them and says so otherwise. Look at every picture before
   committing it, and run it again whenever the app's pages change.
+
+### The weekly refresh
+
+`.github/workflows/model-picks.yml` runs `make-models.py --fetch` every Monday, pushes the new picks to
+`main` and asks GitHub Pages to publish them (a push made with a workflow's own token doesn't start a
+Pages build by itself). It needs the key saved as a repository secret: **Settings → Secrets and
+variables → Actions → New repository secret**, named `AA_API_KEY`. Without it, the job stops with a
+warning and changes nothing. To refresh now, open **Actions → Refresh model picks → Run workflow**. The
+summary of the run that first sees a new model that may be open lists it, to add by hand. The key is
+sent only to Artificial Analysis. GitHub Actions is free for public repositories like this one.
 
 ## GitHub Pages
 
