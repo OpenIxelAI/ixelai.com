@@ -11,11 +11,13 @@ what one task costs at that setting, and, for open-weights models, their size. T
 rules in pick() below, which the models page states in words, so the pages say why each one won. Only
 what's between the <!-- models:NAME --> markers in the two pages is written here.
 
---fetch reads https://artificialanalysis.ai/api/v2/data/llms/models with the free API key in
-AA_API_KEY (made at artificialanalysis.ai; they ask that the data be credited to them, which the pages
-do). Its prices are per million tokens, not per task, and it doesn't say which models are open or how
-big they are, so models already in data.json keep those, and a new model counts as open only when its
-name has its size in it (27B, 36B A4B) and comes from a maker already in the data with open models.
+--fetch reads Artificial Analysis's free API (https://artificialanalysis.ai/api/v2/language/models/free,
+documented at https://artificialanalysis.ai/data-api/docs) with the free API key in AA_API_KEY. They ask
+that the data be credited to them, which the pages do. It gives each model's score and cost per task, the
+same numbers as their pages. It doesn't say which models are open or how big they are (their paid tiers
+do, and are used when the key is one), so models already in data.json keep those, and a new model counts
+as open only when its name has its size in it (27B, 36B A4B) and comes from a maker already in the data
+with open models.
 """
 from __future__ import annotations
 
@@ -26,6 +28,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -33,7 +36,8 @@ SITE = Path(__file__).resolve().parent.parent
 DATA = SITE / "docs" / "models" / "data.json"
 MODELS_PAGE = SITE / "docs" / "models" / "index.html"
 LOCAL_PAGE = SITE / "docs" / "local-models" / "index.html"
-API = "https://artificialanalysis.ai/api/v2/data/llms/models"
+API = "https://artificialanalysis.ai/api/v2/language/models/free"
+MAX_PAGES = 10  # their free tier allows 100 requests a day; a page holds 200 models
 MARK = re.compile(r"(<!-- models:(\w+) -->)(.*?)(<!-- /models:\2 -->)", re.DOTALL)
 
 # How each maker's models get onto your panel: (what you add, the page that explains it)
@@ -212,44 +216,72 @@ def local_html(data: dict, p: dict) -> str:
 # ── Reading Artificial Analysis ───────────────────────────────────────────
 
 EFFORT = re.compile(r"^(.*?)\s*\(([^()\d]*)\)\s*$")  # "(high)", "(max)"; not a date like "(Sep '25)"
+
+
+def level(setting: str) -> str:
+    """A thinking setting as Ixel names it: "Max Effort" and "high reasoning" are max and high. Anything
+    else ("Reasoning", "Non-reasoning") is kept as it's written."""
+    words = setting.lower().replace("-", "").split()
+    found = [w for w in words if w in LEVELS]
+    return found[0] if len(found) == 1 and len(words) <= 2 else setting
 SIZE = re.compile(r"(\d+(?:\.\d+)?)B(?:\s*A(\d+(?:\.\d+)?)B)?\b", re.IGNORECASE)
+
+
+def read_api(key: str) -> list[dict]:
+    """Every model on Artificial Analysis's free API, page by page."""
+    rows: list[dict] = []
+    for page in range(1, MAX_PAGES + 1):
+        request = urllib.request.Request(f"{API}?page={page}",
+                                         headers={"x-api-key": key, "User-Agent": "ixelai.com docs"})
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - a fixed https address
+                body = json.load(response)
+        except urllib.error.HTTPError as error:
+            why = {401: "the key is missing or wrong", 429: "today's requests are used up"}.get(error.code, error.reason)
+            raise SystemExit(f"Artificial Analysis answered {error.code} ({why}); data.json is left as it was")
+        rows += body.get("data") or []
+        if not (body.get("pagination") or {}).get("has_more"):
+            return rows
+    raise SystemExit(f"Artificial Analysis has more than {MAX_PAGES} pages of models; data.json is left as it was")
 
 
 def fetch(data: dict) -> dict:
     key = os.environ.get("AA_API_KEY")
     if not key:
         raise SystemExit("--fetch needs your Artificial Analysis API key in AA_API_KEY")
-    request = urllib.request.Request(API, headers={"x-api-key": key, "User-Agent": "ixelai.com docs"})
-    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - a fixed https address
-        rows = json.load(response).get("data", [])
+    rows = read_api(key)
     before = {(m["name"], m.get("effort")): m for m in data["models"]}
     open_makers = {m["creator"] for m in data["models"] if m.get("open")}
     models = []
     for r in rows:
         score = (r.get("evaluations") or {}).get("artificial_analysis_intelligence_index")
-        if score is None:
+        if not isinstance(score, (int, float)):
             continue
         full = r.get("name") or ""
         match = EFFORT.match(full)
-        name, effort = (match.group(1), match.group(2)) if match else (full, None)
+        name, effort = (match.group(1), level(match.group(2))) if match else (full, None)
         creator = (r.get("model_creator") or {}).get("name") or ""
-        price = (r.get("pricing") or {}).get("price_1m_blended_3_to_1")
-        price = price if known(price) else None
-        m = {"name": name, "creator": creator, "effort": effort, "score": round(score), "cost": price}
+        cost = ((r.get("artificial_analysis_intelligence_index_cost") or {}).get("cost_per_task") or {}).get("total_cost")
+        m = {"name": name, "creator": creator, "effort": effort, "score": round(score),
+             "cost": cost if known(cost) else None}
+        size = r.get("parameters") or {}
         old = before.get((name, effort)) or next((k for (n, _), k in before.items() if n == name), None)
-        if old and old.get("open"):
+        if (r.get("licensing") or {}).get("is_open_weights") and known(size.get("total")):  # paid tiers say
+            m.update({"open": True, "params": float(size["total"])})
+            if known(size.get("active")) and size["active"] < size["total"]:
+                m["active"] = float(size["active"])
+        elif old and old.get("open"):
             m.update({k: old[k] for k in ("open", "params", "active") if k in old})
-        elif creator in open_makers and (size := SIZE.search(name)):
-            m.update({"open": True, "params": float(size.group(1))})
-            if size.group(2):
-                m["active"] = float(size.group(2))
+        elif creator in open_makers and (found := SIZE.search(name)):
+            m.update({"open": True, "params": float(found.group(1))})
+            if found.group(2):
+                m["active"] = float(found.group(2))
         models.append(m)
-    if not models:
-        raise SystemExit("Artificial Analysis sent no models with a score; data.json is left as it was")
+    if len(models) < len(data["models"]) / 2:
+        raise SystemExit(f"Artificial Analysis sent {len(models)} models with a score, under half the "
+                         f"{len(data['models'])} in data.json, so it looks incomplete; data.json is left as it was")
     return {**data, "read_on": dt.date.today().isoformat(), "read_from": "its API",
-            "source_url": "https://artificialanalysis.ai/", "cost": "price per million tokens",
-            "cost_note": "The price of a million tokens, three parts reading to one part writing, in US dollars.",
-            "models": models}
+            "source_url": "https://artificialanalysis.ai/leaderboards/models", "models": models}
 
 
 # ── Writing the pages ───────────────────────────────────────────────────
