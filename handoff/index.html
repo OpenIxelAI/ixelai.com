@@ -189,7 +189,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted, so one agent's text can't take over another.</li>
             <li>Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</li>
-            <li>The worker runs only tasks you approved on this computer, and never pushes. On Linux its sandbox keeps it in its worktree; on macOS and Windows, Claude Code's own edit-only mode keeps its file tools there.</li>
+            <li>The worker runs only tasks you approved on this computer, and never pushes. An approval covers the task as you saw it and runs once: if the task changes, approve it again. On Linux its sandbox keeps it in its worktree; on macOS and Windows, Claude Code's own edit-only mode keeps its file tools there.</li>
           </ul>
         </div>
       </div>
