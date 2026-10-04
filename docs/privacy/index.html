@@ -79,10 +79,10 @@
         <li><strong>No telemetry.</strong> No analytics, no crash reports, no usage pings. We don't know who uses Ixel or how.</li>
         <li><strong>No Ixel account, and no Ixel server.</strong> Your questions go from your computer to the AI companies you chose, and nowhere else.</li>
         <li><strong>Your keys stay yours.</strong> Each key goes only to its own company, and never over plain <code>http://</code> except to your own computer (a git host's token also across your Tailscale network, which encrypts it).</li>
-        <li><strong>Local models keep it at home.</strong> With only <a href="../local-models/">local models</a>, your questions and their answers stay on your computer or your network.</li>
+        <li><strong>Private keeps it at home.</strong> Turn on <a href="../local-models/#private">Private</a> in Settings, and only the models on your own computers answer: your questions and their answers stay on your computer or your network, as long as your servers run the models themselves, and every other model sits out.</li>
         <li><strong>Some things are kept on your computer,</strong> listed <a href="#on-your-computer">below</a> with how to clear them.</li>
       </ul>
-      <div class="callout private"><span class="label">The companies you use</span><p>What you send to Anthropic, OpenAI, Google, xAI or any other model company is covered by that company's terms, not ours. Ixel can't make them forget it. For questions that must not leave your computer, use a <a href="../local-models/">local model</a>.</p></div>
+      <div class="callout private"><span class="label">The companies you use</span><p>What you send to Anthropic, OpenAI, Google, xAI or any other model company is covered by that company's terms, not ours. Ixel can't make them forget it. For questions that must not leave your computer, use a <a href="../local-models/">local model</a> and turn on <a href="../local-models/#private">Private</a>.</p></div>
 
       <h2 id="what-goes-where">What goes where</h2>
       <p>Everything Ixel and Handoff send over the internet, and when:</p>
@@ -91,11 +91,13 @@
           <thead><tr><th>To</th><th>When</th><th>What's sent</th></tr></thead>
           <tbody>
             <tr><td>The companies of the models on your panel, through your API keys</td><td>When you ask a question</td><td>Your question, up to three earlier questions and answers in the same conversation, code or files you attach, and in later rounds the other models' answers. Pictures you attach go only to the models that can see them.</td></tr>
-            <tr><td>Claude Code, Codex, Gemini CLI, Copilot or OpenCode</td><td>When you ask a question</td><td>The same, handed to the program on your computer, which sends it to its company. Ixel switches off saving the session where the program allows it (Claude Code and Codex). Gemini CLI, Copilot and OpenCode keep their own history; Ixel turns off OpenCode's share links.</td></tr>
-            <tr><td>A model server on your computer or network</td><td>When you ask a question</td><td>The same, kept between your machines.</td></tr>
+            <tr><td>Claude Code, Codex, Gemini CLI, Copilot or OpenCode</td><td>When you ask a question</td><td>The same, handed to the program on your computer, which sends it to its company. Ixel switches off saving the session where the program allows it (Claude Code and Codex). Gemini CLI, Copilot and OpenCode keep their own history. Ixel turns off OpenCode's share links, and whenever it runs OpenCode, stops it from fetching its model catalog from models.opencode.ai.</td></tr>
+            <tr><td>A model server on your computer or network</td><td>When you ask a question</td><td>The same, kept between your machines. No key, unless you gave that server one in the settings file.</td></tr>
+            <tr><td>Model servers on this computer, or at the address you type</td><td>When you press <strong>Look</strong> in Settings or run <code>ixel setup</code>, and each time Settings opens, for the models you added</td><td>A request for the list of models it has. Nothing of yours, and no key unless you gave that server one. Look and setup ask it straight, never through a proxy, and never search your network.</td></tr>
+            <tr><td>ollama.com, or Hugging Face for an <code>hf.co/</code> name, from your Ollama</td><td>When you press <strong>Get</strong> under <strong>Get a model</strong></td><td>Your Ollama downloads the model, as <code>ollama pull</code> does; they see that computer's address and the model's name. Ixel itself talks only to your Ollama, and sends nothing else.</td></tr>
             <tr><td>The same companies</td><td>When Ixel picks the newest model (<code>latest</code>), lists models in Settings or setup, or checks your keys</td><td>Your key, to get the list of models. No question.</td></tr>
             <tr><td>TypeSafe AI</td><td>Only if you choose TypeSafe for Triage</td><td>Your question, up to three earlier questions, and the models' answers. Never your other keys, or which model wrote what.</td></tr>
-            <tr><td>OpenAI or Groq</td><td>When you use <strong>Sound</strong></td><td>The recording or sound file, to be written out. Ixel doesn't keep it.</td></tr>
+            <tr><td>OpenAI or Groq</td><td>When you use <strong>Sound</strong>, with Private off</td><td>The recording or sound file, to be written out. Ixel doesn't keep it.</td></tr>
             <tr><td>xAI or OpenAI</td><td>When you make pictures</td><td>Your description. Files you name are read by one of your chat models first, and only its description goes on.</td></tr>
             <tr><td>Your project's git host (GitHub, GitLab, Codeberg, or your own)</td><td>When you open a project's Board, or press <strong>Review…</strong> or <strong>Fix…</strong> on a pull request</td><td>The repository's name, to list its pull requests, and your token for it if you saved one. <strong>Review…</strong> and <strong>Fix…</strong> fetch the pull request with git, using your own git login.</td></tr>
             <tr><td>GitHub</td><td>When the terminal chat starts, at most once a day</td><td>A check for a new version, with git. No Ixel data; GitHub sees your IP address. Off with <code>[updates] check = false</code>.</td></tr>
@@ -115,7 +117,7 @@
           <tbody>
             <tr><td><code>config.toml</code>, <code>config.toml.bak</code></td><td>Your settings: models, addresses, the names of your keys</td><td>Until you change them</td></tr>
             <tr><td><code>.env</code></td><td>Your API keys and tokens, in plain text</td><td>Until you remove them in Settings or the file</td></tr>
-            <tr><td><code>conversation.json</code></td><td>Your last three <code>ixel review</code> questions and the final answers, so <code>ixel review --continue</code> can follow up</td><td>Until the next <code>ixel review</code> replaces them, or you delete it</td></tr>
+            <tr><td><code>conversation.json</code></td><td>Your last three <code>ixel review</code> questions and the final answers, so <code>ixel review --continue</code> can follow up</td><td>Until the next <code>ixel review</code> replaces them, or you delete it. Kept with Private on too, marked so a follow-up with Private off starts fresh</td></tr>
             <tr><td><code>stats.json</code></td><td>Counts: reviews, saves, what each month cost. No questions or answers</td><td>Kept</td></tr>
             <tr><td><code>machines.json</code>, <code>machines_known_hosts</code></td><td>Your machines and their pinned keys</td><td>Until you remove them</td></tr>
             <tr><td><code>machines.log</code></td><td>Every connection, import and key change, and each command you ran on your machines</td><td>Up to 5 MB, then it starts a new file and keeps one old one</td></tr>
@@ -154,12 +156,14 @@
         <li><strong>On Windows and Linux, the app window is Edge or Chrome.</strong> Its own background services follow Microsoft's or Google's settings, not Ixel's.</li>
         <li><strong>A question typed on the command line</strong> (<code>ixel review "…"</code>) is saved in your shell's history, like any command. Type it in the <code>ixel</code> chat to avoid that.</li>
         <li><strong>The app's window can keep its conversations.</strong> The page holds an open window's conversations in its session storage. Ixel never saves them, but the window's browser may write that storage to its profile folder, where it can stay after you close the window. <a href="#leave-no-trace">Clear it</a> if that matters to you.</li>
+        <li><strong>Private covers your questions, not everything.</strong> Pictures you make with <code>ixel image</code> still go to xAI or OpenAI, the Board's <strong>Review…</strong> and <strong>Fix…</strong> send work to the agent you pick, and a question asked through the plugin came from that app's model in the first place. Opening Settings and checking your models still send your keys to their companies, with no question. An <code>ixel</code> chat already open when you turn Private on doesn't follow it until you start it again.</li>
+        <li><strong>Private trusts the servers you add.</strong> It can't see what a server on your network does with a question, so a server that passes questions on to a company still counts as yours. <a href="../local-models/#private">Private</a> has the details.</li>
         <li><strong>Deleted board text can linger</strong> in the database file's free space until the database is compacted. Deleting the <code>.handoff</code> folder removes it all.</li>
       </ul>
 
       <h2 id="leave-no-trace">Leave as little as possible</h2>
       <ol class="steps-doc">
-        <li><h3>Use local models</h3><p>For anything that mustn't leave your computer. See <a href="../local-models/">Local models</a>.</p></li>
+        <li><h3>Use local models, with Private on</h3><p>For anything that mustn't leave your computer, add a <a href="../local-models/">local model</a> and turn on <a href="../local-models/#private">Private</a> in Settings, under Asking. Then only your own models answer, and nothing is sent if none of them can.</p></li>
         <li><h3>Ask in the chat or the app</h3><p>Rather than with <code>ixel review "…"</code>, which keeps your last three questions in <code>conversation.json</code> and puts the question in your shell's history. Ixel doesn't write the chat's conversations anywhere, or the app's to a file of its own.</p></li>
         <li><h3>Clear what's kept</h3>
           <div class="tabs">

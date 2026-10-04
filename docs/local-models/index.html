@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Local models · Ixel docs</title>
-<meta name="description" content="Use models running on your own computer in Ixel, through Ollama, LM Studio or any OpenAI-compatible server, and see which open models fit how much memory you have.">
+<meta name="description" content="Use models running on your own computers in Ixel, through Ollama, LM Studio or any OpenAI-compatible server; get them from Settings, keep questions at home with Private, and see which open models fit how much memory you have.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Local models in Ixel">
-<meta property="og:description" content="Ollama, LM Studio, and which open models fit your computer.">
+<meta property="og:description" content="Ollama, LM Studio, Private, and which open models fit your computer.">
 <meta property="og:url" content="https://ixelai.com/docs/local-models/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/docs/local-models/">
@@ -72,7 +72,7 @@
     <main class="doc" id="main">
       <div class="eyebrow">Models</div>
       <h1>Local models</h1>
-      <p class="lede">A model running on your own computer costs nothing per question, has no usage limit, and keeps your questions at home. Ixel works with Ollama, LM Studio, and any model server that speaks OpenAI's chat API.</p>
+      <p class="lede">A model running on your own computer costs nothing per question, has no usage limit, and keeps your questions at home. Ixel works with Ollama, LM Studio, and any model server that speaks OpenAI's chat API, on this computer or another of yours. Turn on <a href="#private">Private</a>, and only those models answer.</p>
       <!-- models:fresh -->
       <p class="fresh"><span>Picks from <a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis</a>, read 4 October 2026</span></p>
       <!-- /models:fresh -->
@@ -84,33 +84,45 @@
           <h4 class="tab-title">Ollama</h4>
           <ol class="steps-doc">
             <li><h3>Install Ollama</h3><p>From <a href="https://ollama.com">ollama.com</a>. It runs in the background, ready for Ixel at <code>127.0.0.1:11434</code>.</p></li>
-            <li><h3>Download a model</h3><p>Pick one from the <a href="#what-fits">table below</a>, find it in Ollama's library, and download it:</p><pre class="code"><code>ollama pull &lt;model&gt;</code></pre></li>
-            <li><h3>Add it to Ixel</h3><p>Run <code>ixel setup</code>. It sees Ollama running, lists your models, and asks which to add. No key needed.</p></li>
+            <li><h3>Get a model</h3><p>In the app, open <strong>Settings</strong>, find <strong>Models on your computers</strong>, and press <strong>Look</strong> beside This computer. Under Ollama, type a model's name in <strong>Get a model</strong> and press <strong>Get</strong>. Pick one from the <a href="#what-fits">table below</a>, and see <a href="#get-a-model">Get a model</a> for where it comes from. Or in a terminal:</p><pre class="code"><code>ollama pull &lt;model&gt;</code></pre></li>
+            <li><h3>Add it to Ixel</h3><p>Press <strong>Add</strong> beside the model, and it joins your panel. Or run <code>ixel setup</code>, which sees Ollama running, lists your models, and asks which to add. No key needed.</p></li>
           </ol>
         </section>
         <section class="tab-panel" data-tab="lmstudio">
           <h4 class="tab-title">LM Studio</h4>
           <ol class="steps-doc">
             <li><h3>Install LM Studio</h3><p>From <a href="https://lmstudio.ai">lmstudio.ai</a>, and download a model in it. Pick one from the <a href="#what-fits">table below</a>.</p></li>
-            <li><h3>Start its server</h3><p>Turn on LM Studio's local server, so other programs can ask the model. It listens at <code>127.0.0.1:1234</code>.</p></li>
-            <li><h3>Add it to Ixel</h3><p>Run <code>ixel setup</code>. It sees LM Studio's server, lists your models, and asks which to add. No key needed.</p></li>
+            <li><h3>Start its server</h3><p>Turn on LM Studio's local server, in its Developer tab, so other programs can ask the model. It listens at <code>127.0.0.1:1234</code>.</p></li>
+            <li><h3>Add it to Ixel</h3><p>In the app, open <strong>Settings</strong>, find <strong>Models on your computers</strong>, press <strong>Look</strong> beside This computer, and press <strong>Add</strong> beside a model. Or run <code>ixel setup</code>, which sees LM Studio's server, lists your models, and asks which to add. No key needed.</p></li>
           </ol>
         </section>
         <section class="tab-panel" data-tab="other">
           <h4 class="tab-title">Another server</h4>
-          <p>Any server with OpenAI's chat API works (llama.cpp's server, vLLM, and others), on this computer or another one of yours. <code>ixel setup</code> only looks for Ollama and LM Studio on this computer, so add the others to your settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
+          <p>Any server with OpenAI's chat API works, on this computer or another one of yours. <strong>Look</strong> in Settings and <code>ixel setup</code> find these on this computer, each at its usual port:</p>
+          <div class="table">
+            <table>
+              <thead><tr><th>Server</th><th>Port</th></tr></thead>
+              <tbody>
+                <tr><td>Ollama</td><td class="num">11434</td></tr>
+                <tr><td>LM Studio</td><td class="num">1234</td></tr>
+                <tr><td>llama.cpp's server (and LocalAI)</td><td class="num">8080</td></tr>
+                <tr><td>vLLM</td><td class="num">8000</td></tr>
+                <tr><td>Jan</td><td class="num">1337</td></tr>
+                <tr><td>GPT4All</td><td class="num">4891</td></tr>
+                <tr><td>KoboldCpp</td><td class="num">5001</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>On another port, type the address beside Another computer in Settings, such as <code>localhost:9000</code>. Or add it to your settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
           <pre class="code"><code>[agents.gpubox]
 type = "http"
-url = "http://gpu-box:8000/v1/chat/completions"   # the server's address, with /v1/chat/completions
-model = "the-model-name"                          # as the server lists it
+url = "http://gpu-box:8000/v1"   # the address the server shows; Ixel adds /chat/completions
+model = "the-model-name"         # as the server lists it
 label = "My GPU box (local)"</code></pre>
           <p>Then add <code>"gpubox"</code> to <code>[review] agents</code> if you've set that list, or leave it unset to have every model on the panel.</p>
         </section>
       </div>
-      <div class="callout warn"><span class="label">Before you run setup again</span><p><code>ixel setup</code> writes your settings file afresh. A model you added by hand isn't kept; copy it back from <code>config.toml.bak</code>, which setup leaves beside it.</p></div>
-
-      <h3 id="another-computer">A model on another computer</h3>
-      <p>A model server on another computer of yours works the same way: put its address in the <code>url</code>. Ixel counts a server on your own network or your Tailscale network as local, so its calls are free in the cost line. Plain <code>http://</code> across a network isn't encrypted; over Tailscale it is.</p>
+      <div class="callout tip"><span class="label">Running setup again</span><p><code>ixel setup</code> keeps the models you added by hand or in the app: it lists them and asks before keeping them. Each model keeps its effort and pictures settings. It writes the file afresh, so comments you wrote in it aren't kept; the file from before stays beside it as <code>config.toml.bak</code>.</p></div>
 
       <h2 id="what-fits">Which model fits your computer</h2>
       <p>The best open models a computer with that much memory can run. On a Mac, count all your memory, since the graphics share it. On a PC, count your graphics card's memory: a model that doesn't fit there still runs, but much more slowly.</p>
@@ -155,13 +167,80 @@ label = "My GPU box (local)"</code></pre>
       <p>"Needs" is an estimate: about 0.6 GB for each billion parameters, which is a typical 4-bit download, plus 2 GB for the conversation. A smaller download of the same model needs less and answers a little worse; a larger one needs more. Model servers often name models differently from the benchmark, so search for the model's name in Ollama's or LM Studio's library.</p>
       <p>Scores are on the same scale as <a href="../models/">the cloud picks</a>, so you can see what you give up. Today's best local models score well below the best cloud ones, which is why the mix below works well.</p>
 
+      <h2 id="in-the-app">Models on your computers</h2>
+      <p>In the app, <strong>Settings</strong> has a card for the models on your own computers:</p>
+      <ul>
+        <li><strong>Look</strong> beside This computer asks each server's usual port on this computer. Beside Another computer, type its name, address or Tailscale name. Ixel looks only when you press Look, and only there: it never searches your network.</li>
+        <li>Each server it finds lists its models. <strong>Add</strong> puts one on your panel, with no key. Models that can't answer a question, such as embedding models, are left out, and so are Ollama's cloud models (names ending in <code>-cloud</code> or <code>:cloud</code>), which run on ollama.com.</li>
+        <li>A model you added shows its server's address under <strong>Models</strong>. Change the address to move the model to another of your computers that has it.</li>
+        <li><strong>Take off</strong> removes one of these models from your list. If it writes the verdict, verifies for Saver or decides for Triage, pick another model for that first. Ixel won't take off the last model on your panel, or the last one drafting for Saver.</li>
+      </ul>
+      <figure class="shot">
+        <img src="../images/app-settings-local.webp" width="2560" height="2000" loading="lazy" alt="Settings, Models on your computers: Look found Ollama on this computer, with two models on the list, one to add, two left out, and qwen3:8b downloading at 46 percent. Below it, under Asking, Private is on, with Claude and GPT sitting out">
+        <figcaption>Look found Ollama on this computer: two of its models are on your list, one can be added, and two are left out. <strong>Get a model</strong> is fetching qwen3:8b. <strong>Private</strong> is just below, under Asking. (A stand-in Ollama answers in the pictures; nothing was downloaded.)</figcaption>
+      </figure>
+      <p>Looking sends nothing of yours and no key: Ixel asks the server directly, never through a proxy, and doesn't follow a redirect. Ixel never gives a key to a server it finds or adds. (One you add to the settings file by hand with <code>token_env</code> gets that key, as you set.) Settings saves only an address on this computer or your own network, and asks the server there again before saving it. Adding a company's model or a program stays with <code>ixel setup</code>.</p>
+
+      <h2 id="get-a-model">Get a model</h2>
+      <p>Under each Ollama in <strong>Models on your computers</strong>, type a model's name as <a href="https://ollama.com/library">ollama.com/library</a> shows it, such as <code>qwen3:8b</code>, or one from Hugging Face as <code>hf.co/</code> and its name. Press <strong>Get</strong>, and that Ollama downloads it onto the computer it runs on, showing how far along it is. Then press <strong>Add</strong> beside it.</p>
+      <ul>
+        <li><strong>Where it comes from:</strong> Ixel only asks your Ollama to get the model. Ollama downloads it from ollama.com, or from Hugging Face for an <code>hf.co/</code> name, as <code>ollama pull</code> does. They see that computer's address and the model's name. Ixel sends nothing else.</li>
+        <li><strong>One at a time.</strong> Closing the page stops the download. Getting the same model again carries on from where it stopped.</li>
+        <li><strong>Cloud models aren't offered.</strong> A name ending in <code>-cloud</code> or <code>:cloud</code> runs on ollama.com, not on your computer.</li>
+        <li>LM Studio and the other servers download models in their own app.</li>
+      </ul>
+
+      <h2 id="another-computer">Use another computer</h2>
+      <p>A model server on another of your computers works the same way, such as a desktop with a big graphics card, or a Mac with a lot of memory. In Settings, type its name, address or Tailscale name beside Another computer (<code>mac-mini</code>, <code>192.168.1.20</code> or <code>mac-mini.tail1234.ts.net</code>) and press <strong>Look</strong>. <code>ixel setup</code> asks for one too. With no port, Ixel tries each server's usual port there.</p>
+      <ol class="steps-doc">
+        <li><h3>Let other computers in</h3><p>On that computer: in LM Studio, turn on <strong>Serve on Local Network</strong> in its Developer tab. For Ollama, set <code>OLLAMA_HOST=0.0.0.0</code> and restart it. Its firewall has to allow the port too.</p>
+          <div class="callout warn"><span class="label">Anyone on that network can use it</span><p>Out of the box, Ollama and LM Studio don't ask for a password. Once a server lets other computers in, anyone on the same network can ask it questions, and with Ollama, download or delete its models. Do this only on a computer that stays on your home network, never on a laptop you take to café or office Wi-Fi: the setting stays on wherever it goes.</p></div></li>
+        <li><h3>Use a name Ixel can tell is yours</h3><p>Ixel adds only a computer on your own network or your Tailscale network: a private address, a Tailscale address, or a name that leads only to those. It checks the name again each time it asks a question, so it has to look like yours: a short name like <code>mac-mini</code>, or one ending in <code>.local</code>, <code>.lan</code>, <code>.internal</code>, <code>.home.arpa</code> or <code>.ts.net</code>. Your router's own names, like <code>mac-mini.fritz.box</code>, don't count; use the address instead. A name you type is looked up like any computer name, through your usual DNS.</p></li>
+      </ol>
+      <p>A server anywhere else, such as one on the internet, goes in your settings file by hand, and isn't counted as yours. Calls to your own computers are free in the cost line. Plain <code>http://</code> across your network isn't encrypted; over Tailscale it is.</p>
+
+      <h2 id="private">Private</h2>
+      <p>Turn on <strong>Private</strong> in <strong>Settings</strong>, under Asking, and only the models on your own computers answer. Or in your settings file:</p>
+      <pre class="code"><code>[review]
+private = true</code></pre>
+      <figure class="shot">
+        <img src="../images/app-ask-private.webp" width="2560" height="1600" loading="lazy" alt="Ask with Private on: the panel list starts with Private, 2 sit out, followed by the two local models">
+        <figcaption>Ask with Private on: the two models on this computer answer, and the two company models sit out. (Stand-in models, as in every picture.)</figcaption>
+      </figure>
+      <p>A model counts as yours when Ixel asks it directly, with no key, at an address on this computer or your own network. These sit out:</p>
+      <ul>
+        <li>Every company's model, and every program Ixel starts (Claude Code, Codex, OpenCode and the rest), since Ixel can't see where a program sends things.</li>
+        <li>A verdict writer that isn't one of yours: the author of the best-rated answer writes the verdict instead.</li>
+        <li>Saver's verifier, if it isn't one of yours. Saver won't run until you pick one of yours to verify.</li>
+        <li>Triage, unless one of your models decides.</li>
+        <li>A server that takes a key or is marked <code>billing = "api"</code>: that's most likely a gateway that passes questions on to a company.</li>
+        <li>Ollama's cloud models (<code>-cloud</code> or <code>:cloud</code>), which run on ollama.com.</li>
+      </ul>
+      <p>Private can't see what a server does with a question. A server on your network that passes questions on to a company still counts as yours, such as a proxy like LiteLLM set up without a key, or an app connected to a cloud model. Add only servers that run the model themselves.</p>
+      <p>With Private on:</p>
+      <ul>
+        <li>If none of your models can answer, Ixel says so and sends nothing.</li>
+        <li><strong>Sound</strong> isn't sent to OpenAI or Groq to be written out. The only exception is a speech server on this computer that you set as <code>openai_url</code> or <code>groq_url</code> under <code>[sound]</code> in the settings file; it still needs your OpenAI or Groq key saved, and Ixel sends it that key.</li>
+        <li>The terminal chat, <code>ixel review</code> and <code>ixel ask</code> use only your models, and <code>/handoff</code> in Ask is off, since Handoff's coding agents send work to their companies. An <code>ixel</code> chat that was already open keeps the setting it started with: close it and start it again after you turn Private on.</li>
+        <li>A conversation asked with Private on isn't carried into a follow-up once Private is off.</li>
+      </ul>
+      <div class="callout private"><span class="label">What Private doesn't cover</span>
+        <ul>
+          <li>Pictures you make with <code>ixel image</code> still go to xAI or OpenAI. With <code>--file</code> or <code>--diff</code>, only a model of yours reads your files to describe the picture; the description still goes out.</li>
+          <li>The Board's <strong>Review…</strong> and <strong>Fix…</strong> send work to the agent you pick there.</li>
+          <li>A question asked through the plugin, in Claude Desktop, Claude Code, Codex or Cursor, came from that app's model in the first place.</li>
+          <li><code>ixel review</code> keeps your last three questions on your computer in <code>conversation.json</code>, as it does with Private off. <a href="../privacy/#leave-no-trace">Privacy</a> says how to clear it.</li>
+          <li>Ollama, LM Studio and the other servers are programs of their own, with their own settings and logs.</li>
+        </ul>
+      </div>
+
       <h2 id="mix">Mix local and cloud</h2>
       <p>The cheapest panel that still gets things right: local models do the drafting and reviewing, and one strong cloud model checks their work. That's <strong>Saver</strong>:</p>
       <pre class="code"><code>[saver]
 verifier = "opus"                 # one strong model, on a key or a subscription
 drafters = ["qwen", "gpubox"]     # your local models
 verifier_effort = "low"           # it only has to check</code></pre>
-      <p>Or in the app: <strong>Settings</strong>, Saver. The drafters' calls are free; the big model reads their drafts and replies in a few words, so it costs far less than writing the answer itself. <a href="../models/#the-jobs">The four jobs</a> says more.</p>
+      <p>Or in the app: <strong>Settings</strong>, Saver. The drafters' calls are free; the big model reads their drafts and replies in a few words, so it costs far less than writing the answer itself. <a href="../models/#the-jobs">The four jobs</a> says more. With <a href="#private">Private</a> on, the verifier has to be one of your own models too.</p>
       <p>Each review's cost line counts local calls as free:</p>
       <figure class="term">
         <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
@@ -175,11 +254,13 @@ verifier_effort = "low"           # it only has to check</code></pre>
       <p>A model server on your computer gets thinking settings from <code>minimal</code> to <code>high</code>, so <code>xhigh</code> and <code>max</code> are sent as <code>high</code>. Whether the model uses it is up to the model and the server. The table above only counts the settings Ixel can send.</p>
 
       <h2 id="what-stays-home">What stays on your computer</h2>
-      <p>With only local models on your panel, and Triage off or deciding with one of them, your questions, your code and the answers go no further than the computer running the model. A few parts of Ixel reach the internet for other reasons, and none of them sends your questions:</p>
+      <p>With <a href="#private">Private</a> on, your questions, your code and the answers go no further than your own computers, as long as your servers run the models themselves. A few parts of Ixel reach the internet for other reasons, and none of them sends your questions:</p>
       <ul>
         <li>The terminal chat checks GitHub for a new version once a day. <code>[updates] check = false</code> turns it off.</li>
-        <li><strong>Sound</strong> sends a recording to OpenAI or Groq, and making pictures sends your description to xAI or OpenAI, only when you use them.</li>
+        <li><strong>Get a model</strong> has your Ollama download from ollama.com or Hugging Face, when you press Get.</li>
+        <li>Making pictures sends your description to xAI or OpenAI, only when you use it. With Private off, <strong>Sound</strong> sends a recording to OpenAI or Groq the same way.</li>
         <li>The Board reads a project's pull requests from its git host when you open it.</li>
+        <li>Opening Settings asks each company you've saved a key for which models it has, and Health's <strong>Check now</strong>, <code>ixel status</code> and <code>ixel doctor --check</code> ask each model whether it answers. These send your key, never a question, and Private doesn't stop them.</li>
       </ul>
       <p><a href="../privacy/">Privacy</a> has the whole list.</p>
 
@@ -193,6 +274,10 @@ verifier_effort = "low"           # it only has to check</code></pre>
       <ul>
         <li><a href="#set-up">Set one up</a></li>
         <li><a href="#what-fits">Which model fits your computer</a></li>
+        <li><a href="#in-the-app">Models on your computers</a></li>
+        <li><a href="#get-a-model">Get a model</a></li>
+        <li><a href="#another-computer">Use another computer</a></li>
+        <li><a href="#private">Private</a></li>
         <li><a href="#mix">Mix local and cloud</a></li>
         <li><a href="#pictures">Pictures</a></li>
         <li><a href="#thinking">Thinking settings</a></li>

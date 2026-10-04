@@ -184,7 +184,8 @@
       <p>The choices among what's already set up, each saved as you make it:</p>
       <ul>
         <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list. Effort offers only the levels that model takes.</li>
-        <li><strong>Asking:</strong> the mode Ask starts on, and who writes the verdict.</li>
+        <li><strong>Models on your computers:</strong> add models from Ollama, LM Studio and other servers of yours, on this computer or another one, move them, or take them off. Under an Ollama, <strong>Get a model</strong> downloads one by name. <a href="../local-models/#in-the-app">Local models</a> has pictures.</li>
+        <li><strong>Asking:</strong> the mode Ask starts on, who writes the verdict, and <strong>Private</strong>, which has only the models on your own computers answer. See <a href="../local-models/#private">Private</a>.</li>
         <li><strong>Saver</strong> and <strong>Triage</strong>: the big model that verifies, the models that draft, and the model that decides. <a href="../models/">Which model for each job</a> has picks.</li>
         <li><strong>Pictures</strong> and <strong>Sound</strong>: which models see pictures, and which service makes pictures or writes out sound.</li>
         <li><strong>Appearance:</strong> System (the default) matches your computer's light or dark mode, or keep it Light or Dark.</li>
@@ -194,7 +195,7 @@
         <img src="../images/app-settings.webp" width="2560" height="1600" loading="lazy" alt="The Settings page: Appearance, then the models on the panel, each with a model and effort to pick, and the Docs button at the top">
         <figcaption>Settings: Appearance, then each model on the panel with the model and effort it uses. <strong>Docs</strong> is at the top right. (The pictures' models all run on a stand-in server here, so each list says it came from your model server; a real API model's list comes from its company.)</figcaption>
       </figure>
-      <p>Settings changes only those lines of your settings file and keeps your comments. The file from before each change is kept as <code>config.toml.bak</code>. If the file changed since the page read it, it shows you the new one instead of saving over it. Adding a model, or changing where one's requests go, stays with <code>ixel setup</code> and the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser.</p>
+      <p>Settings changes only those lines of your settings file and keeps your comments. The file from before each change is kept as <code>config.toml.bak</code>. If the file changed since the page read it, it shows you the new one instead of saving over it. Adding a company's model or a program, or changing any other command, address or key name, stays with <code>ixel setup</code> and the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser.</p>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->
         <a class="prev" href="../setup/"><span>Previous</span>Set up your models</a>
