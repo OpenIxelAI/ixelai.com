@@ -1,6 +1,6 @@
 # Once a week, reads Artificial Analysis's latest numbers and updates the model picks on
-# docs/models/ and docs/local-models/ (scripts/make-models.py --fetch), then pushes them to main, which
-# GitHub Pages publishes. It needs a free Artificial Analysis API key saved as the repository secret
+# docs/models/ and docs/local-models/ (scripts/make-models.py --fetch), pushes them to main and asks
+# GitHub Pages to publish them. It needs a free Artificial Analysis API key saved as the repository secret
 # AA_API_KEY; without one it does nothing. The key is kept as a GitHub secret and sent only to
 # Artificial Analysis. Nothing about the site's visitors is involved.
 name: Refresh model picks
@@ -23,6 +23,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: write
+      pages: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,6 +48,7 @@ jobs:
           python3 scripts/make-docs.py --check
 
       - name: Push the new picks
+        id: push
         if: steps.fetch.outputs.skip != 'true'
         run: |
           git add docs/models/data.json docs/models/index.html docs/local-models/index.html
@@ -58,3 +60,11 @@ jobs:
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
               commit -q -m "Model picks: Artificial Analysis's numbers of $(date -u +%Y-%m-%d)"
           git push origin HEAD:main
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made with the workflow's own token doesn't start a GitHub Pages build, so ask for one
+      - name: Publish them
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" --silent

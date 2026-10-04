@@ -88,8 +88,9 @@ to change nothing and fail if a page is out of date; a third retakes the picture
 
 ### The weekly refresh
 
-`.github/workflows/model-picks.yml` runs `make-models.py --fetch` every Monday and pushes the new picks
-to `main`, which publishes them. It needs the key saved as a repository secret: **Settings → Secrets and
+`.github/workflows/model-picks.yml` runs `make-models.py --fetch` every Monday, pushes the new picks to
+`main` and asks GitHub Pages to publish them (a push made with a workflow's own token doesn't start a
+Pages build by itself). It needs the key saved as a repository secret: **Settings → Secrets and
 variables → Actions → New repository secret**, named `AA_API_KEY`. Without it, the job stops with a
 warning and changes nothing. To refresh now, open **Actions → Refresh model picks → Run workflow**. A
 run's page shows the notes about new models. The key is sent only to Artificial Analysis. GitHub Actions
