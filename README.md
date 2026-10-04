@@ -85,7 +85,9 @@ to change nothing and fail if a page is out of date; a third retakes the picture
 - **`python scripts/docs-screenshots.py --ixel-mat ../ixel-mat`** retakes the app pictures in
   `docs/images/`. It runs the real app from an Ixel MAT checkout, with stand-in models that give scripted
   answers, an example project board and example machines, in a home folder of its own, so nothing of
-  yours shows. It needs Ixel MAT, Handoff, Playwright's Chromium and Pillow. Look at every picture before
+  yours shows. It needs Ixel MAT, Handoff, Playwright's Chromium and Pillow. The pictures of models on your
+  computers and Private use a stand-in Ollama at port 11434, so they need that port and the other model
+  servers' ports free; the script skips them and says so otherwise. Look at every picture before
   committing it, and run it again whenever the app's pages change.
 
 ## GitHub Pages

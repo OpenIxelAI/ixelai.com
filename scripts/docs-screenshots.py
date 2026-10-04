@@ -12,6 +12,10 @@ MAT's own tests/fake_providers.py) and are scripted for the pictures, which the 
 Everything runs in a home folder of its own (--home; a new temporary folder by default), so no real
 paths, keys, names or machines appear. Look at every picture before committing it.
 
+The pictures of models on your computers and Private need the model servers' usual ports free (Ollama's
+11434, LM Studio's 1234 and the others Ixel looks at), since a stand-in Ollama answers at 11434 and Look
+would show any real server too. If one is taken, those pictures are skipped and the script says which.
+
 The pictures go in docs/images/ as WebP. Run it again after the app changes, and commit what changed.
 """
 from __future__ import annotations
@@ -26,8 +30,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import socket
 import threading
 import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent
@@ -67,6 +73,10 @@ AGENTS = [  # name, model the stand-in answers as, label, billing
     ("gemini", "gemini-3.8-flash", "Gemini Flash", "api"),
     ("qwen", "qwen3.8:27b", "Qwen 27B (local)", "local"),
 ]
+LOCAL_PICTURES = {"app-settings-local", "app-ask-private"}
+SERVER_PORTS = (11434, 1234, 8080, 8000, 1337, 4891, 5001)  # where Look checks (ixel_mat.local_models)
+OLLAMA_MODELS = ["qwen3.8:27b", "k2-horizon:7b", "llama3.2:3b", "nomic-embed-text:latest", "gpt-oss:120b-cloud"]
+GET_MODEL = "qwen3:8b"
 MACHINES = [
     {"id": "m1", "name": "homelab", "host": "homelab", "user": "you", "agent": "openclaw",
      "command": "openclaw tui", "group": "Home", "notes": "The Mac mini in the closet"},
@@ -95,11 +105,23 @@ def main() -> int:
     home.mkdir(parents=True, exist_ok=True)
     args.out.mkdir(parents=True, exist_ok=True)
 
+    only = set(args.only or ())
     with ThreadedFakeProvider(panel) as fake:
         fake.stream_delay = 0.05
         make_home(home, fake.openai_url)
         with run_app(home) as url:
-            shoot(url, home, args.out, set(args.only or ()))
+            shoot(url, home, args.out, only)
+        if not only or only & LOCAL_PICTURES:
+            taken = [port for port in SERVER_PORTS if port_taken(port)]
+            if taken:
+                print(f"Skipped {', '.join(sorted(LOCAL_PICTURES))}: something is listening on "
+                      f"{', '.join(map(str, taken))}. Stop your model servers and run it again with --only.",
+                      file=sys.stderr)
+            else:
+                local_home = home / "local"
+                make_local_home(local_home, fake.openai_url)
+                with StandInOllama(OLLAMA_MODELS) as ollama, run_app(local_home) as url:
+                    shoot_local(url, ollama, args.out, only)
     print(f"Done. The pictures are in {args.out}. Look at each one before committing it.")
     return 0
 
@@ -141,9 +163,10 @@ def panel(recorded):
 def make_home(home: Path, url: str) -> None:
     cfg = home / ".config" / "ixel-mat"
     cfg.mkdir(parents=True)
-    agents = "".join(
-        f'[agents.{name}]\ntype = "http"\nurl = "{url}"\ntoken_env = "IXEL_DEMO_KEY"\nmodel = "{model}"\n'
-        f'label = "{label}"\nbilling = "{billing}"\n\n' for name, model, label, billing in AGENTS)
+    agents = "".join(  # the local one has no key, like a model server of yours
+        f'[agents.{name}]\ntype = "http"\nurl = "{url}"\n'
+        + ('' if billing == "local" else 'token_env = "IXEL_DEMO_KEY"\n')
+        + f'model = "{model}"\nlabel = "{label}"\nbilling = "{billing}"\n\n' for name, model, label, billing in AGENTS)
     (cfg / "config.toml").write_text(
         "# Example settings for the docs' pictures\n\n" + agents
         + '[review]\nmode = "review"\nmoderator = "claude"\n\n'
@@ -190,6 +213,101 @@ def make_board(project: Path) -> None:
     t6, _ = board.create("claude", "Set up the linter", "Ruff, with the project's line length.", assignee="claude")
     board.set_status("claude", t6.id, "done", reason="Nothing to review: config only.")
     board.create(HUMAN, "Make a logo for the shop", "Something simple, in the shop's green.")
+
+
+def make_local_home(home: Path, url: str) -> None:
+    """Settings for the Private pictures: two company models and two on the stand-in Ollama, Private on."""
+    cfg = home / ".config" / "ixel-mat"
+    cfg.mkdir(parents=True)
+    cloud = "".join(
+        f'[agents.{name}]\ntype = "http"\nurl = "{url}"\ntoken_env = "IXEL_DEMO_KEY"\nmodel = "{model}"\n'
+        f'label = "{label}"\nbilling = "api"\n\n' for name, model, label, _ in AGENTS[:2])
+    local = "".join(
+        f'[agents.{name}]\ntype = "http"\nurl = "http://127.0.0.1:11434/v1/chat/completions"\nmodel = "{model}"\n'
+        f'label = "{model} (local)"\ncolor = "yellow"\n\n' for name, model in (("qwen", "qwen3.8:27b"),
+                                                                                ("k2", "k2-horizon:7b")))
+    (cfg / "config.toml").write_text(
+        "# Example settings for the docs' pictures of Private\n\n" + cloud + local
+        + '[review]\nmode = "review"\nmoderator = "qwen"\nprivate = true\n\n'
+        + '[updates]\ncheck = false\n', encoding="utf-8")
+
+
+def port_taken(port: int) -> bool:
+    with socket.socket() as s:
+        s.settimeout(0.5)
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
+class StandInOllama:
+    """
+    Answers at 127.0.0.1:11434 as Ollama does, for the Settings pictures: its model list, its version, and a
+    download that stops partway until release() so the picture shows how far along it is. Nothing is
+    downloaded, and it never answers a question.
+    """
+
+    def __init__(self, models: list[str]):
+        self.models = list(models)
+        self.released = threading.Event()
+
+    def release(self) -> None:
+        self.released.set()
+
+    def __enter__(self) -> "StandInOllama":
+        ollama = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *args) -> None:
+                pass
+
+            def send(self, data: dict, status: int = 200) -> None:
+                body = json.dumps(data).encode()
+                self.send_response(status)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_GET(self) -> None:
+                if self.path == "/v1/models":
+                    self.send({"object": "list", "data": [{"id": m, "object": "model", "owned_by": "library"}
+                                                          for m in ollama.models]})
+                elif self.path == "/api/version":
+                    self.send({"version": "0.12.3"})
+                else:
+                    self.send({"error": "not found"}, 404)
+
+            def do_POST(self) -> None:
+                if self.path != "/api/pull":
+                    self.send({"error": "not found"}, 404)
+                    return
+                model = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0)))).get("model")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/x-ndjson")
+                self.end_headers()
+                total = 5_200_000_000
+
+                def step(**data) -> None:
+                    self.wfile.write((json.dumps(data) + "\n").encode())
+                    self.wfile.flush()
+                    time.sleep(0.2)
+
+                step(status="pulling manifest")
+                for part in (0.12, 0.31, 0.46):
+                    step(status="pulling 8f3e2a1c9b70", total=total, completed=int(total * part))
+                ollama.released.wait(60)
+                for status in ("verifying sha256 digest", "writing manifest", "success"):
+                    step(status=status)
+                ollama.models.insert(3, model)
+
+        self.server = ThreadingHTTPServer(("127.0.0.1", 11434), Handler)
+        self.server.daemon_threads = True
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+        return self
+
+    def __exit__(self, *exc) -> None:
+        self.released.set()
+        self.server.shutdown()
+        self.server.server_close()
 
 
 @contextlib.contextmanager
@@ -304,6 +422,49 @@ def shoot(url: str, home: Path, out: Path, only: set[str]) -> None:
             page.set_viewport_size({"width": 1280, "height": 1180})
             page.wait_for_timeout(500)
             save(page, "app-settings-roles")
+        if errors:
+            print("The page reported errors:", *errors, sep="\n  ", file=sys.stderr)
+        browser.close()
+
+
+def shoot_local(url: str, ollama: StandInOllama, out: Path, only: set[str]) -> None:
+    """Private on the Ask page, and Settings' Models on your computers getting a model, with Private below it."""
+    from playwright.sync_api import sync_playwright
+
+    def save(page, name: str) -> None:
+        if only and name not in only:
+            return
+        webp(page.screenshot(), out / f"{name}.webp")
+        print(f"  {name}.webp")
+
+    def scroll_to(page, selector: str) -> None:
+        page.evaluate(f"document.querySelector({json.dumps(selector)}).scrollIntoView({{block: 'start'}})")
+        page.wait_for_timeout(400)
+
+    with sync_playwright() as p:
+        browser = launch(p)
+        context = browser.new_context(viewport=VIEWPORT, device_scale_factor=2, color_scheme="dark")
+        page = context.new_page()
+        errors = []
+        page.on("pageerror", lambda e: errors.append(str(e)))
+        page.goto(url)
+        page.wait_for_selector(".model.private", state="attached")
+        page.wait_for_timeout(500)
+        save(page, "app-ask-private")
+
+        page.click('.rail-item[data-view="settings"]')
+        page.wait_for_selector("#set-h-servers", timeout=20_000)
+        page.wait_for_timeout(1500)
+        page.click('[data-key="servers:here"]')
+        page.wait_for_selector('.set-agent[aria-label="Ollama on this computer"]', timeout=20_000)
+        page.fill('[data-key="servers:get:http://127.0.0.1:11434/v1"]', GET_MODEL)
+        page.click('[data-key="servers:get-go:http://127.0.0.1:11434/v1"]')
+        page.get_by_text("46% of 5.2 GB").wait_for(timeout=20_000)
+        page.set_viewport_size({"width": 1280, "height": 1000})
+        scroll_to(page, "#set-h-servers")
+        save(page, "app-settings-local")
+        ollama.release()
+        page.get_by_text(f"{GET_MODEL} is on this computer now").wait_for(timeout=20_000)
         if errors:
             print("The page reported errors:", *errors, sep="\n  ", file=sys.stderr)
         browser.close()

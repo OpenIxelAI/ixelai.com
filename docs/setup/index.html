@@ -98,16 +98,16 @@
       <ol class="steps-doc">
         <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it to <code>~/.config/ixel-mat/.env</code>, a file only you can read. For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
         <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot or OpenCode is installed, it offers to add it. Sign in to each one first, in the program itself.</p></li>
-        <li><h3>Local models</h3><p>If Ollama or LM Studio is running on this computer, their models are listed, and you add the ones you want with no key.</p></li>
+        <li><h3>Local models</h3><p>If Ollama, LM Studio or another model server (llama.cpp, vLLM, Jan, GPT4All, KoboldCpp) is running on this computer, its models are listed, and you add the ones you want with no key. It also offers to add models on another of your computers, by its name or address. <a href="../local-models/">Local models</a> has more.</p></li>
         <li><h3>How you like to ask</h3><p>Your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
         <li><h3>Saver and Triage</h3><p>Which model verifies in Saver mode, and whether to turn on Triage. Both are explained under <a href="#jobs">the jobs on your panel</a>.</p></li>
       </ol>
       <p>When it's done, check everything works:</p>
       <pre class="code"><code>ixel status            # keys checked with each company, and each model's connection
 ixel doctor --check    # every part of Ixel, and asks each model's server whether it answers</code></pre>
-      <div class="callout warn">
+      <div class="callout tip">
         <span class="label">Running setup again</span>
-        <p><code>ixel setup</code> writes your settings file again from your answers. The old one is kept beside it as <code>config.toml.bak</code>, but a model you added to the file by hand isn't carried over: copy it back from the <code>.bak</code> file. To change a model you already have, use <strong>Settings</strong> in the app or <code>ixel model</code> instead.</p>
+        <p><code>ixel setup</code> keeps what it doesn't ask about: models you added by hand or in the app (it lists them and asks first), each model's effort and pictures settings, and the choices you made in the app, such as which models sit on the panel. The file from before is kept beside it as <code>config.toml.bak</code>. To change a model you already have, <strong>Settings</strong> in the app or <code>ixel model</code> is quicker.</p>
       </div>
 
       <h2 id="api-keys">API keys</h2>
@@ -169,7 +169,7 @@ label = "DeepSeek"</code></pre>
         </table>
       </div>
       <figure class="shot">
-        <img src="../images/app-settings-roles.webp" width="2560" height="2360" alt="The app's Settings page: Asking, with who writes the verdict; Saver, with the big model that verifies and the models that draft; and Triage">
+        <img src="../images/app-settings-roles.webp" width="2560" height="2360" alt="The app's Settings page: Asking, with Private and who writes the verdict; Saver, with the big model that verifies and the models that draft; and Triage">
         <figcaption>Settings in the app: each choice is saved as you make it. (Example models.)</figcaption>
       </figure>
       <h3 id="triage-choice">Who decides, in Triage</h3>
@@ -179,7 +179,7 @@ label = "DeepSeek"</code></pre>
       </ul>
 
       <h2 id="pick-a-model">Change a model</h2>
-      <p>In the app, <strong>Settings</strong>, <strong>Models</strong> lists each model on your panel. Pick its model from a list: the company's own list when Ixel has a key for it, what <code>opencode models</code> says for OpenCode, what your local server has, or a list built into Ixel (which says it may be out of date). <strong>Other…</strong> takes any name. In a terminal, <code>ixel model</code> does the same:</p>
+      <p>In the app, <strong>Settings</strong>, <strong>Models</strong> lists each model on your panel. Pick its model from a list: the company's own list when Ixel has a key for it, the models OpenCode already knows, what your local server has, or a list built into Ixel (which says it may be out of date). <strong>Other…</strong> takes any name. In a terminal, <code>ixel model</code> does the same:</p>
       <pre class="code"><code>ixel model                    # every model on your panel, and what "latest" means today
 ixel model opus               # the models that one can use
 ixel model opus latest-fast   # change it</code></pre>
