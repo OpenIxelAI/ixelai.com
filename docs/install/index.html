@@ -295,7 +295,7 @@ rm -rf ~/.local/share/handoff ~/.local/bin/handoff</code></pre>
       <h3 id="install-stopped">"Install stopped"</h3>
       <p>The lines above it say why, and what to install or change. Fix that and run the same command again. Running it more than once is safe: it updates what's there.</p>
       <h3 id="git-login">Git asks for a username and password</h3>
-      <p>The installer downloads Ixel MAT and Handoff from their repositories on GitHub. While a repository isn't public yet, Git asks for a GitHub login that has access to it. Git doesn't take your GitHub password there: run <code>gh auth login</code> first with the <a href="https://cli.github.com">GitHub CLI</a>, or paste a personal access token when it asks for a password.</p>
+      <p>The installer downloads Ixel MAT and Handoff from their public repositories on GitHub, so it never needs a login. If Git asks for one, it's been given an address that isn't there: press Ctrl+C, check <code>IXEL_REPO_URL</code> and <code>HANDOFF_REPO_URL</code> for a typo if you set them, and run the same command again.</p>
       <h3 id="windows-admin">It says I need to be an administrator</h3>
       <p>Ixel itself doesn't. Installing Git or Python with winget may ask Windows for permission; that's winget, and you can say no and install them yourself instead.</p>
 

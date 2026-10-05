@@ -148,8 +148,10 @@ ixel review -f app.py -f config.toml "Why does the retry loop never stop?"</code
       <pre class="code"><code>ixel ask --list                                   # the models you can ask
 ixel ask --agent gemini "Make me a list of open-source projects like this one" -f README.md
 ixel ask --agent codex --diff "Review this"       # one model reads your changes
+ixel ask --agent codex,claude,local "Explain this error" -f log.txt   # the next answers when one is out of usage
 ixel image "a lighthouse at dusk, watercolor"     # saved in Pictures/Ixel
 ixel image -f README.md -n 2 "a poster for my project" --provider grok</code></pre>
+      <p>Name several models, in the order you want them, and when one is out of usage (its plan's limit, its quota or its credits are used up for now) the next one answers. Only the models you name are asked, and any other failure, like a wrong key, stops there rather than being hidden by the next model's answer.</p>
       <p><code>ixel image</code> uses xAI (Grok Imagine) or OpenAI, with the key you saved in <code>ixel setup</code>. Given files, one of your chat models reads them first and describes the picture, and only that description goes to the picture service.</p>
 
       <h2 id="plugin">Inside Claude Desktop, Claude Code, Codex and Cursor</h2>
@@ -167,7 +169,7 @@ ixel image -f README.md -n 2 "a poster for my project" --provider grok</code></p
             <tr><td><code>ixel</code></td><td>The chat</td></tr>
             <tr><td><code>ixel setup</code></td><td>Find your models and save your keys (<a href="../setup/">Set up your models</a>)</td></tr>
             <tr><td><code>ixel review "question"</code></td><td>Ask the panel; <code>--diff</code> reviews your changes</td></tr>
-            <tr><td><code>ixel ask --agent NAME "question"</code></td><td>One model answers on its own; <code>--list</code> shows who you can ask</td></tr>
+            <tr><td><code>ixel ask --agent NAME "question"</code></td><td>One model answers on its own; name several (<code>codex,claude</code>) and the next answers when one is out of usage; <code>--list</code> shows who you can ask</td></tr>
             <tr><td><code>ixel image "description"</code></td><td>Make pictures with xAI or OpenAI</td></tr>
             <tr><td><code>ixel app</code></td><td>The Ixel app, in a window of its own</td></tr>
             <tr><td><code>ixel gui</code></td><td>The Ixel app, as a tab in your browser</td></tr>
