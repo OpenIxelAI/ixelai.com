@@ -96,7 +96,7 @@
       <pre class="code"><code>ixel setup</code></pre>
       <p>It walks you through the rest, and you can press <kbd>Enter</kbd> to keep each default or answer <kbd>n</kbd> to skip:</p>
       <ol class="steps-doc">
-        <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it to <code>~/.config/ixel-mat/.env</code>, a file only you can read. For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
+        <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it encrypted, with the key that opens it in your system's keychain (on a computer with no keychain Ixel can use, in a file only you can read). For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
         <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot or OpenCode is installed, it offers to add it. Sign in to each one first, in the program itself.</p></li>
         <li><h3>Local models</h3><p>If Ollama, LM Studio or another model server (llama.cpp, vLLM, Jan, GPT4All, KoboldCpp) is running on this computer, its models are listed, and you add the ones you want with no key. It also offers to add models on another of your computers, by its name or address. <a href="../local-models/">Local models</a> has more.</p></li>
         <li><h3>How you like to ask</h3><p>Your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
@@ -145,7 +145,7 @@ ixel doctor --check    # every part of Ixel, and asks each model's server whethe
       <p>Two ways to add a model from a company Ixel doesn't set up for you:</p>
       <ul>
         <li><strong>Through OpenCode.</strong> OpenCode can sign in to many companies. Set it up with the model you want, then add OpenCode in <code>ixel setup</code>.</li>
-        <li><strong>Through its company's API</strong>, if it speaks the OpenAI chat API (most do). Add it to <code>~/.config/ixel-mat/config.toml</code> by hand, with the full address ending in <code>/v1/chat/completions</code>, and put its key in <code>~/.config/ixel-mat/.env</code> under the name you give in <code>token_env</code>:</li>
+        <li><strong>Through its company's API</strong>, if it speaks the OpenAI chat API (most do). Add it to <code>~/.config/ixel-mat/config.toml</code> by hand, with the full address ending in <code>/v1/chat/completions</code>, and put its key in <code>~/.config/ixel-mat/.env</code> under the name you give in <code>token_env</code>. The next time Ixel starts, it moves the key into your keychain:</li>
       </ul>
       <pre class="code"><code>[agents.deepseek]
 type = "http"
