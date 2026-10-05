@@ -80,7 +80,7 @@
           <thead><tr><th>Kind</th><th>Which</th><th>Paid how</th></tr></thead>
           <tbody>
             <tr><td><a href="#api-keys">API keys</a></td><td>OpenAI, Anthropic, Google Gemini and xAI (Grok)</td><td>Per token, on your account with that company</td></tr>
-            <tr><td><a href="#subscriptions">Subscription programs</a></td><td>Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode</td><td>Your plan with that company; no API key needed, except for Gemini CLI</td></tr>
+            <tr><td><a href="#subscriptions">Subscription programs</a></td><td>Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode, Grok Build</td><td>Your plan with that company; no API key needed, except for Gemini CLI</td></tr>
             <tr><td><a href="../local-models/">Local models</a></td><td>Ollama, LM Studio, or any server that speaks the OpenAI chat API</td><td>Free: they run on your own hardware</td></tr>
             <tr><td><a href="#other-models">Other models</a></td><td>DeepSeek, Kimi, GLM, MiMo and others, through OpenCode or their own API</td><td>Their company's prices</td></tr>
           </tbody>
@@ -97,7 +97,7 @@
       <p>It walks you through the rest, and you can press <kbd>Enter</kbd> to keep each default or answer <kbd>n</kbd> to skip:</p>
       <ol class="steps-doc">
         <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it encrypted, with the key that opens it in your system's keychain (on a computer with no keychain Ixel can use, in a file only you can read). For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
-        <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot or OpenCode is installed, it offers to add it. Sign in to each one first, in the program itself.</p></li>
+        <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot, OpenCode or Grok Build is installed, it offers to add it. Sign in to each one first, in the program itself.</p></li>
         <li><h3>Local models</h3><p>If Ollama, LM Studio or another model server (llama.cpp, vLLM, Jan, GPT4All, KoboldCpp) is running on this computer, its models are listed, and you add the ones you want with no key. It also offers to add models on another of your computers, by its name or address. <a href="../local-models/">Local models</a> has more.</p></li>
         <li><h3>How you like to ask</h3><p>Your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
         <li><h3>Saver and Triage</h3><p>Which model verifies in Saver mode, and whether to turn on Triage. Both are explained under <a href="#jobs">the jobs on your panel</a>.</p></li>
@@ -136,10 +136,11 @@ ixel doctor --check    # every part of Ixel, and asks each model's server whethe
             <tr><td>Gemini CLI</td><td>A Gemini API key saved in Ixel (Google <a href="../privacy/#training">trains on the free tier</a>, except in the EEA, Switzerland and the UK), or a work Google account with Gemini Code Assist Standard or Enterprise. Since June 2026 a personal Google account can't sign in to it: if <code>gemini</code> still has one saved, switch it to an API key with <code>/auth</code> in <code>gemini</code></td><td><code>npm install -g @google/gemini-cli</code></td></tr>
             <tr><td>GitHub Copilot</td><td>Your Copilot plan</td><td><code>npm install -g @github/copilot</code></td></tr>
             <tr><td>OpenCode</td><td>Whatever you've signed in to in OpenCode (not its free tier, which turns Ixel down)</td><td><code>npm install -g opencode-ai</code></td></tr>
+            <tr><td>Grok Build</td><td>Your SuperGrok or X Premium plan. Sign in with <code>grok login</code>, which opens your browser</td><td><code>npm install -g @xai-official/grok</code></td></tr>
           </tbody>
         </table>
       </div>
-      <p>On the panel they only answer: each runs in a fresh, empty folder with its tools switched off, so it can't run commands or change your files. <a href="../privacy/#what-goes-where">Privacy</a> has the details, and says <a href="../privacy/#training">which plans are used for training</a>. <code>ixel status</code> checks that each one is installed, not that you're signed in; if its answers come back as a login error, run it once on its own and sign in.</p>
+      <p>On the panel they only answer: each runs in a fresh, empty folder with its tools switched off, so it can't run commands or change your files. <a href="../privacy/#what-goes-where">Privacy</a> has the details, and says <a href="../privacy/#training">which plans are used for training</a>. <code>ixel status</code> checks that each one is installed, not that you're signed in (<code>ixel doctor</code>, and Health in the app, also look for Gemini CLI's and Grok Build's sign-in); if its answers come back as a login error, run it once on its own and sign in.</p>
 
       <h2 id="other-models">Other models</h2>
       <p>Two ways to add a model from a company Ixel doesn't set up for you:</p>
