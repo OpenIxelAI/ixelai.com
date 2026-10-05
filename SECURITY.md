@@ -8,8 +8,9 @@ that's GitHub's, not ours.
 
 Please report anything that looks wrong privately: email **openixel.ai@proton.me**, or use GitHub's
 **Report a vulnerability** button on this repository's **Security** tab if it's there. Don't open a public
-issue. For a problem in one of the tools, email the same address. Once a tool's repository is public, you
-can also use its own Security tab.
+issue. For a problem in one of the tools, email the same address, or use the **Report a vulnerability** button
+on the Security tab of [Ixel MAT](https://github.com/OpenIxelAI/Ixel-MAT) or
+[Handoff](https://github.com/OpenIxelAI/Handoff-by-IxelAI) if it's there.
 
 ## How the site protects visitors
 
