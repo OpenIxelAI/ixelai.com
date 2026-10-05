@@ -7,8 +7,8 @@ Makes the one-tool installers from the ones at the site's root, so there is one 
 Each copy is its root file with two lines changed: the one that picks what to install ($Only in
 install.ps1, ONLY in install.sh) and the usage line in the header comment. The Ixel repository
 (github.com/OpenIxelAI/Ixel) carries the two root files byte for byte; with a checkout of it beside
-this one (../Ixel), or named with --ixel, those copies are written and checked too. Change the root
-files, then run this:
+this one (../Ixel or ../ixel), or named with --ixel, those copies are written and checked too.
+Change the root files, then run this:
 
     python scripts/make-installers.py            writes the copies
     python scripts/make-installers.py --check    writes nothing, and fails if a copy is out of date
@@ -18,6 +18,7 @@ It uses Python's standard library only, so it runs the same on Windows, macOS an
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -67,18 +68,45 @@ def read_root(name: str) -> str:
         raise Problem(f"{name} has a character that isn't ASCII, at byte {exc.start}. Keep it ASCII.") from None
 
 
-def find_ixel(given: str | None) -> Path | None:
-    """The Ixel checkout: the one named with --ixel, else one beside this repository, else None."""
+def inside_site(folder: Path) -> bool:
+    """Whether `folder` is this repository or a folder in it (samefile, so case and symlinks don't fool it)."""
+    return any(p.exists() and p.samefile(SITE) for p in (folder, *folder.parents))
+
+
+def is_ixel(folder: Path) -> bool:
+    """Whether `folder` is a checkout of the Ixel repository: outside this one, holding at least one of the two
+    installers, and each one it holds is the all-in-one installer (its usage line names no site folder)."""
+    if not folder.is_dir() or inside_site(folder):
+        return False
+    present = [(folder / name, usage.format(page="")) for name, _, usage in INSTALLERS if (folder / name).is_file()]
+    return bool(present) and all(
+        line in path.read_text(encoding="utf-8", errors="replace").splitlines() for path, line in present)
+
+
+def find_ixel(given: str | None) -> tuple[Path | None, Path | None]:
+    """The Ixel checkout (the one named with --ixel, else one beside this repository), and a folder beside
+    this one that has an Ixel name but isn't a checkout of it, to say so."""
     if given:
         ixel = Path(given).expanduser().resolve()
-        if not all((ixel / name).is_file() for name, _, _ in INSTALLERS):
-            raise Problem(f"{ixel} isn't a checkout of the Ixel repository: it has no install.ps1 and install.sh.")
-        return ixel
+        if not is_ixel(ixel):
+            raise Problem(f"{ixel} isn't a checkout of the Ixel repository: that needs the all-in-one install.ps1 "
+                          "or install.sh (whose usage line names no folder of the site), outside this repository.")
+        return ixel, None
+    odd = None
     for name in IXEL_NAMES:
-        ixel = SITE.parent / name
-        if all((ixel / file).is_file() for file, _, _ in INSTALLERS):
-            return ixel
-    return None
+        folder = SITE.parent / name
+        if is_ixel(folder):
+            return folder.resolve(), None
+        if folder.is_dir() and odd is None:
+            odd = folder
+    return None, odd
+
+
+def out_of_date(target: Path, source: Path, data: bytes) -> bool:
+    """Whether `target` differs from what it should hold, its executable bit included (not on Windows)."""
+    if not target.is_file() or target.read_bytes() != data:
+        return True
+    return os.name != "nt" and (target.stat().st_mode & 0o111) != (source.stat().st_mode & 0o111)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -86,11 +114,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="write nothing; fail if a copy is out of date")
     parser.add_argument("--ixel", metavar="PATH",
                         help="a checkout of the Ixel repository, whose two installers are copies of the root ones "
-                             "(default: ../Ixel, when it's there)")
+                             "(default: ../Ixel or ../ixel, when it's there)")
     args = parser.parse_args(argv)
 
     try:
-        ixel = find_ixel(args.ixel)
+        ixel, odd = find_ixel(args.ixel)
         wanted = {}
         for name, choose, usage in INSTALLERS:
             text = read_root(name)
@@ -104,11 +132,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     def shown(target: Path) -> str:
-        return target.relative_to(SITE).as_posix() if target.is_relative_to(SITE) else str(target)
+        return target.relative_to(SITE).as_posix() if SITE in target.parents else str(target)
 
     stale = []
     for target, (source, data) in wanted.items():
-        if target.is_file() and target.read_bytes() == data:
+        if not out_of_date(target, SITE / source, data):
             continue
         if args.check:
             stale.append(shown(target))
@@ -119,12 +147,16 @@ def main(argv: list[str] | None = None) -> int:
 
     if stale:
         print("Out of date: " + ", ".join(stale), file=sys.stderr)
-        print("Run:  python scripts/make-installers.py" + (f" --ixel {args.ixel}" if args.ixel else ""), file=sys.stderr)
+        print("Run:  python scripts/make-installers.py" + (f' --ixel "{ixel}"' if args.ixel else ""), file=sys.stderr)
         return 1
     if args.check:
         print(f"All {len(wanted)} copies match the root installers.")
-    if not ixel:
-        print("The Ixel repository's copies weren't checked: there's no ../Ixel. Name a checkout of it with --ixel PATH.")
+    if odd:
+        print(f"The Ixel repository's copies weren't written or checked: {odd} isn't a checkout of it (its installers "
+              "aren't the all-in-one ones). Name the right one with --ixel PATH.")
+    elif not ixel:
+        print("The Ixel repository's copies weren't written or checked: there's no checkout of it beside this one "
+              "(../Ixel or ../ixel). Name one with --ixel PATH.")
     return 0
 
 
