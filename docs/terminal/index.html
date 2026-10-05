@@ -148,10 +148,10 @@ ixel review -f app.py -f config.toml "Why does the retry loop never stop?"</code
       <pre class="code"><code>ixel ask --list                                   # the models you can ask
 ixel ask --agent gemini "Make me a list of open-source projects like this one" -f README.md
 ixel ask --agent codex --diff "Review this"       # one model reads your changes
-ixel ask --agent codex,claude,local "Explain this error" -f log.txt   # the next answers when one is out of usage
+ixel ask --agent codex,claude,gemini "Explain this error" -f log.txt   # the next answers when one is out of usage
 ixel image "a lighthouse at dusk, watercolor"     # saved in Pictures/Ixel
 ixel image -f README.md -n 2 "a poster for my project" --provider grok</code></pre>
-      <p>Name several models, in the order you want them, and when one is out of usage (its plan's limit, its quota or its credits are used up for now) the next one answers. Only the models you name are asked, and any other failure, like a wrong key, stops there rather than being hidden by the next model's answer.</p>
+      <p>Name several models, in the order you want them, with the names <code>ixel ask --list</code> shows. When one is out of usage (its plan's limit, its quota or its credits are used up for now, or it keeps turning you away for too many requests), the next one answers. Only the models you name are asked, and any other failure, like a wrong key, stops there rather than being hidden by the next model's answer.</p>
       <p><code>ixel image</code> uses xAI (Grok Imagine) or OpenAI, with the key you saved in <code>ixel setup</code>. Given files, one of your chat models reads them first and describes the picture, and only that description goes to the picture service.</p>
 
       <h2 id="plugin">Inside Claude Desktop, Claude Code, Codex and Cursor</h2>
