@@ -234,7 +234,8 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
             <tr><td><code>handoff note T-12 "text"</code></td><td>Add a note to any task</td></tr>
             <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
             <tr><td><code>handoff done T-12</code>, <code>reopen</code>, <code>block T-12 "why"</code></td><td>Close, reopen, or block a task</td></tr>
-            <tr><td><code>handoff cancel T-12</code>, <code>delete T-12</code></td><td>Cancel (keeps the history), or delete for good (asks first)</td></tr>
+            <tr><td><code>handoff cancel T-12</code>, <code>delete T-12</code></td><td>Cancel (keeps the history), or delete for good with its results (asks first)</td></tr>
+            <tr><td><code>handoff clean</code>, <code>handoff keep 30</code></td><td>Remove finished tasks that haven't changed in 30 days, after listing them and asking; or have the board do that by itself (<code>handoff keep forever</code> turns it off)</td></tr>
             <tr><td><code>handoff done-rule review</code></td><td>Agents may mark tasks done only after an approving review</td></tr>
             <tr><td><code>handoff update</code>, <code>handoff help</code></td><td>Get the latest Handoff; every command</td></tr>
           </tbody>
@@ -255,7 +256,7 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
 
       <h2 id="where-things-live">Where things live</h2>
       <ul>
-        <li>The board is <code>.handoff/board.db</code> in your project. On a Mac and Linux, only you can read it. It keeps every task's text and history until you delete the task or the folder; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
+        <li>The board is <code>.handoff/board.db</code> in your project. On a Mac and Linux, only you can read it. It keeps every task's text and history until you delete the task (with its results), clean out finished tasks with <code>handoff clean</code>, or set <code>handoff keep 30</code> to have the board do that by itself. Deleting overwrites the text in the file; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
         <li><code>.handoff/</code> keeps itself out of git, so the board isn't committed with your work.</li>
         <li>Handoff has no settings of its own, so nothing in a project folder can make Handoff run anything.</li>
       </ul>
