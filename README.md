@@ -13,3 +13,9 @@ Pages publishes `main`.
   the [docs](https://ixelai.com/docs/), and [what stays on your computer](https://ixelai.com/docs/privacy/).
 - **Changing the site?** See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Found a security problem?** Email **openixel.ai@proton.me**. See [SECURITY.md](SECURITY.md).
+
+## License
+
+The site's code and text are [MIT](LICENSE). Not covered: the IxelAI and Ixel names and logos (`ixel-logo.png`,
+`ixel-logo.svg`, `favicon.svg`) and the film and its voice in `videos/`. The fonts in `fonts/` keep their own
+SIL Open Font License.
