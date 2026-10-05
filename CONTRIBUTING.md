@@ -30,7 +30,8 @@ lines (the choice, `$Only` or `ONLY`, and the usage line), and `python scripts/m
 commit them together. `--check` changes nothing and fails if a copy is out of date. Keep the PowerShell files
 ASCII (the script checks): Windows PowerShell reads a file without a byte order mark in the computer's ANSI
 code page. The [Ixel repository](https://github.com/OpenIxelAI/Ixel) carries the same two root files, byte for
-byte; change both together.
+byte. With a checkout of it beside this one (`../Ixel`), the script writes and checks those too (`--ixel PATH`
+names another place); commit them there as well. Without one, it says it didn't check them.
 
 ## The docs
 
