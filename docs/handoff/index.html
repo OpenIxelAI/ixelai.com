@@ -315,6 +315,7 @@ handoff agents enable kimi                                # once: kimi runs with
       <ul>
         <li><strong>"No project found":</strong> run the command inside your project (a git repository), or add <code>--project PATH</code>. If an app says this, run <code>handoff setup --write</code> in the project and restart the app.</li>
         <li><strong>An agent can't see a task:</strong> ask it to look at the board. Tasks are per project, so check the app is open in the same project. <code>handoff doctor</code> shows where Claude Desktop points.</li>
+        <li><strong>A run failed:</strong> <code>handoff show T-N</code> shows the task's history, with why the run failed. <code>handoff doctor</code> shows whether each worker is ready and found its agent's login. A run that finds no login doesn't start and the task stays approved: sign in, then <code>handoff run T-N</code>.</li>
         <li><strong>Codex gives up on a review with the Ixel panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
       </ul>
 

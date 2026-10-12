@@ -1,0 +1,36 @@
+# Ixel
+
+> Ixel is a set of local tools for people who use more than one AI. It runs on your own computer with the API keys, subscriptions (Claude Code, Codex and others) and local models you already have. There's no account, no telemetry and no IxelAI server. It's free and open source (MIT).
+
+One install gives you:
+
+- Ixel MAT: ask several models at once; they grade each other's answers anonymously and one writes the verdict.
+- Handoff: a task board your coding agents share. Pick one model or a chain (a big model plans, cheaper ones build, a bigger one checks their work), see what each run cost, and merge finished work yourself.
+- Machines: your SSH servers and the OpenClaw or Hermes agents on them.
+- The Ixel app: Ask, Board, Agent (beta), Machines, Health and Settings in one window. Settings > Add-ons brings in open-source tools as approved cards.
+
+Install: `curl -fsSL https://ixelai.com/install.sh | sh` on macOS and Linux, `irm https://ixelai.com/install.ps1 | iex` in PowerShell on Windows. Then `ixel setup`.
+
+## Docs
+
+- [Overview](https://ixelai.com/docs/): what you get, quickstart, and what Ixel is and isn't
+- [Install](https://ixelai.com/docs/install/): each step on Windows, macOS and Linux; updating and removing
+- [Set up your models](https://ixelai.com/docs/setup/): API keys, subscription programs and local models
+- [The Ixel app](https://ixelai.com/docs/app/): Ask, Board, Agent, Machines, Health, Settings and Add-ons
+- [In the terminal](https://ixelai.com/docs/terminal/): the `ixel` chat, code reviews and every command
+- [Handoff](https://ixelai.com/docs/handoff/): agents as a team, model chains, usage-limit fallback, troubleshooting
+- [Which model for each job](https://ixelai.com/docs/models/): picks from public benchmarks, and the recommended setup per job
+- [Local models](https://ixelai.com/docs/local-models/): Ollama, LM Studio, Private, and which open models fit your hardware
+- [Privacy](https://ixelai.com/docs/privacy/): what stays on your computer and what goes to which company
+
+## Source
+
+- [Ixel MAT and the Ixel app](https://github.com/OpenIxelAI/Ixel-MAT)
+- [Handoff](https://github.com/OpenIxelAI/Handoff-by-IxelAI)
+- [Installers](https://github.com/OpenIxelAI/Ixel)
+- [Add-on card format](https://github.com/OpenIxelAI/Ixel-MAT/blob/main/docs/addon-cards.md)
+
+## Optional
+
+- [About](https://ixelai.com/about/)
+- [Ixel MAT](https://ixelai.com/ixel-mat/), [Handoff](https://ixelai.com/handoff/), [Machines](https://ixelai.com/machines/)
