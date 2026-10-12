@@ -132,6 +132,7 @@
 
       <h3 id="attach">Code, pictures and sound</h3>
       <ul>
+        <li><strong>Documents:</strong> attach Word, PDF, Excel, PowerPoint, OpenDocument, RTF, web pages and text files (or paste or drop them). Ixel reads them on this computer and sends their text and pictures to the panel like anything else you attach.</li>
         <li><strong>Code</strong> opens a box for a diff, a file or a document for the panel to check alongside your question. Ixel refuses to send it if it holds what looks like a key or a token, and shows hidden characters as visible markers.</li>
         <li><strong>Picture</strong> attaches up to 8 pictures (or paste a screenshot, or drop them on the page). Ixel redraws each one, which drops what a camera writes into a photo, such as where it was taken, and keeps it in memory only. Only models that can see pictures get them, and the page says which before you ask. A video gives six of its frames as pictures, and its sound as text.</li>
         <li><strong>Sound</strong> records a voice note or takes a sound file, and writes its words into your question for you to read over. No model hears the sound: it goes to OpenAI or Groq, with your key, to be written out. Add an <code>OPENAI_API_KEY</code> or <code>GROQ_API_KEY</code> under Settings, Keys, to turn it on.</li>
@@ -150,7 +151,8 @@
       </figure>
       <p>Open a task to read it, its acceptance checks, and its whole history, and to act on it:</p>
       <ul>
-        <li><strong>Run it now</strong>: pick an agent and what it does. Claude Code and Codex can change files, on a branch of their own. Any model can answer, or review your changes. Pictures are made by xAI or OpenAI with your key.</li>
+        <li><strong>Run it now</strong>: pick an agent and what it does. Claude Code, Codex, OpenCode, your local models and the other agents Handoff finds can change files, each on a branch of its own. Any model can answer, or review your changes. Pictures are made by xAI or OpenAI with your key.</li>
+        <li><strong>Merge</strong>, on a finished task: after asking, it merges the task's branch into the branch you have out on this computer, and says that nothing was pushed.</li>
         <li><strong>Mark done</strong>, <strong>Assign</strong>, <strong>Block</strong>, <strong>Add a note</strong>, approve a review or send it back. Everything you do here is done as you, under the board's own rules.</li>
         <li><strong>New task</strong> adds one.</li>
       </ul>
@@ -158,6 +160,15 @@
         <img src="../images/app-board-task.webp" width="2960" height="1600" loading="lazy" alt="A task opened on the Board: its details, acceptance checks, the files it's working on, and its history, including Codex's handoff note">
         <figcaption>A task's history: Codex wrote the tests, then handed the task back to Claude with what's done, what's left, and how to check it.</figcaption>
       </figure>
+      <h3 id="board-models">Which model does the work, and what it cost</h3>
+      <p>When an edit runs, the Board asks which model does it:</p>
+      <ul>
+        <li><strong>The agent's own model</strong>, as it's set up.</li>
+        <li><strong>One model</strong>, typed or picked from the list. For OpenCode its free models come first, and a model on your computer is marked free.</li>
+        <li><strong>A chain of models, biggest first</strong>, up to four. The biggest plans the steps and the smaller ones build them. It starts as Fable 5.1 at low effort, then Opus 5.5, then Haiku 5.5, and you can change any of them.</li>
+      </ul>
+      <p>Each model gets its own effort, in its tool's own words, and the list offers only the levels that model takes. The picker says what each agent can reach: edits only, or its own permissions. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw, or one you added) has a <strong>Let … change files</strong> button, and nothing is approved for it until you press it.</p>
+      <p>Each card shows what its runs cost, the top bar shows what the whole board has spent, and each task has a <strong>What it used</strong> table: each model's tokens and an estimated cost at API prices. On a subscription that's what it would have cost; it counts toward your plan's limits instead. See <a href="../handoff/#models-and-chains">Handoff</a> for how a chain splits the work.</p>
       <p><strong>Pull requests</strong> are listed above the columns when the project's <code>origin</code> is on GitHub, GitLab or Codeberg, or your own Gitea, Forgejo, GitLab or GitHub Enterprise. <strong>Review…</strong> has the agent you pick review one; <strong>Fix…</strong> has Claude Code or Codex change it on a branch of its own. Nothing is pushed: when it's done, the Board shows the one line that adds the work to the pull request, for you to run once you've looked. Ixel only reads from the host. It never comments, approves or merges there.</p>
 
       <h2 id="machines">Machines</h2>
@@ -183,7 +194,7 @@
       <h2 id="settings">Settings</h2>
       <p>The choices among what's already set up, each saved as you make it:</p>
       <ul>
-        <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list. Effort offers only the levels that model takes.</li>
+        <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list. Effort offers only the levels that model takes, in its company's own words. Claude Code also has an <strong>Ultracode</strong> switch, its mode that runs several agents at once. Antigravity stays off the panel until you switch it on, and shows Google's terms warning first.</li>
         <li><strong>Models on your computers:</strong> add models from Ollama, LM Studio and other servers of yours, on this computer or another one, move them, or take them off. Under an Ollama, <strong>Get a model</strong> downloads one by name. <a href="../local-models/#in-the-app">Local models</a> has pictures.</li>
         <li><strong>Asking:</strong> the mode Ask starts on, who writes the verdict, and <strong>Private</strong>, which has only the models on your own computers answer. See <a href="../local-models/#private">Private</a>.</li>
         <li><strong>Saver</strong> and <strong>Triage</strong>: the big model that verifies, the models that draft, and the model that decides. <a href="../models/">Which model for each job</a> has picks.</li>
