@@ -44,7 +44,7 @@
       <div class="hero-copy">
         <div class="eyebrow">Ixel · To shine</div>
         <h1>Put your AI models to work <em>together.</em></h1>
-        <p>Ixel makes small, local tools for people who use more than one AI. Have Claude, GPT, Gemini and local models check each other's answers. Let Claude and Codex hand work back and forth. Reach the agents on your servers in one click.</p>
+        <p>Ixel makes small, local tools for people who use more than one AI. Have Claude, GPT, Gemini and local models check each other's answers. Let Claude Code, Codex, OpenCode and your local models hand work back and forth. Reach the agents on your servers in one click.</p>
         <div class="actions">
           <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#tools">See the three tools</a>
@@ -198,9 +198,10 @@
             <div class="product-copy">
               <div class="eyebrow"><span class="greek">β</span> Agents as partners</div>
               <h3>Handoff</h3>
-              <p class="lede">Let Claude and Codex work as partners on the same project. Say "Codex, take the tests; Claude, do the API," and the work passes between them. You stop being the copy-paste courier.</p>
+              <p class="lede">Let your coding agents work as partners on the same project. Say "Codex, take the tests; Claude, do the API," and the work passes between them. You stop being the copy-paste courier.</p>
               <ul class="points">
-                <li>A plugin for Claude Desktop, Claude Code and Codex. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
+                <li>A plugin for Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
+                <li>Approve a task and pick who does it: one model, or a chain where a big model plans and smaller ones build. OpenCode's free models and the models on your own computer can take tasks too, and every run shows what it cost.</li>
                 <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't change the history.</li>
                 <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what and what's blocked, and <code>handoff show T-2</code> shows everything that happened to a task.</li>
               </ul>
@@ -208,6 +209,8 @@
                 <li>Claude Desktop</li>
                 <li>Claude Code</li>
                 <li>Codex</li>
+                <li>OpenCode</li>
+                <li>Ollama</li>
                 <li>MIT</li>
               </ul>
               <a class="more" href="handoff/">More about Handoff →</a>
@@ -289,7 +292,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <pre class="code"><code>irm https://ixelai.com/install.ps1 | iex</code></pre>
             <p><strong>macOS or Linux:</strong> in a terminal, run:</p>
             <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
-            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose your models. To connect Claude and Codex, go to your project's folder (it needs to be a git repository), run <code>handoff setup --write</code>, and restart the apps. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH. Ixel opens from the Start Menu, Applications (in your home folder), or your app menu. The <a href="docs/install/">install guide</a> goes through each step, with pictures.</p>
+            <p>Then, in a new terminal window, run <code>ixel setup</code> to choose your models. To connect your coding agents, go to your project's folder (it needs to be a git repository), run <code>handoff setup --write</code>, and restart the apps. With a shell other than bash, zsh or fish, the installer first prints the line to add to your PATH. Ixel opens from the Start Menu, Applications (in your home folder), or your app menu. The <a href="docs/install/">install guide</a> goes through each step, with pictures.</p>
           </div>
         </div>
         <div class="install-more">

@@ -212,14 +212,42 @@ Files: tests/test_orders.py</pre>
       <p>A part that can't run here says why (not set up, no key, nothing to review) and the rest still run. <code>handoff agents</code> shows who can do what on this computer. In the Ixel app, type <code>/handoff</code> in Ask to do the same thing.</p>
 
       <h2 id="worker">Let an agent work while you're away</h2>
-      <p>The worker (a preview) runs Claude Code or Codex on one task you approve, in a copy of your project on a branch of its own. It never pushes, and your own checkout isn't touched:</p>
+      <p>The worker (a preview) runs an agent on one task you approve, in a copy of your project on a branch of its own. It never pushes, and your own checkout isn't touched:</p>
       <pre class="code"><code>handoff approve T-7 codex       # you approve one task, for one run
 handoff worker --agent codex    # runs it, then waits for your next approval</code></pre>
       <ul>
         <li><strong>Linux:</strong> the agent runs inside a sandbox (bubblewrap) that shows it only that copy of your files and none of your home folder, and the commands it runs have no network. It can run your tests and builds.</li>
-        <li><strong>Mac and Windows, for now:</strong> Claude Code only, and edit-only: it can read and change files, but can't run commands, tests or builds, and its handback says so.</li>
+        <li><strong>Mac and Windows, for now:</strong> edit-only. Claude Code, OpenCode and local models can read and change files, but can't run commands, tests or builds, and the handback says so. Codex needs the Linux sandbox; a sandbox for the Mac is next.</li>
       </ul>
-      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and merge it yourself. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
+      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and run the tests, then merge it with <code>handoff merge T-7</code> (or <strong>Merge</strong> on the Board): one merge commit on the branch you have out, never pushed. The task is marked done and its worktree removed; the branch stays. It refuses, changing nothing, when the merge could touch files git doesn't track. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
+
+      <h3 id="models-and-chains">Pick the model, or a chain of models</h3>
+      <p>An edit runs on the agent's own default model unless you name one when you approve it:</p>
+      <pre class="code"><code>handoff approve T-7 claude --model claude-haiku-5-5
+handoff approve T-7 claude --chain claude-fable-5-1:high,claude-opus-5-5:medium,claude-haiku-5-5
+handoff approve T-7 codex --model gpt-5.5 --effort xhigh</code></pre>
+      <p>A <strong>chain</strong> lists models biggest first. The first reads the task (it can read files, not change them) and plans up to 6 steps, giving each step to the smallest model that can do it well: design and tricky logic to the bigger ones, tests, docs and small edits to the smaller ones. Each step is committed on its own, so <code>git log</code> shows which model made what. If a step fails, the chain stops and keeps what came before. Chains run on Claude Code for now.</p>
+      <p><strong>Effort</strong> is how hard each model thinks, in its own tool's words: Claude Code takes low, medium, high, xhigh or max; Codex takes minimal up to xhigh, and the newest GPT models also max and ultra. The biggest model at max effort is the dearest part of a chain, so save it for the planning that needs it. The model, the chain and each effort are sealed into your approval, so a board can't move a run to a bigger, dearer model.</p>
+      <p><strong>What it used.</strong> Every run lists each model's tokens and an estimated cost at API prices (on a subscription, that's what it would have cost; it counts toward your plan's limits instead). <code>handoff show T-7</code> lists it under each run, and the Board shows each task's cost and what the whole board has spent. A run that was stopped has no report, so what it used isn't counted.</p>
+
+      <h3 id="every-agent">Every agent and model you have</h3>
+      <p>The worker isn't only Claude Code and Codex. Handoff finds these on your computer, and <code>handoff agents</code> lists them:</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Agent</th><th>What it can do</th><th>Costs</th></tr></thead>
+          <tbody>
+            <tr><td><strong>OpenCode</strong> (<code>opencode</code>)</td><td>Edits files in its worktree with its file tools; no commands, no web</td><td>Nothing on its free models (<code>opencode/…-free</code>)</td></tr>
+            <tr><td><strong>Ollama</strong>, <strong>LM Studio</strong>, or any OpenAI-style server</td><td>Reads and writes files in its worktree through four tools Handoff runs itself; no commands</td><td>Nothing: it runs on your computer</td></tr>
+            <tr><td><strong>Hermes Agent</strong></td><td>Its file tools only, but they can read outside the worktree</td><td>Its model's</td></tr>
+            <tr><td><strong>Kimi Code</strong>, <strong>Cline</strong>, <strong>OpenClaw</strong></td><td>Whatever their own permissions allow: commands as you, with the network</td><td>Their model's</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="code"><code>handoff approve T-8 opencode --model opencode/step-5-preview-free
+handoff approve T-9 ollama --model qwen3:4b-instruct      # a small, clear task, done for free
+handoff agents enable kimi                                # once: kimi runs with its own permissions</code></pre>
+      <p>Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
+      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over.</p>
 
       <h2 id="your-controls">Your controls</h2>
       <p>At the command line you're <code>human</code> on the board, shown as "you", and you can do what agents can't. <code>me</code> means you wherever you name someone.</p>
@@ -233,6 +261,9 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
             <tr><td><code>handoff assign T-12 claude</code></td><td>Give a task to someone else (<code>me</code>, or <code>nobody</code>)</td></tr>
             <tr><td><code>handoff note T-12 "text"</code></td><td>Add a note to any task</td></tr>
             <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
+            <tr><td><code>handoff approve T-12 opencode</code></td><td>Let one agent work on a task, once, on its own branch (add <code>--model</code>, <code>--chain</code> or <code>--effort</code>)</td></tr>
+            <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have out, as one merge commit. Only you can, and nothing is pushed</td></tr>
+            <tr><td><code>handoff agents</code>, <code>handoff agents enable NAME</code></td><td>Who can do what on this computer; switch on an agent that runs with its own permissions</td></tr>
             <tr><td><code>handoff done T-12</code>, <code>reopen</code>, <code>block T-12 "why"</code></td><td>Close, reopen, or block a task</td></tr>
             <tr><td><code>handoff cancel T-12</code>, <code>delete T-12</code></td><td>Cancel (keeps the history), or delete for good with its results (asks first)</td></tr>
             <tr><td><code>handoff clean</code>, <code>handoff keep 30</code></td><td>Remove finished tasks that haven't changed in 30 days, after listing them and asking; or have the board do that by itself (<code>handoff keep forever</code> turns it off)</td></tr>
