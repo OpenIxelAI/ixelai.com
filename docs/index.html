@@ -78,7 +78,7 @@
       <p>One install gives you three tools and an app that holds them:</p>
       <ul>
         <li><strong>Ixel MAT</strong>, a panel of models. Ask a question and several models answer it, grade each other's answers without knowing whose they are, and one of them writes the verdict. You see who was wrong and why.</li>
-        <li><strong>Handoff</strong>, a task board your agents share. Claude Code, Codex, Gemini CLI, OpenCode and the rest hand work to each other with notes and reviews, instead of you copying and pasting between them. On the app's Board you pick who builds each task: one model, or a chain where a big model plans and cheaper ones build, OpenCode's free models and your local models included, and every run shows what it cost.</li>
+        <li><strong>Handoff</strong>, a task board your agents share. Claude Code, Codex, Gemini CLI, OpenCode and the rest hand work to each other with notes and reviews, instead of you copying and pasting between them. On the app's Board you pick who builds each task: one model, or a chain where a big model plans and cheaper ones build, OpenCode's free models and your local models included, and every run shows what it cost. When a model hits its usage limit, the next best one you have takes over instead of the run stopping.</li>
         <li><strong>Machines</strong>, your SSH servers in one list, and the OpenClaw or Hermes agent on each, a click away.</li>
         <li><strong>The Ixel app</strong>, one window with all of it: Ask, Board, Machines, Health and Settings.</li>
       </ul>
@@ -149,7 +149,6 @@
       <ul>
         <li><strong>An agent in the app.</strong> An Agent page in the Ixel app: give it a folder and a goal, and it reads the files itself and asks before every change or command. Attach pictures, videos and files, and type <kbd>/</kbd> for its commands.</li>
         <li><strong>Add-ons for open-source tools.</strong> Instead of Ixel building in each tool, a tool gets a short add-on card: what it is, the exact version, and in plain words what it can reach. The agent can write a card from a GitHub link and try the tool in a scratch folder, but it never switches one on: you do, under Settings, after reading what it can reach. You decide which tools you trust.</li>
-        <li><strong>A model that runs out, swapped for the next best.</strong> When a model or agent hits its usage limit, Ixel moves the work to the next best model you have, never a dearer one, and tells you which it swapped, so a chain doesn't stop halfway.</li>
         <li><strong>A sandbox on the Mac</strong>, so Codex can work on Board tasks there and agents can run your tests, as they already can on Linux.</li>
       </ul>
 
