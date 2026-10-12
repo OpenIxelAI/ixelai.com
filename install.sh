@@ -12,7 +12,14 @@
 #
 # For each tool it gets the source with git, into the folder that tool's own installer uses
 # (~/.local/share/ixel-mat/repo and ~/.local/share/handoff/repo), then runs that installer
-# (install.sh in the repo). Nothing here needs sudo. Run it again any time to update.
+# (install.sh in the repo). Run it again any time to update.
+#
+# It needs git, bash and Python 3.10 or newer, and asks before installing any that is missing. On
+# Linux that is the distribution's package manager, through sudo when you aren't root. On a Mac it
+# is Apple's Command Line Tools (for git), and Homebrew, or else python.org's installer (for
+# Python), which is opened only when its SHA-256 matches the one pinned in this file. Nothing is
+# installed, and sudo never runs, without a yes. With no terminal to answer on, it prints what to
+# run instead.
 #
 # With `curl | sh`, this script arrives on standard input, so everything is inside main(), which
 # runs only once the whole file has been read, and nothing it starts reads standard input:
@@ -21,6 +28,16 @@
 main() {
   # What to install: "" or all for everything (Ixel), mat for Ixel MAT alone, handoff for Handoff alone
   ONLY=""
+
+  # The Python that a Mac without Homebrew is offered: python.org's universal2 installer, which
+  # is opened only when its SHA-256 matches the one pinned here. To update, bump the version and the
+  # hash together, to a 3.13.x on https://www.python.org/downloads/macos/. The maintainer fills
+  # PYTHON_ORG_SHA256 from the file itself (shasum -a 256 python-3.13.X-macos11.pkg) or the release
+  # page. While it is empty the installer never downloads or installs the package: it only prints
+  # the URL.
+  PYTHON_ORG_VERSION="3.13.16"
+  PYTHON_ORG_URL="https://www.python.org/ftp/python/$PYTHON_ORG_VERSION/python-$PYTHON_ORG_VERSION-macos11.pkg"
+  PYTHON_ORG_SHA256="30666509020b4da0dd8bc2e773255f34d76b7bb80b66960a928d5f6daa0192d7"
 
   set -eu
 
@@ -39,25 +56,70 @@ main() {
     return 0
   }
 
-  # A Python new enough for the tools (each installer checks again and explains)
+  # A Python new enough for the tools (each installer checks again and explains), and able to make
+  # a virtual environment with pip: Debian and Ubuntu have venv and ensurepip in python3-venv
   have_python() {
     for candidate in python3 python3.14 python3.13 python3.12 python3.11 python3.10; do
       command -v "$candidate" >/dev/null 2>&1 || continue
-      "$candidate" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' 2>/dev/null && return 0
+      "$candidate" -c 'import sys, venv, ensurepip; sys.exit(0 if sys.version_info >= (3, 10) else 1)' 2>/dev/null && return 0
     done
     return 1
   }
 
-  # How to install a package with this system's package manager (nothing when it's none we know)
-  package_hint() {
-    if command -v apt-get >/dev/null 2>&1; then printf 'sudo apt install %s' "$1"
-    elif command -v dnf >/dev/null 2>&1; then printf 'sudo dnf install %s' "$1"
-    elif command -v yum >/dev/null 2>&1; then printf 'sudo yum install %s' "$1"
-    elif command -v pacman >/dev/null 2>&1; then printf 'sudo pacman -S %s' "$1"
-    elif command -v zypper >/dev/null 2>&1; then printf 'sudo zypper install %s' "$1"
-    elif command -v apk >/dev/null 2>&1; then printf 'sudo apk add %s' "$1"
-    elif command -v brew >/dev/null 2>&1; then printf 'brew install %s' "$1"
+  # Some Python is here, but none of them is 3.10 or newer: installing python3 again won't fix that
+  python_too_old() {
+    found=no
+    for candidate in python3 python3.14 python3.13 python3.12 python3.11 python3.10; do
+      command -v "$candidate" >/dev/null 2>&1 || continue
+      "$candidate" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' 2>/dev/null && return 1
+      found=yes
+    done
+    [ "$found" = yes ]
+  }
+
+  # Stops, saying why no Python here will do (after have_python has failed)
+  stop_python() {
+    if python_too_old; then
+      stop "$name needs Python 3.10 or newer, and this system's python3 is older than that. Many distributions have a python3.11 or python3.12 package: install one."
     fi
+    stop "$name needs Python 3.10 or newer with venv and pip, and no Python here has both. On Debian and Ubuntu they come in the python3-venv package (python3.12-venv for python3.12, and so on)."
+  }
+
+  # The package manager of this Linux distribution, printed, from the ID in /etc/os-release and then
+  # each word of its ID_LIKE (so Mint, Rocky or Manjaro count as the family they come from). Prints
+  # nothing when the distribution isn't one we know, or its package manager isn't here.
+  distro_manager() {
+    [ -r /etc/os-release ] || return 0
+    rest="$(
+      # shellcheck source=/dev/null
+      . /etc/os-release
+      printf '%s %s' "${ID:-}" "${ID_LIKE:-}"
+    )" || return 0
+    while [ -n "$rest" ]; do
+      word="${rest%% *}"
+      case "$rest" in *" "*) rest="${rest#* }" ;; *) rest="" ;; esac
+      case "$word" in
+        debian | ubuntu) want=apt-get ;;
+        fedora | rhel | centos)
+          want=dnf
+          command -v dnf >/dev/null 2>&1 || want=yum ;;
+        arch) want=pacman ;;
+        opensuse* | suse | sles) want=zypper ;;
+        alpine) want=apk ;;
+        *) continue ;;
+      esac
+      if command -v "$want" >/dev/null 2>&1; then
+        printf '%s' "$want"
+        return 0
+      fi
+    done
+    return 0
+  }
+
+  # How to install a package on a Mac with Homebrew (nothing when there is no Homebrew). Linux has
+  # installed git and bash, or stopped, before this is used.
+  package_hint() {
+    if command -v brew >/dev/null 2>&1; then printf 'brew install %s' "$1"; fi
   }
   need() {  # need <program>: stop, saying how to get it, when it's missing
     command -v "$1" >/dev/null 2>&1 && return 0
@@ -192,17 +254,108 @@ main() {
     fi
     stop "install Apple's Command Line Tools with:  xcode-select --install"
   fi
+
+  # On Linux, git, bash (Alpine has none to start with) and a Python 3.10 or newer with venv come
+  # from the distribution's package manager. Only what is missing, and only after a yes: sudo is
+  # never run without one, nor when there is no terminal to ask on.
+  if [ "$system" = linux ]; then
+    need_git=no need_bash=no need_python=no
+    if ! command -v git >/dev/null 2>&1; then need_git=yes; fi
+    if ! command -v bash >/dev/null 2>&1; then need_bash=yes; fi
+    if ! have_python; then
+      if python_too_old; then stop_python; fi
+      need_python=yes
+    fi
+
+    if [ "$need_git" = yes ] || [ "$need_bash" = yes ] || [ "$need_python" = yes ]; then
+      # What is missing, in words: "git", "git and Python 3.10 or newer (with venv)", "git, bash and ..."
+      missing="" count=0
+      if [ "$need_git" = yes ]; then missing="git"; count=$((count + 1)); fi
+      if [ "$need_bash" = yes ]; then missing="${missing:+$missing, }bash"; count=$((count + 1)); fi
+      if [ "$need_python" = yes ]; then missing="${missing:+$missing, }Python 3.10 or newer (with venv)"; count=$((count + 1)); fi
+      missing="$(printf '%s' "$missing" | sed 's/, \([^,]*\)$/ and \1/')"
+      if [ "$count" = 1 ]; then pronoun=it be="isn't"; else pronoun=them be="aren't"; fi
+
+      manager="$(distro_manager)"
+      if [ -z "$manager" ]; then
+        stop "$missing $be installed, and the installer doesn't know this Linux distribution's package manager. Install $pronoun with your system's package manager."
+      fi
+
+      # The package names per manager: Debian and Ubuntu split venv off into python3-venv, and
+      # Arch calls Python python
+      packages=""
+      if [ "$need_git" = yes ]; then packages="git"; fi
+      if [ "$need_bash" = yes ]; then packages="${packages:+$packages }bash"; fi
+      if [ "$need_python" = yes ]; then
+        case "$manager" in
+          apt-get) packages="${packages:+$packages }python3 python3-venv" ;;
+          pacman) packages="${packages:+$packages }python" ;;
+          *) packages="${packages:+$packages }python3" ;;
+        esac
+      fi
+
+      # The one command that is shown, printed when the answer is no, and run when it is yes. It is
+      # made of fixed words, so it is safe to run as written.
+      if [ "$(id -u)" = 0 ]; then
+        sudo_word="" no_sudo=no
+      elif command -v sudo >/dev/null 2>&1; then
+        sudo_word="sudo " no_sudo=no
+      else
+        sudo_word="" no_sudo=yes
+      fi
+      case "$manager" in
+        apt-get) cmd="${sudo_word}apt-get update && ${sudo_word}apt-get install -y $packages" ;;
+        pacman) cmd="${sudo_word}pacman -S --needed --noconfirm $packages" ;;
+        apk) cmd="${sudo_word}apk add $packages" ;;
+        *) cmd="${sudo_word}$manager install -y $packages" ;;
+      esac
+
+      if [ "$no_sudo" = yes ]; then
+        stop "$missing $be installed, and sudo isn't here to install $pronoun. As root, run:  $cmd"
+      fi
+      if ask "$name needs $missing. Install $pronoun with:  $cmd"; then
+        sh -c "$cmd" </dev/null || stop "couldn't install $missing with $manager (the lines above say why)."
+      else
+        stop "$missing $be installed. Install $pronoun with:  $cmd"
+      fi
+    fi
+
+    # What was just installed is the distribution's python3, which can still be older than 3.10
+    # (Debian 11, RHEL 8 and 9 and openSUSE Leap 15 are like that)
+    if ! have_python; then stop_python; fi
+  fi
   need git
   need bash
 
-  if ! have_python; then
-    if [ "$system" = mac ] && command -v brew >/dev/null 2>&1 \
-        && ask "$name needs Python 3.10 or newer. Install Python 3.13 with Homebrew now?"; then
-      brew install python@3.13 </dev/null || stop "Homebrew couldn't install Python 3.13 (the lines above say why)."
-    elif [ "$system" = mac ]; then
-      stop "$name needs Python 3.10 or newer. Get it from https://www.python.org/downloads/ or with Homebrew:  brew install python@3.13"
+  # On a Mac, Python comes from Homebrew when it is there, and otherwise from python.org's
+  # installer. (Linux has Python, or has stopped, above.)
+  if [ "$system" = mac ] && ! have_python; then
+    if command -v brew >/dev/null 2>&1; then
+      if ask "$name needs Python 3.10 or newer. Install Python 3.13 with Homebrew now?"; then
+        brew install python@3.13 </dev/null || stop "Homebrew couldn't install Python 3.13 (the lines above say why)."
+      else
+        stop "$name needs Python 3.10 or newer. Get it from https://www.python.org/downloads/ or with Homebrew:  brew install python@3.13"
+      fi
+    # No question while there is no pinned hash: a package that can't be checked is never opened
+    elif [ -z "$PYTHON_ORG_SHA256" ] \
+        || ! ask "$name needs Python 3.10 or newer. Download Python $PYTHON_ORG_VERSION from python.org and open its installer?"; then
+      stop "$name needs Python 3.10 or newer. Download Python $PYTHON_ORG_VERSION from  $PYTHON_ORG_URL  and open it."
+    else
+      pkg_dir="$(mktemp -d "${TMPDIR:-/tmp}/ixel-python.XXXXXX")" || stop "couldn't make a temporary folder to download Python into."
+      pkg="$pkg_dir/python-$PYTHON_ORG_VERSION-macos11.pkg"
+      say "Downloading $PYTHON_ORG_URL"
+      curl -fsSL --proto '=https' -o "$pkg" "$PYTHON_ORG_URL" </dev/null \
+        || stop "couldn't download $PYTHON_ORG_URL (the lines above say why)."
+      pkg_sum="$(shasum -a 256 "$pkg" | cut -d ' ' -f 1 | tr '[:upper:]' '[:lower:]')"
+      want_sum="$(printf '%s' "$PYTHON_ORG_SHA256" | tr '[:upper:]' '[:lower:]')"
+      if [ "$pkg_sum" != "$want_sum" ]; then
+        rm -rf "$pkg_dir"
+        stop "the download from $PYTHON_ORG_URL didn't match its SHA-256 (expected $want_sum, got ${pkg_sum:-nothing}), so it wasn't opened. Download Python from https://www.python.org/downloads/ instead."
+      fi
+      # Installer reads the file after open returns, so it stays in its temporary folder
+      open "$pkg" </dev/null || stop "couldn't open $pkg. Open it yourself to install Python."
+      stop "finish the Python installer (it opened in a window of its own)."
     fi
-    # On Linux, the installer that runs next names the package for your distribution
   fi
 
   # The same settings each tool's own installer reads, so both agree on where things go

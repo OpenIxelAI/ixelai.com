@@ -93,7 +93,7 @@
         <li><strong>The panel agreeing doesn't make an answer right.</strong> Models can share the same mistake, so check what matters.</li>
         <li><strong>It acts only when you ask.</strong> A Board task runs only after you approve it, and an approval is good for one run. The Agent asks before every change and every command (except one you chose to always allow), and stops at a step limit. Nothing runs on a schedule or while you're away unless you start it.</li>
         <li><strong>It never pushes or merges on its own.</strong> You merge a finished task yourself, with the Merge button or <code>handoff merge</code>.</li>
-        <li><strong>The sandboxes have limits.</strong> On a Mac, a command the Agent runs has no network, can write only in its folder and can't read your secret folders, but it can still read your other files. On Windows and Linux the Agent has no sandbox, and with Computer access on an approved command can do anything you can. Board workers run tests and builds only on Linux, in a sandbox. Agents you switch on to run with their own permissions (Kimi Code, Cline, OpenClaw) run commands as you, with the network. <a href="app/#agent-safety">The Agent's limits</a>.</li>
+        <li><strong>The sandboxes have limits.</strong> On a Mac and on Linux, a command the Agent runs has no network, can write only in its folder and can't read your secret folders, but it can still read your other files. On Windows it's only partly sandboxed: its writes are limited, but it has the network and can read your files. With Computer access on, an approved command can do anything you can. Board workers run tests and builds in a sandbox on Linux and on a Mac (Claude Code and Codex); on a Mac those commands can still read other programs' environment variables, so keep tokens out of your shell's environment while a worker runs. On Windows, workers only edit files. Agents you switch on to run with their own permissions (Kimi Code, Cline, OpenClaw) run commands as you, with the network. <a href="app/#agent-safety">The Agent's limits</a>.</li>
         <li><strong>Add-ons are yours to judge.</strong> Ixel shows what each card says it may do and checks the files are the ones you approved. It doesn't review the tool itself.</li>
       </ul>
 
@@ -119,7 +119,7 @@
               <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
             </section>
           </div>
-          <p>If Git or Python is missing, the installer says how to get it, and on Windows and on a Mac with Homebrew it offers to install it for you. The <a href="install/">install guide</a> goes through each step.</p>
+          <p>If Git or Python is missing, the installer offers to install it for you, and asks first: with winget on Windows, Apple's Command Line Tools and Homebrew or python.org on a Mac, and your distribution's package manager on Linux. The <a href="install/">install guide</a> goes through each step.</p>
         </li>
         <li>
           <h3>Add your models</h3>
@@ -151,15 +151,6 @@
         <a href="privacy/"><b>Privacy</b><span>What stays on your computer, and what goes to which company.</span></a>
       </div>
 
-      <h2 id="coming-next">Coming next</h2>
-      <div class="callout tip">
-        <span class="label">Not in the app yet</span>
-        <p>These are being built and tested now. They aren't in what the installer gives you yet, and this page will say when they are.</p>
-      </div>
-      <ul>
-        <li><strong>A sandbox on the Mac</strong>, so Codex can work on Board tasks there and agents can run your tests, as they already can on Linux.</li>
-      </ul>
-
       <h2 id="get-help">Get help</h2>
       <ul>
         <li><strong>Something not working?</strong> Run <code>ixel doctor</code> (or open <strong>Health</strong> in the app). It checks each part of Ixel and gives the one line that fixes each problem. <code>handoff doctor</code> does the same for Handoff.</li>
@@ -178,7 +169,6 @@
         <li><a href="#what-it-isnt">What it is, and what it isn't</a></li>
         <li><a href="#quickstart">Quickstart</a></li>
         <li><a href="#find-your-way">Find your way</a></li>
-        <li><a href="#coming-next">Coming next</a></li>
         <li><a href="#get-help">Get help</a></li>
       </ul>
       <!-- /docs:toc --></aside>

@@ -182,7 +182,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, an agent can't review a task it worked on or sent for review, and agents' Handoff tools can't delete tasks or rewrite history.</dd></div>
           <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned: the second as it claims them, the first in its inbox and on its next note.</dd></div>
           <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
-          <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux it runs Claude Code or Codex in a sandbox (it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing); on macOS and Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
+          <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux and macOS it runs Claude Code or Codex in a sandbox, so they can run your tests (on Linux it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing); on Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
           <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run once you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
           <div><dt>The right model for each step</dt><dd>Pick one model, or a chain: the biggest plans, and each step goes to the smallest model that can do it well, on any agent you have, local models included, committed on its own. A bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
           <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, never a dearer one, and the result says who did. You see who would take over before you approve, and can turn it off.</dd></div>
@@ -195,7 +195,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted: each agent is told it's information to weigh, not orders to follow.</li>
             <li>Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</li>
-            <li>The worker runs only tasks you approved on this computer, and never pushes. An approval covers the task as you saw it and runs once: if the task changes, approve it again. On Linux its sandbox keeps it in its worktree; on macOS and Windows, Claude Code's and OpenCode's edit-only modes, and Handoff's own file tools for local models, keep it there. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw) waits until you switch it on.</li>
+            <li>The worker runs only tasks you approved on this computer, and never pushes. An approval covers the task as you saw it and runs once: if the task changes, approve it again. On Linux and macOS its sandbox keeps it in its worktree; on Windows, Claude Code's and OpenCode's edit-only modes, and Handoff's own file tools for local models, keep it there. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw) waits until you switch it on.</li>
           </ul>
         </div>
       </div>
@@ -212,7 +212,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (on Windows, and on a Mac with Homebrew, the installer offers to get it). On Debian and Ubuntu, also <code>python3-venv</code></li>
+              <li>Python 3.10 or newer (the installer offers to get it, and Git too, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
               <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
               <li>At least one of Claude (Desktop or Claude Code), Codex, Gemini CLI, OpenCode or Grok Build; two or more, to pass work between them. Ollama or LM Studio adds free local models for small tasks</li>
             </ul>
