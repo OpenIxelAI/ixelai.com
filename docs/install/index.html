@@ -80,8 +80,8 @@
           <thead><tr><th>You need</th><th>Notes</th></tr></thead>
           <tbody>
             <tr><td>Windows 10 or 11, macOS 12 or newer, or Linux</td><td>On Linux it's been tried on Ubuntu, Debian, Fedora and Arch.</td></tr>
-            <tr><td>Python 3.10 or newer</td><td>On Windows, and on a Mac with Homebrew, the installer offers to install it. On Debian and Ubuntu you also need <code>python3-venv</code>.</td></tr>
-            <tr><td>Git</td><td>On Windows the installer offers to install it. On a Mac it comes with Apple's Command Line Tools, which the installer offers to open.</td></tr>
+            <tr><td>Python 3.10 or newer</td><td>The installer offers to install it if it's missing, and asks first. On Debian and Ubuntu that includes <code>python3-venv</code>.</td></tr>
+            <tr><td>Git</td><td>The installer offers to install it too. On a Mac it comes with Apple's Command Line Tools, which the installer offers to open.</td></tr>
             <tr><td>At least one AI</td><td>An API key, a subscription program such as Claude Code or Codex, or a local model in Ollama or LM Studio. You add them after installing, in <a href="../setup/">setup</a>.</td></tr>
           </tbody>
         </table>
@@ -161,7 +161,7 @@ To update Ixel later, run the same install command again.</pre>
             </li>
             <li>
               <h3>Install Python, if it asks</h3>
-              <p>If you have no Python 3.10 or newer and you use Homebrew, it offers <code>brew install python@3.13</code>. Without Homebrew, get Python from <a href="https://www.python.org/downloads/">python.org</a> and run the command again.</p>
+              <p>If you have no Python 3.10 or newer and you use Homebrew, it offers <code>brew install python@3.13</code>. Without Homebrew, it offers to download Python 3.13 from python.org, checks the download against a fingerprint written into the installer, and opens Python's own installer. Finish that, then run the command again.</p>
             </li>
             <li>
               <h3>Open a new window, and add your models</h3>
@@ -181,7 +181,8 @@ To update Ixel later, run the same install command again.</pre>
               <h3>Run the installer</h3>
               <p>In a terminal:</p>
               <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
-              <p>It never uses <code>sudo</code>. If Git, Python or <code>python3-venv</code> is missing, it stops and prints the command that installs it for your system (<code>sudo apt install python3-venv</code> on Debian and Ubuntu, for example). Run that, then the same command again.</p>
+              <p>If Git, Python 3.10 or newer, or <code>python3-venv</code> is missing, it shows the one command that installs them with your system's package manager (<code>sudo apt-get update &amp;&amp; sudo apt-get install -y python3 python3-venv</code> on Debian and Ubuntu, for example) and asks before running it. It never runs <code>sudo</code> without your yes; say no and it prints the command for you to run yourself.</p>
+              <p>For Board workers to run your tests, Handoff also needs bubblewrap and socat. If they're missing, the installer says how to install them, and <code>handoff doctor</code> checks later.</p>
             </li>
             <li>
               <h3>Read what it did</h3>
