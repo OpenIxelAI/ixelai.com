@@ -168,6 +168,23 @@
       <div class="callout tip"><span class="label">On a subscription</span><p>Through Claude Code, Codex or Gemini CLI, a model's calls count against your plan rather than costing per token, so the cost column doesn't apply. The score still does.</p></div>
       <p>For models that run on your own computer, and which fit how much memory you have, see <a href="../local-models/">Local models</a>.</p>
 
+      <h2 id="pyramid">Recommended setup: a pyramid for each job</h2>
+      <p>Put your models to work in tiers. A few strong models at the top plan the work and review it; more, cheaper ones in the middle build most of it; and at the bottom, the cheapest and the ones on your own computer take small, clear directions. Here's what we'd pick for each job from the public benchmarks, as of October 2026. Use whatever you already have in each tier.</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>Job</th><th>Top: plans and reviews</th><th>Middle: builds most of it</th><th>Bottom: small, clear directions</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Changing code</strong> (Board tasks)</td><td>Claude Fable 5.1 or Opus 5.5 to plan; GPT-6 Astra from another maker</td><td>Claude Sonnet 5.5, GPT-6.1 Sol, Kimi K3. Open: MiMo-V2.6-Pro or GLM-5.3-Flash, if you can run one or reach it through OpenCode</td><td>Claude Haiku 5.5, GPT-6 Luna, OpenCode's free models, and a local instruct model such as <code>qwen3:4b-instruct</code></td></tr>
+            <tr><td><strong>Reviewing changes</strong></td><td>Claude Opus 5.5, GPT-6 Astra</td><td>Gemini 3.1 Pro, Grok 4.7, Claude Sonnet 5.5</td><td>A local model, as a first pass only</td></tr>
+            <tr><td><strong>Answering</strong> (the Ask panel)</td><td>Claude Opus 5.5 writes the verdict and verifies (<a href="#picks">the picks</a>)</td><td>GPT-6.1 Sol, MiMo-V2.6-Pro, GLM-5.3-Flash draft and review each other</td><td>GPT-6 Luna for Triage; local models as drafters in <a href="../local-models/#mix">Saver</a></td></tr>
+            <tr><td><strong>Pictures and video</strong></td><td colspan="3">No pyramid: use the best one you have. Pictures: GPT Image 2.5, Nano Banana 2.1, Grok Imagine. Video: Wan 3.0, Seedance 2.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>handoff rankings</code> lists the same rankings on your computer, with the leaderboards they come from, and it's what decides <a href="../handoff/#usage-limits">who takes over when a model hits its usage limit</a>.</p>
+      <h3 id="local-at-the-bottom">Where local models fit</h3>
+      <p>A local model isn't there to write a lot of code. It's there to save money and time on tasks you know it can do: a rename, a test, a doc change, a first look at a diff. Give it well-scoped directions, not open-ended work. The small models most computers can run score far below the cloud ones (21 to 28 here against 58 for the top pick), so they belong at the bottom. A bigger open model (GLM-5.3-Flash or MiMo-V2.6-Pro, on a server or a Mac with a lot of memory) is much more reliable, and can sit in the middle tier. <a href="../local-models/#what-fits">Which model fits your computer</a> has the open-model picks for each amount of memory.</p>
+
       <h2 id="how-picked">How the picks are made</h2>
       <p>A script on this site reads the benchmark's numbers and applies the same rules every time, so the picks change only when the numbers do:</p>
       <ul>
@@ -220,6 +237,7 @@ agent = "luna"                # a fast, cheap model of yours</code></pre>
       <ul>
         <li><a href="#the-jobs">The four jobs</a></li>
         <li><a href="#picks">The picks</a></li>
+        <li><a href="#pyramid">Recommended setup: a pyramid for each job</a></li>
         <li><a href="#how-picked">How the picks are made</a></li>
         <li><a href="#set-each-job">Set each job</a></li>
         <li><a href="#credit">Where the numbers come from</a></li>
