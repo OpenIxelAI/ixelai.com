@@ -226,7 +226,17 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
       <pre class="code"><code>handoff approve T-7 claude --model claude-haiku-5-5
 handoff approve T-7 claude --chain claude-fable-5-1:high,claude-opus-5-5:medium,claude-haiku-5-5
 handoff approve T-7 codex --model gpt-5.5 --effort xhigh</code></pre>
-      <p>A <strong>chain</strong> lists models biggest first. The first reads the task (it can read files, not change them) and plans up to 6 steps, giving each step to the smallest model that can do it well: design and tricky logic to the bigger ones, tests, docs and small edits to the smaller ones. Each step is committed on its own, so <code>git log</code> shows which model made what. If a step fails, the chain stops and keeps what came before. Chains run on Claude Code for now.</p>
+      <p>A <strong>chain</strong> lists models biggest first. The first reads the task (it can read files, not change them) and plans up to 6 steps, giving each step to the smallest model that can do it well: design and tricky logic to the bigger ones, tests, docs and small edits to the smaller ones. Each step is committed on its own, so <code>git log</code> shows which model made what. The planner is Claude Code; the steps can run on any agent you have, written as <code>agent:model</code>:</p>
+      <pre class="code"><code>handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,ollama:qwen3:4b-instruct
+handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,opencode:opencode/step-5-preview-free</code></pre>
+      <p>The planner is told which models are small or on your computer, and gives them only short, exact directions: one change in one named file, spelled out, not design or a lot of new code. <a href="../models/#pyramid">The recommended setup</a> says which models fit each place in a chain.</p>
+      <h3 id="back-up-the-chain">Work is checked on its way back up</h3>
+      <ul>
+        <li>If a smaller model fails its step, the biggest step model (the second in the chain) does that step instead.</li>
+        <li>When the steps are done, if any was done by a smaller model, the biggest step model checks the work against the task and the plan, with the diff in front of it, and fixes what's wrong in place.</li>
+        <li>If it finds something too big for it (a wrong design, a large part missing), it says so, and the planner fixes it, this time with tools to change files.</li>
+      </ul>
+      <p>Each check and fix is its own commit, and the handback says what each one did and cost. If the biggest step model itself fails, the chain stops there and keeps what the steps before it committed.</p>
       <p><strong>Effort</strong> is how hard each model thinks, in its own tool's words: Claude Code takes low, medium, high, xhigh or max; Codex takes minimal up to xhigh, and the newest GPT models also max and ultra. The biggest model at max effort is the dearest part of a chain, so save it for the planning that needs it. The model, the chain and each effort are sealed into your approval, so a board can't move a run to a bigger, dearer model.</p>
       <p><strong>What it used.</strong> Every run lists each model's tokens and an estimated cost at API prices (on a subscription, that's what it would have cost; it counts toward your plan's limits instead). <code>handoff show T-7</code> lists it under each run, and the Board shows each task's cost and what the whole board has spent. A run that was stopped has no report, so what it used isn't counted.</p>
 
@@ -254,8 +264,8 @@ handoff rankings --job coding                        # who's best at what, best 
       <pre class="code"><code>handoff approve T-8 opencode --model opencode/step-5-preview-free
 handoff approve T-9 ollama --model qwen3:4b-instruct      # a small, clear task, done for free
 handoff agents enable kimi                                # once: kimi runs with its own permissions</code></pre>
-      <p>Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
-      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over.</p>
+      <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
+      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain, its work is checked by a bigger model on the way back up.</p>
 
       <h2 id="your-controls">Your controls</h2>
       <p>At the command line you're <code>human</code> on the board, shown as "you", and you can do what agents can't. <code>me</code> means you wherever you name someone.</p>
