@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>The Ixel app · Ixel docs</title>
-<meta name="description" content="How to use the Ixel app: ask the panel, read its verdict, run your agents' task board, reach your servers, check Ixel's health and change its settings.">
+<meta name="description" content="How to use the Ixel app: ask the panel, read its verdict, run your agents' task board, give the Agent a goal, reach your servers, check Ixel's health, and change its settings and add-ons.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="The Ixel app">
 <meta property="og:description" content="Ask, Board, Agent, Machines, Health and Settings, with pictures.">
@@ -138,6 +138,9 @@
         <li><strong>Sound</strong> records a voice note or takes a sound file, and writes its words into your question for you to read over. No model hears the sound: it goes to OpenAI or Groq, with your key, to be written out. Add an <code>OPENAI_API_KEY</code> or <code>GROQ_API_KEY</code> under Settings, Keys, to turn it on.</li>
       </ul>
 
+      <h3 id="diagrams">Diagrams</h3>
+      <p>With the <a href="#add-ons">Diagram Design add-on</a> switched on, Ask has a <strong>Diagram</strong> button, with a model picker beside it (Haiku if you have it, otherwise your cheapest model). Press it, or start your question with <code>/diagram</code>, and one model draws your answer as a single HTML diagram instead of asking the panel. Ixel runs the add-on's own check on the diagram, gives the model one more try if it fails, and shows the result in a locked-down frame, with <strong>Open</strong> and <strong>Show in folder</strong>. Diagrams are saved in <code>~/.ixel/diagrams</code>.</p>
+
       <h3 id="handoff-in-ask">Hand work to several agents</h3>
       <p>With Handoff installed, type <code>/handoff</code> in Ask and say who does what:</p>
       <pre class="code"><code>/handoff codex review my changes, grok make pictures of my app, claude finish the next step</code></pre>
@@ -189,7 +192,8 @@
         <li><strong>Computer access</strong> is off until you switch it on for a run and confirm a warning. Then it can work anywhere in your home folder (still not in <code>~/.ssh</code>, your keychains or browser profiles), run commands with the network, take screenshots and open apps, files and links. Every change, command, screenshot and open still waits for your Approve, and an approved command can do anything you can, so turn it on only for a model and a goal you trust. It can't move your mouse or type for you.</li>
       </ul>
       <h3 id="agent-github">Add a tool from a GitHub link</h3>
-      <p>Give the agent a link to an open-source tool and it reads the project, tries it in a scratch folder, and writes a short <strong>add-on card</strong> for it: what the tool is, the exact version, and in plain words what it may touch. Ixel doesn't build each tool in; you decide which ones you trust. A card the agent writes always stays off. Turning one on, after you've read what it can reach, comes with the Add-ons page in Settings (see <a href="../#coming-next">Coming next</a>); once it's on, the agent can use the tool.</p>
+      <p>Give the agent a link to an open-source tool and it reads the project, tries it in a scratch folder, and writes a short <strong>add-on card</strong> for it: what the tool is, the exact version, and in plain words what it may touch. Ixel doesn't build each tool in; you decide which ones you trust. A card the agent writes always stays off, marked "Written by the agent, not reviewed", until you read it and approve it in <a href="#add-ons">Settings, Add-ons</a>.</p>
+      <p>Once a tool-server card is on, the agent can call that tool. The first call in each run asks you, showing the tool and what it's given. On a Mac the tool runs in the same sandbox as commands, with the network only if its card says so and writes only where its card allows; like commands, it can still read your files.</p>
 
       <h2 id="machines">Machines</h2>
       <p>Your servers, from a $5 VPS to the computer in the closet, and the OpenClaw or Hermes agent on each.</p>
@@ -221,12 +225,24 @@
         <li><strong>Pictures</strong> and <strong>Sound</strong>: which models see pictures, and which service makes pictures or writes out sound.</li>
         <li><strong>Appearance:</strong> System (the default) matches your computer's light or dark mode, or keep it Light or Dark.</li>
         <li><strong>Keys:</strong> paste, replace or remove a key. Keys are never shown again.</li>
+        <li><strong>Add-ons:</strong> open-source tools you can switch on, each described by a short card. See <a href="#add-ons">Add-ons</a>.</li>
       </ul>
       <figure class="shot">
         <img src="../images/app-settings.webp" width="2560" height="1600" loading="lazy" alt="The Settings page: Appearance, then the models on the panel, each with a model and effort to pick, and the Docs button at the top">
         <figcaption>Settings: Appearance, then each model on the panel with the model and effort it uses. <strong>Docs</strong> is at the top right. (The pictures' models all run on a stand-in server here, so each list says it came from your model server; a real API model's list comes from its company.)</figcaption>
       </figure>
       <p>Settings changes only those lines of your settings file and keeps your comments. The file from before each change is kept as <code>config.toml.bak</code>. If the file changed since the page read it, it shows you the new one instead of saving over it. Adding a company's model or a program, or changing any other command, address or key name, stays with <code>ixel setup</code> and the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser. <strong>Forget</strong>, at the bottom, deletes your last <code>ixel review</code> conversation and the Machines log (<a href="../privacy/#on-your-computer">what Ixel keeps</a>).</p>
+
+      <h3 id="add-ons">Add-ons</h3>
+      <p>Ixel doesn't build every outside tool in. Each one is a short <strong>card</strong> (an <code>addon.toml</code> file) that says what the tool is, the exact version to install, and in plain words what it may do: which folder it may write to, whether it may use the internet, and which programs Ixel may run for it. You decide which tools you trust.</p>
+      <ul>
+        <li><strong>Turning one on</strong> shows the card first: what it may do, with warnings for folder access, the internet and programs, its licence terms, and where it comes from. Nothing is downloaded until you press <strong>Approve and turn on</strong>.</li>
+        <li><strong>Ixel installs exactly that version</strong> from GitHub and checks every file against the card's fingerprint before using it, and again each time it's about to read or run them. Files that changed since are never used. Turning it off removes its files.</li>
+        <li><strong>Any change to a card</strong>, even one character, switches it off with "Changed since you approved it" until you approve it again.</li>
+        <li><strong>Diagram Design</strong> (MIT, by Cathryn Lavery) comes with Ixel, off until you turn it on. It adds <a href="#diagrams">Diagrams</a> to Ask.</li>
+        <li><strong>Cards the agent writes</strong> (<a href="#agent-github">from a GitHub link</a>) show as "Written by the agent, not reviewed". The agent can never turn a card on or widen what an approved card may do.</li>
+      </ul>
+      <p>Cards and their files are in <code>~/.ixel/addons</code>. The card format is in <a href="https://github.com/OpenIxelAI/Ixel-MAT/blob/main/docs/addon-cards.md">addon-cards.md</a>, for anyone who wants to write one by hand.</p>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->
         <a class="prev" href="../setup/"><span>Previous</span>Set up your models</a>

@@ -98,7 +98,8 @@
             <tr><td>xAI, from Grok Build</td><td>When Grok Build answers</td><td>Nothing besides the question: Ixel runs it with its usage statistics, traces, feedback and updates off. It does ask the model, in a short call of its own, for a title for the session, which counts against your plan; the title is deleted with the session.</td></tr>
             <tr><td>The company of the model a Handoff worker runs on: Claude Code, Codex, OpenCode, Hermes Agent, Kimi Code, Cline, OpenClaw or an agent you added</td><td>When a task you approved runs</td><td>The task as you approved it, with its history, and whatever the agent reads in that task's copy of your project. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw) can reach what you can, so it runs only once you switch it on. A model on your computer sends nothing out.</td></tr>
             <tr><td>The company of the model you pick on the Agent page</td><td>When the Agent works on a goal</td><td>Your goal and follow-ups, its memory files and the skills it loads, what it reads in the folder you picked (or, with Computer access on, your home folder), the output of commands you approve (which can include any file your user account can read, since commands aren't limited to that folder), and pictures you attach or it looks at. A model on your computer sends nothing out.</td></tr>
-            <tr><td>GitHub</td><td>When you ask the Agent to add a tool from a GitHub link</td><td>A download of that project. Nothing about you; GitHub sees your IP address.</td></tr>
+            <tr><td>GitHub</td><td>When you ask the Agent to add a tool from a GitHub link, or turn on an add-on</td><td>A download of that project at the version its card names. Nothing about you; GitHub sees your IP address.</td></tr>
+            <tr><td>The company of the model you pick for a diagram</td><td>When you ask with <strong>Diagram</strong> on</td><td>Your question and the Diagram Design add-on's instructions and templates. A model on your computer sends nothing out.</td></tr>
             <tr><td>A model server on your computer or network</td><td>When you ask a question</td><td>The same, kept between your machines. No key, unless you gave that server one in the settings file.</td></tr>
             <tr><td>Model servers on this computer, or at the address you type</td><td>When you press <strong>Look</strong> in Settings or run <code>ixel setup</code>, and each time Settings opens, for the models you added</td><td>A request for the list of models it has. Nothing of yours, and no key unless you gave that server one. Look and setup ask it straight, never through a proxy, and never search your network.</td></tr>
             <tr><td>ollama.com, or Hugging Face for an <code>hf.co/</code> name, from your Ollama</td><td>When you press <strong>Get</strong> under <strong>Get a model</strong></td><td>Your Ollama downloads the model, as <code>ollama pull</code> does; they see that computer's address and the model's name. Ixel itself talks only to your Ollama, and sends nothing else.</td></tr>
@@ -187,6 +188,16 @@
             <tr><td><code>app.json</code></td><td>Your Appearance choice: System, Light or Dark</td><td>Kept</td></tr>
             <tr><td>The app window's browser storage</td><td>The Edge or Chrome profile Ixel's window uses on Windows and Linux (<code>%LOCALAPPDATA%\IxelMAT\window</code>, <code>~/.local/state/ixel-mat/window</code>), or WebKit's storage for the Mac app. It holds the project folders you opened on the Board and the browser's own cache and settings, never a question or an answer. Ixel's own Linux window keeps it where WebKitGTK puts it instead (usually <code>~/.local/share/ixel</code> and <code>~/.cache/ixel</code>)</td><td>Until you delete it (<code>ixel forget</code>; for the Linux window, delete those folders with Ixel closed, as <code>ixel forget</code> tells you)</td></tr>
             <tr><td>Your Pictures folder, in <code>Ixel</code></td><td>Pictures you make (not what you asked for)</td><td>Yours to keep or delete</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Add-ons keep their own folder, <code>~/.ixel</code>:</p>
+      <div class="table">
+        <table>
+          <thead><tr><th>What</th><th>What's in it</th><th>How long</th></tr></thead>
+          <tbody>
+            <tr><td><code>addons/</code></td><td>Cards the agent wrote, each add-on's installed files, and <code>state.json</code>: which add-ons are on and which version of each card you approved</td><td>An add-on's files until you switch it off; cards until you delete them</td></tr>
+            <tr><td><code>diagrams/</code></td><td>The diagrams you made in Ask, as HTML files</td><td>Yours to keep or delete</td></tr>
           </tbody>
         </table>
       </div>
