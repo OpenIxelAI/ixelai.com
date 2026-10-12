@@ -5,7 +5,7 @@
 One install gives you:
 
 - Ixel MAT: ask several models at once; they grade each other's answers anonymously and one writes the verdict.
-- Handoff: a task board your coding agents share. Pick one model or a chain (a big model plans, cheaper ones build, a bigger one checks their work), see what each run cost, and merge finished work yourself.
+- Handoff: a task board your coding agents share. Pick one model, a chain (a big model plans, cheaper ones build, a bigger one checks their work) or Auto crew (Handoff picks the models and effort for the job), see what each run cost, and merge finished work yourself.
 - Machines: your SSH servers and the OpenClaw or Hermes agents on them.
 - The Ixel app: Ask, Board, Agent (beta), Machines, Health and Settings in one window. Settings > Add-ons brings in open-source tools as approved cards.
 

@@ -231,6 +231,19 @@ handoff approve T-7 codex --model gpt-5.5 --effort xhigh</code></pre>
       <pre class="code"><code>handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,ollama:qwen3:4b-instruct
 handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,opencode:opencode/step-5-preview-free</code></pre>
       <p>The planner is told which models are small or on your computer, and gives them only short, exact directions: one change in one named file, spelled out, not design or a lot of new code. <a href="../models/#pyramid">The recommended setup</a> says which models fit each place in a chain.</p>
+      <h3 id="auto-crew">Or let Handoff pick the crew</h3>
+      <p><strong>Auto crew</strong> is optional. With it off, you pick the models yourself, as above. With it on, you describe the task and Handoff picks the crew: which models, in which roles, and how hard each one thinks. You see the crew before you say yes, and the approval seals exactly that crew.</p>
+      <pre class="code"><code>handoff crew "Fix the login page"              # preview a crew for some words; nothing is approved or run
+handoff crew T-7 --effort-all max              # preview one of your tasks, every model at max
+handoff approve T-7 --auto                     # approve T-7 with the crew Handoff picks, shown first
+handoff approve T-7 --auto --effort-all low    # the same, every model at low (or the nearest level it takes)</code></pre>
+      <ul>
+        <li><strong>What it reads.</strong> A small model reads the task's title and text (nothing else, up to 4,000 characters) and says what kind of job it is (coding, writing, review, report or pictures) and how big (light, standard or heavy). That's <code>qwen3:4b-instruct</code> when your Ollama has it, so nothing leaves your computer; otherwise Claude Haiku 5.5 through your Claude Code, with no tools. If neither answers, the task's words decide by keyword. <code>handoff crew</code> says which one it used.</li>
+        <li><strong>Who gets the work.</strong> A chain of up to four models, biggest first, planned on Claude. Fable 5.1 (or GPT-6 Astra) only plans, and only a heavy job gets one. The biggest slices go to Grok 4.7 when it's switched on here, then GPT-6.1 Sol and Opus 5.5, then Sonnet 5.5, then Haiku 5.5 or GPT-6 Luna for the small steps. A light job is Sonnet (or Haiku) and one small model. Local models aren't put in a crew yet.</li>
+        <li><strong>Who's left out.</strong> An agent you haven't switched on, and one that hit a usage limit in the last five hours; the next model takes its place.</li>
+        <li><strong>How hard each thinks.</strong> By size: a light job has medium for the planner and low for the builders; a standard job has high for the planner and builders and medium for the small steps; a heavy job has xhigh for the planner and high for the rest. <code>--effort-all</code> sets one level for every model instead.</li>
+      </ul>
+      <p>Auto crew is for edits, and can't go with <code>--model</code> or <code>--chain</code>; for answers and reviews you name the agent yourself. In the Ixel app it's the <a href="../app/#board-models">Auto switch</a> on the Board.</p>
       <h3 id="back-up-the-chain">Work is checked on its way back up</h3>
       <ul>
         <li>If a smaller model fails its step, the biggest step model (the second in the chain) does that step instead.</li>
@@ -257,6 +270,7 @@ handoff rankings --job coding                        # who's best at what, best 
           <thead><tr><th>Agent</th><th>What it can do</th><th>Costs</th></tr></thead>
           <tbody>
             <tr><td><strong>OpenCode</strong> (<code>opencode</code>)</td><td>Edits files in its worktree with its file tools; no commands, no web</td><td>Nothing on its free models (<code>opencode/…-free</code>)</td></tr>
+            <tr><td><strong>Grok Build</strong> (<code>grok</code>, signed in with SuperGrok)</td><td>Edits files in its worktree with its file tools, inside Grok's own sandbox; no commands, no MCP tools, no web. It can still write to <code>/tmp</code> and your <code>~/.grok</code> folder</td><td>Your SuperGrok plan's</td></tr>
             <tr><td><strong>Ollama</strong>, <strong>LM Studio</strong>, or any OpenAI-style server</td><td>Reads and writes files in its worktree through four tools Handoff runs itself; no commands</td><td>Nothing: it runs on your computer</td></tr>
             <tr><td><strong>Hermes Agent</strong></td><td>Its file tools only, but they can read outside the worktree</td><td>Its model's</td></tr>
             <tr><td><strong>Kimi Code</strong>, <strong>Cline</strong>, <strong>OpenClaw</strong></td><td>Whatever their own permissions allow: commands as you, with the network</td><td>Their model's</td></tr>
@@ -266,7 +280,8 @@ handoff rankings --job coding                        # who's best at what, best 
       <pre class="code"><code>handoff approve T-8 opencode --model opencode/step-5-preview-free
 handoff approve T-9 ollama --model qwen3:4b-instruct      # a small, clear task, done for free
 handoff agents enable kimi                                # once: kimi runs with its own permissions</code></pre>
-      <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
+      <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Grok Build, Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
+      <p>Grok Build also loads your own Grok plugins and hooks, which Handoff can't turn off. So before every run Handoff asks Grok what it would load, and refuses the run, changing nothing, if a plugin with hooks or a hook is switched on; the reason names it (<code>grok plugin disable NAME</code> turns a plugin off). Its sandbox was checked by hand on a Mac, not yet on Linux or Windows.</p>
       <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain, its work is checked by a bigger model on the way back up.</p>
 
       <h2 id="your-controls">Your controls</h2>
@@ -283,6 +298,7 @@ handoff agents enable kimi                                # once: kimi runs with
             <tr><td><code>handoff note T-12 "text"</code></td><td>Add a note to any task</td></tr>
             <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
             <tr><td><code>handoff approve T-12 opencode</code></td><td>Let one agent work on a task, once, on its own branch (add <code>--model</code>, <code>--chain</code> or <code>--effort</code>)</td></tr>
+            <tr><td><code>handoff crew "task" | T-12</code>, <code>handoff approve T-12 --auto</code></td><td>Preview the crew <a href="#auto-crew">Auto crew</a> would pick, or approve an edit with it (add <code>--effort-all max</code> or <code>low</code>)</td></tr>
             <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have out, as one merge commit. Only you can, and nothing is pushed</td></tr>
             <tr><td><code>handoff rankings</code></td><td>Which models are best at what, from public benchmarks: who takes over when a model hits its usage limit</td></tr>
             <tr><td><code>handoff agents</code>, <code>handoff agents enable NAME</code></td><td>Who can do what on this computer; switch on an agent that runs with its own permissions</td></tr>
