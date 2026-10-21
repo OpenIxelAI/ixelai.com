@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Handoff | IxelAI</title>
-<meta name="description" content="Handoff: let your coding agents and local models work as partners on the same project, through a shared task board on your computer.">
+<meta name="description" content="Handoff: let your best model plan each coding task while cheaper and local models build it, and a bigger one checks what the small ones did. A task board your agents share, on your computer.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Handoff | IxelAI">
-<meta property="og:description" content="Handoff: let your coding agents and local models work as partners on the same project, through a shared task board on your computer.">
+<meta property="og:description" content="Handoff: let your best model plan each coding task while cheaper and local models build it, and a bigger one checks what the small ones did. A task board your agents share, on your computer.">
 <meta property="og:url" content="https://ixelai.com/handoff/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/handoff/">
@@ -43,12 +43,13 @@
   <main style="--c:var(--iris)">
     <div class="wrap page-hero">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="greek">β</span> Agents as partners</div>
+        <div class="eyebrow"><span class="greek">β</span> A crew of models</div>
         <h1>Handoff</h1>
-        <p class="lede">Let your coding agents work as partners on the same project.</p>
-        <p>Say “Codex, take the tests; Claude, do the API” in either app. Tasks, notes and reviews pass between them through a shared task board on your computer, so you stop being the copy-paste courier. Handoff works in Claude Desktop, Claude Code and Codex, and in Gemini CLI, OpenCode and Grok Build too, and you can see everything from your terminal.</p>
+        <p class="lede">Your best model plans. Cheaper models build. You see what it cost.</p>
+        <p>Pick a chain or Auto crew, and Handoff splits a coding task: your top model plans it, each step goes to the smallest model in the chain that can do it well, and a bigger model checks the small models' work on its way back up. A chain you pick yourself can give the small steps to a free or local model. Your agents also hand work to each other on a shared task board on your computer, so you stop being the copy-paste courier. It works in Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build.</p>
         <div class="actions">
           <a class="btn btn-moon" href="#install">Install</a>
+          <a class="btn" href="#save">How it saves money</a>
           <a class="btn" href="#demo">See it run</a>
         </div>
       </div>
@@ -102,12 +103,41 @@
 
           <a class="tag" href="../handoff/" style="--y:38.71%; --c:var(--iris); --d:0.60s">
             <span class="tag-name"><b>β</b>Handoff</span>
-            <span class="tag-sub">Claude ⇄ Codex</span>
+            <span class="tag-sub">a crew of models</span>
           </a>
         </div>
         <figcaption>The β star in the Ixel mark</figcaption>
       </figure>
     </div>
+
+    <section id="save">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How it saves money</div>
+          <h2>Pay top-model prices mostly for the planning.</h2>
+          <p>A chain lists up to four models, biggest first. The first one plans and the rest build, so most of a task's tokens are billed at the cheaper models' prices. The top model comes back only to fix a problem the check sends up.</p>
+        </div>
+        <ol class="steps">
+          <li><h3>Plan</h3><p>Your top model can read files but not change them. It's asked to read only what it needs, then splits the task into up to six steps: design and tricky logic for the bigger builders; tests, docs, renames and small edits for the smaller ones.</p></li>
+          <li><h3>Build</h3><p>The steps run one after another in the task's own worktree, each committed on its own. Local and free models get short, exact directions, such as one change in one named file.</p></li>
+          <li><h3>Check on the way up</h3><p>If a smaller model fails its step, the biggest builder (the chain's second model) does it instead. When the steps are done, it checks the smaller models' work against the plan, with the diff in front of it, and fixes what's wrong. A problem too big for it, like a wrong design, goes back to the top model.</p></li>
+          <li><h3>See the cost</h3><p>The handback lists each step, check and fix with what it cost, and the Board shows what each task and the whole board have spent. Claude Code, Grok Build, OpenCode and local models report what they used; Codex doesn't yet.</p></li>
+        </ol>
+        <div class="split">
+          <figure class="costs">
+            <figcaption>An example coding task with assumed token counts, at Anthropic's API prices</figcaption>
+            <div class="cost"><span class="cost-name">Opus 5.5 does it all</span><span class="cost-usd">$3.00</span><span class="cost-bar" aria-hidden="true"><i style="--v:100%"></i></span></div>
+            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>What Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
+          </figure>
+          <div class="save-more">
+            <p><strong>In this example, about half the cost.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
+            <p><strong>Keep the top model's thinking for the plan.</strong> At max effort the top model is the dearest part of a chain, so Auto crew uses Fable 5.1 only for heavy jobs, and the Board's ready-made chain starts Fable at low effort.</p>
+            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job, with no check, with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
+            <p><a href="../docs/handoff/#models-and-chains">How chains work</a> · <a href="../docs/handoff/#auto-crew">Auto crew</a> · <a href="../docs/models/#pyramid">Which models fit where</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="demo">
       <div class="wrap">
@@ -187,8 +217,8 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux and macOS it runs Claude Code or Codex in a sandbox, so they can run your tests (on Linux it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing); on Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
           <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run once you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
           <div><dt>The right model for each step</dt><dd>Pick one model, let Auto crew pick for the job, or pick a chain: the biggest plans, and each step goes to the smallest model that can do it well, on any agent you have, local models included, committed on its own. A bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
-          <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, never a dearer one, and the result says who did. You see who would take over before you approve, and can turn it off.</dd></div>
-          <div><dt>What each run cost</dt><dd>Every run lists each model's tokens and an estimated cost at API prices (on a subscription, what it would have cost). The Board shows each task's cost and the whole board's spend.</dd></div>
+          <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, and the result says who did. Handoff never picks a stand-in it knows costs more than the model you picked (in a chain written biggest first, than its planner). You see who would take over before you approve, and can turn it off.</dd></div>
+          <div><dt>What each run cost</dt><dd>Each run on Claude Code, Grok Build, OpenCode, Hermes or a local model lists each model's tokens and an estimated cost at API prices (on a subscription, what it would have cost). The Board shows each task's cost and the whole board's spend. Codex, Kimi Code, Cline and OpenClaw don't report it yet.</dd></div>
           <div><dt>Merge when you're happy</dt><dd><code>handoff merge T-7</code>, or Merge on the Board, brings a finished task's branch into your checkout as one merge commit. Nothing is pushed, and it refuses rather than touch files git doesn't track.</dd></div>
         </dl>
         <div class="safe">
