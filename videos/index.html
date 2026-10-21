@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>Videos | IxelAI</title>
+<meta name="description" content="Short recordings of Ixel at work: the Ask panel, a Board run, the Agent (beta), Machines, and Handoff and Ixel MAT in a terminal.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Videos | IxelAI">
+<meta property="og:description" content="Short recordings of Ixel at work: the Ask panel, a Board run, the Agent (beta), Machines, and Handoff and Ixel MAT in a terminal.">
+<meta property="og:url" content="https://ixelai.com/videos/">
+<meta property="og:image" content="https://ixelai.com/ixel-logo.png">
+<link rel="canonical" href="https://ixelai.com/videos/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="page">
+
+  <header class="wrap top">
+    <a class="brand" href="../" aria-label="IxelAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="29" cy="36" r="19" fill="#c8d8e8"/>
+        <circle cx="36" cy="32" r="17" fill="#070b14"/>
+        <polygon points="47,7 49.2,13.6 56,13.6 50.5,17.7 52.6,24.3 47,20.2 41.4,24.3 43.5,17.7 38,13.6 44.8,13.6" fill="#d4af37"/>
+      </svg>
+      <span class="wordmark">Ixe<span>l</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="../ixel-mat/">Ixel MAT</a>
+      <a href="../handoff/">Handoff</a>
+      <a href="../machines/">Machines</a>
+      <a href="../videos/" aria-current="page">Videos</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="https://github.com/OpenIxelAI">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap page-hero" style="grid-template-columns: minmax(0, 1fr)">
+      <div class="hero-copy">
+        <div class="eyebrow">See it run</div>
+        <h1>Videos</h1>
+        <p class="lede">Short recordings of each tool doing one real job, start to finish.</p>
+        <p><strong>What's real here:</strong> the Ixel app, Handoff's board, worker and merge, the Agent's tools, its sandbox and the tests it runs, and the <code>handoff</code> and <code>ixel</code> commands. <strong>What isn't:</strong> the models. They're stand-ins on the test computer that give scripted replies, so each clip shows what a tool does, not how well any model does it. Each video says so in its corner. We'll replace them with recordings that use real models.</p>
+      </div>
+    </div>
+
+    <section id="ask">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Ixel MAT</div>
+          <h2>Ask the panel</h2>
+          <p>Four models answer the same question on their own, grade each other's answers without knowing whose they are, and one writes the verdict. Here one answer is wrong, and the verdict says which and why. <a href="../docs/app/#ask">Ask, in the app docs</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="ixel-mat.jpg">
+            <source src="ixel-mat.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+    <section id="board">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Handoff</div>
+          <h2>Run a task on the Board</h2>
+          <p>A task goes to a model on your computer. It works on its own branch in a copy of the project, hands the task back with what it did and what it used, and Merge adds the work to your branch. Nothing is pushed. <a href="../docs/handoff/#worker">How the worker runs a task</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="handoff.jpg">
+            <source src="handoff.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+    <section id="agent">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Agent (beta)</div>
+          <h2>Give the Agent a goal</h2>
+          <p>The Agent reads the code, asks before it edits a file, and asks again before it runs the tests. The tests run in a sandbox with no network, writing only in the project's folder. <a href="../docs/app/#agent">The Agent, in the app docs</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="agent.jpg">
+            <source src="agent.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+    <section id="machines">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Machines</div>
+          <h2>Your servers in one place</h2>
+          <p>Machines lists the SSH servers you added, grouped as you like. Edit one, check its key, or run one command on several at once. <a href="../docs/app/#machines">Machines, in the app docs</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="machines.jpg">
+            <source src="machines.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+    <section id="handoff-terminal">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Handoff</div>
+          <h2>Handoff in a terminal</h2>
+          <p><code>handoff board</code> shows every task and who has it. <code>handoff show</code> tells one task's story: who approved it, which model ran it, what it used, and when it was merged. <a href="../docs/handoff/#your-controls">Every Handoff command</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="handoff-terminal.jpg">
+            <source src="handoff-terminal.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+    <section id="ixel-terminal">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Ixel MAT</div>
+          <h2>Ixel MAT in a terminal</h2>
+          <p><code>ixel review</code> runs the same panel from your shell: answers, peer review, and the verdict with its corrections and cost. <a href="../docs/terminal/">Ixel in the terminal</a>.</p>
+        </div>
+        <figure class="demo">
+          <video controls preload="none" playsinline width="1280" height="800" poster="ixel-terminal.jpg">
+            <source src="ixel-terminal.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="sign">
+        <span class="wordmark">Ixel</span>
+        <span class="tag-line">To shine</span>
+      </div>
+      <span>© <span id="year">2026</span> IxelAI · All three tools are MIT-licensed</span>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="../docs/">Docs</a>
+        <a href="../docs/privacy/">Privacy</a>
+        <a href="../about/">About</a>
+        <a href="../about/#contact">Contact</a>
+        <a href="https://github.com/OpenIxelAI">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<script src="../site.js"></script>
+</body>
+</html>

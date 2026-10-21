@@ -78,6 +78,7 @@ def header(folder: str) -> str:
       <a href="{r}ixel-mat/">Ixel MAT</a>
       <a href="{r}handoff/">Handoff</a>
       <a href="{r}machines/">Machines</a>
+      <a href="{r}videos/">Videos</a>
       <a href="{r}docs/" aria-current="page">Docs</a>
       <a href="{r}about/">About</a>
       <a href="https://github.com/OpenIxelAI">GitHub</a>

@@ -1,17 +1,23 @@
 # Demo videos
 
-Each tool page shows its recording from this folder as soon as the file is here. Until then, it shows the
-example screen. The commercial is different: the home page links its files directly, and the no-voice cut and
+The videos page (`index.html` here, ixelai.com/videos/) shows every clip below. Each tool page shows its own
+recording from this folder too, as soon as the file is here; until then, it shows the example screen. The commercial is different: the home page links its files directly, and the no-voice cut and
 the loop are only used by the GitHub READMEs.
 
 | File | Shown on |
 |---|---|
-| `ixel-mat.mp4` | ixelai.com/ixel-mat/ |
-| `handoff.mp4` | ixelai.com/handoff/ |
-| `machines.mp4` | ixelai.com/machines/ |
+| `ixel-mat.mp4` | ixelai.com/ixel-mat/ and the videos page (Ask in the app) |
+| `handoff.mp4` | ixelai.com/handoff/ and the videos page (a Board run, then Merge) |
+| `machines.mp4` | ixelai.com/machines/ and the videos page |
+| `agent.mp4` | the videos page (the Agent fixes a bug and runs the tests) |
+| `handoff-terminal.mp4`, `ixel-terminal.mp4` | the videos page (`handoff board` and `show`, `ixel review`) |
 | `ixel-commercial.mp4` | ixelai.com, "The film" (with the voiceover) |
 | `ixel-commercial-no-voice.mp4` | the GitHub READMEs (music only) |
 | `ixel-panel-loop.gif` | the GitHub READMEs (a 7-second loop from the film) |
+
+Each clip has a JPG poster of the same name. The six clips above are made by `scripts/docs-videos.py`, which
+runs the real app and commands with stand-in models (each clip says so in its corner); see that script to
+record them again.
 
 The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it.
 
