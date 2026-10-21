@@ -32,5 +32,6 @@ Install: `curl -fsSL https://ixelai.com/install.sh | sh` on macOS and Linux, `ir
 
 ## Optional
 
+- [Videos](https://ixelai.com/videos/): short recordings of each tool at work (stand-in models)
 - [About](https://ixelai.com/about/)
 - [Ixel MAT](https://ixelai.com/ixel-mat/), [Handoff](https://ixelai.com/handoff/), [Machines](https://ixelai.com/machines/)
