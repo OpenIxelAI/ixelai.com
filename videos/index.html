@@ -83,7 +83,7 @@
         <div class="section-head">
           <div class="eyebrow">Agent (beta)</div>
           <h2>Give the Agent a goal</h2>
-          <p>The Agent, here on Grok Build, reads the code, shows the change to <code>cart.py</code> before it edits it, and asks before each command. Commands run in a sandbox with no network, writing only in the project's folder, so when pytest can't be installed it runs the tests with Python instead. Both pass, after 8 model calls that cost about $0.04. <a href="../docs/app/#agent">The Agent, in the app docs</a>.</p>
+          <p>The Agent, here on Grok Build, reads the code, shows the change to <code>cart.py</code> before it edits it, and asks before each command. Commands run in a sandbox with no network that can write only in the project's folder and the temp folder, so when pytest can't be installed it runs the tests with Python instead. Both pass, after 8 model calls (about $0.04 at API prices). <a href="../docs/app/#agent">The Agent, in the app docs</a>.</p>
         </div>
         <figure class="demo">
           <video controls preload="none" playsinline width="1280" height="800" poster="real/agent.jpg">

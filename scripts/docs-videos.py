@@ -57,7 +57,7 @@ CLIPS = ("ask", "board", "agent", "machines", "handoff-terminal", "ixel-terminal
 # The clips no real recording replaces yet; the rest are in videos/real/
 STAND_INS = ("machines", "handoff-terminal", "ixel-terminal")
 CAPTION = "Stand-in models, scripted replies"
-# The file each clip is saved as (videos/README.md)
+# Stand-in Ask and Board clips keep their old names, so they never overwrite videos/real/; no page shows them
 FILES = {"ask": "ixel-mat", "board": "handoff"}
 FONT = next((f for f in ("/usr/share/fonts/opentype/inter/Inter-Regular.otf",
                          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf") if os.path.exists(f)), None)
@@ -516,6 +516,8 @@ def main() -> int:
     from fake_providers import ThreadedFakeProvider  # noqa: E402
 
     names = list(args.only or STAND_INS)
+    # `handoff show T-8` tells the story of the Board run, so that clip needs it; its own clip isn't kept
+    setup = ["board"] if "handoff-terminal" in names and "board" not in names else []
     terminals = [n for n in names if n in TERMINALS]
     if terminals and not args.xterm:
         print("The terminal clips need --xterm (a folder with @xterm/xterm installed).", file=sys.stderr)
@@ -542,9 +544,13 @@ def main() -> int:
         fake.stream_delay = 0.05
         make_home(home, fake.openai_url)
         app = [n for n in names if n in SCENES]
-        if app:
+        if app or setup:
             with shots.run_app(home) as url:
-                record_app(url, home, app, args.out, raw)
+                if setup:
+                    print("  Running T-8 on the Board first, for handoff-terminal (that clip isn't kept)")
+                    record_app(url, home, setup, raw, raw)
+                if app:
+                    record_app(url, home, app, args.out, raw)
         if terminals:
             env = {**os.environ, "HOME": str(home), "IXEL_DEMO_KEY": "demo", "IXEL_NO_UPDATE_CHECK": "1"}
             for key in ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "GOOGLE_API_KEY", "XAI_API_KEY"):
