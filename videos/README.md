@@ -6,18 +6,19 @@ the loop are only used by the GitHub READMEs.
 
 | File | Shown on |
 |---|---|
-| `ixel-mat.mp4` | ixelai.com/ixel-mat/ and the videos page (Ask in the app) |
-| `handoff.mp4` | ixelai.com/handoff/ and the videos page (a Board run, then Merge) |
+| `real/ask.mp4` | ixelai.com/ixel-mat/ and the videos page (Ask in the app, real models) |
+| `real/board.mp4` | ixelai.com/handoff/ and the videos page (a Board run on a local model, then Merge) |
+| `real/agent.mp4` | the videos page (the Agent fixes a bug and runs the tests, on Grok Build) |
 | `machines.mp4` | ixelai.com/machines/ and the videos page |
-| `agent.mp4` | the videos page (the Agent fixes a bug and runs the tests) |
 | `handoff-terminal.mp4`, `ixel-terminal.mp4` | the videos page (`handoff board` and `show`, `ixel review`) |
 | `ixel-commercial.mp4` | ixelai.com, "The film" (with the voiceover) |
 | `ixel-commercial-no-voice.mp4` | the GitHub READMEs (music only) |
 | `ixel-panel-loop.gif` | the GitHub READMEs (a 7-second loop from the film) |
 
-Each clip has a JPG poster of the same name. The six clips above are made by `scripts/docs-videos.py`, which
-runs the real app and commands with stand-in models (each clip says so in its corner); see that script to
-record them again.
+Each clip has a JPG poster of the same name. The three in `real/` are real runs with real models, recorded on
+a Mac from a throwaway copy of Ixel with a demo project; `real/README.txt` lists the models and versions.
+`machines.mp4` and the two terminal clips are made by `scripts/docs-videos.py`, which runs the real app and
+commands with stand-in models (each clip says so in its corner); see that script to record them again.
 
 The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-commercial.vtt`) sit beside it.
 

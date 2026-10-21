@@ -23,10 +23,9 @@ board.mp4 / board.jpg (about 41 s)
   The Board on /tmp/ixel-demo/shop with three tasks. T-1 "Write docs/api.md
   for /api/orders" runs on Ollama qwen3:4b-instruct with no thinking effort.
   The clip shows it running, the handback, the What it used table (4.1k read,
-  405 written, $0) and Merge into main. No Auto switch: it shows only for
-  Claude, and the Board's Claude and Grok workers couldn't sign in from the
-  throwaway setup (their sandboxes need a login file it didn't have), so this
-  clip uses the local model.
+  405 written, $0) and Merge into main. The Board's Claude and Grok workers
+  couldn't sign in from the throwaway setup, so this clip uses the local model
+  (and shows no Auto switch, which appears only for Claude).
 
 agent.mp4 / agent.jpg (about 61 s)
   The Agent (beta) on ~/shop with Grok Build (default effort): "Fix the cart
@@ -34,5 +33,4 @@ agent.mp4 / agent.jpg (about 61 s)
   cart.py (int(total * 100) / 100 becomes round(total, 2)) and to run the
   tests. Five approvals in all: pytest isn't installed in its sandbox, and pip
   had no network, so it ran the tests with python3 instead. Both pass. 8 model
-  calls, about $0.04. Claude Code wasn't signed in for this run, so Grok Build
-  stands in for the Claude model the plan called for.
+  calls, about $0.04.

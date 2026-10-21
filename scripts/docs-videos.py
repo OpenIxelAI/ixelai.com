@@ -23,8 +23,10 @@ a PATH of its own (this Python's folder, a stand-in `ollama`, and the system's f
 this computer aren't found. Everything runs in --home, which must be empty or new; its path shows on the
 Board, so pick a plain one. Look at every clip before committing it.
 
-The clips go in videos/ as MP4 (H.264, no sound), each with a JPG poster: ixel-mat (Ask), handoff (a Board
-run), agent, machines, handoff-terminal and ixel-terminal. videos/index.html shows them all.
+The clips go in videos/ as MP4 (H.264, no sound), each with a JPG poster. Ask, the Board and the Agent have real
+recordings with real models in videos/real/ (its README.txt says how they were made), so by default this records
+only the clips that still use stand-ins: machines, handoff-terminal and ixel-terminal. `--only ask board agent`
+records stand-in versions of the other three as ixel-mat, handoff and agent, which no page shows.
 """
 from __future__ import annotations
 
@@ -52,8 +54,10 @@ SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "videos"
 VIEWPORT = {"width": 1280, "height": 800}
 CLIPS = ("ask", "board", "agent", "machines", "handoff-terminal", "ixel-terminal")
+# The clips no real recording replaces yet; the rest are in videos/real/
+STAND_INS = ("machines", "handoff-terminal", "ixel-terminal")
 CAPTION = "Stand-in models, scripted replies"
-# The file each clip is saved as: the tool pages show ixel-mat.mp4, handoff.mp4 and machines.mp4 (videos/README.md)
+# The file each clip is saved as (videos/README.md)
 FILES = {"ask": "ixel-mat", "board": "handoff"}
 FONT = next((f for f in ("/usr/share/fonts/opentype/inter/Inter-Regular.otf",
                          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf") if os.path.exists(f)), None)
@@ -502,7 +506,7 @@ def main() -> int:
     parser.add_argument("--home", required=True, type=Path, help="an empty or new home folder to run in; its path shows")
     parser.add_argument("--xterm", type=Path, help="a folder where @xterm/xterm is installed (for the terminal clips)")
     parser.add_argument("--out", type=Path, default=OUT, help=f"where the clips go (default: {OUT})")
-    parser.add_argument("--only", nargs="*", choices=CLIPS, help="record only these clips")
+    parser.add_argument("--only", nargs="*", choices=CLIPS, help=f"record only these clips (default: {' '.join(STAND_INS)})")
     args = parser.parse_args()
 
     sys.path.insert(0, str(args.ixel_mat.resolve() / "tests"))
@@ -511,7 +515,7 @@ def main() -> int:
     spec.loader.exec_module(shots)
     from fake_providers import ThreadedFakeProvider  # noqa: E402
 
-    names = list(args.only or CLIPS)
+    names = list(args.only or STAND_INS)
     terminals = [n for n in names if n in TERMINALS]
     if terminals and not args.xterm:
         print("The terminal clips need --xterm (a folder with @xterm/xterm installed).", file=sys.stderr)
