@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>IxelAI</title>
-<meta name="description" content="Ixel makes local tools for people who use more than one AI: a panel of models that check each other's answers, a task board your agents share, and your servers' agents one click away.">
+<meta name="description" content="Ixel puts your AI models to work together: your best model plans, cheaper and local models do the work, and a bigger one checks what the small ones did. Local tools for the AI you already have.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="IxelAI">
-<meta property="og:description" content="Put your AI models to work together. Local tools for people who use more than one AI.">
+<meta property="og:description" content="Put your AI models to work together: your best model plans, and cheaper ones do the work.">
 <meta property="og:url" content="https://ixelai.com/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/">
@@ -45,10 +45,10 @@
       <div class="hero-copy">
         <div class="eyebrow">Ixel · To shine</div>
         <h1>Put your AI models to work <em>together.</em></h1>
-        <p>Ixel makes small, local tools for people who use more than one AI. Have Claude, GPT, Gemini and local models check each other's answers. Let Claude Code, Codex, OpenCode and your local models hand work back and forth. Reach the agents on your servers in one click.</p>
+        <p>Let your best model plan the job while cheaper and local models do the work, and a bigger model checks what the small ones did. You pay top-model prices only where they count, and you see what each Claude run cost. Ixel's tools run on your computer, with the Claude, GPT, Gemini, Grok and local models you already have.</p>
         <div class="actions">
           <a class="btn btn-moon" href="#install">Install</a>
-          <a class="btn" href="#tools">See the three tools</a>
+          <a class="btn" href="#save">How it saves money</a>
         </div>
         <ul class="facts">
           <li>macOS · Linux · Windows</li>
@@ -118,12 +118,41 @@
           </a>
           <a class="tag" href="handoff/" style="--y:38.71%; --c:var(--iris); --d:1.1s">
             <span class="tag-name"><b>β</b>Handoff</span>
-            <span class="tag-sub">Claude ⇄ Codex</span>
+            <span class="tag-sub">a crew of models</span>
           </a>
         </div>
         <figcaption>Three stars in the Ixel mark, one for each tool</figcaption>
       </figure>
     </div>
+
+    <section id="save">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Spend less on AI</div>
+          <h2>Your best model plans. Cheaper models do the work.</h2>
+          <p>Most of a coding task is steps a smaller model does well: tests, docs, renames, small edits. Pick a chain or Auto crew on Ixel's Board, and Handoff gives your top model the planning, passes each step down to the smallest model in the chain that can do it well, and has a bigger model check the small models' work on its way back up.</p>
+        </div>
+        <ol class="steps" style="--c:var(--iris)">
+          <li><h3>Plan</h3><p>Your top model can read the project but not change it. It splits the task into up to six steps, each for the smallest model that will do it well.</p></li>
+          <li><h3>Build</h3><p>Bigger builders take the design and tricky logic, smaller ones the tests, docs and small edits. Local and free models get one exact change at a time.</p></li>
+          <li><h3>Check on the way up</h3><p>In a chain of three or more, the biggest builder checks what the smaller models did and fixes it. A problem too big for it goes back to the top model.</p></li>
+          <li><h3>See the cost</h3><p>Each step, check and fix is its own commit, and the task lists what each model used and cost. (Codex doesn't report its costs yet.)</p></li>
+        </ol>
+        <div class="split">
+          <figure class="costs" style="--c:var(--iris)">
+            <figcaption>An example coding task with assumed token counts, at Anthropic's API prices</figcaption>
+            <div class="cost"><span class="cost-name">Opus 5.5 does it all</span><span class="cost-usd">$3.00</span><span class="cost-bar" aria-hidden="true"><i style="--v:100%"></i></span></div>
+            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>What Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
+          </figure>
+          <div class="save-more">
+            <p><strong>In this example, about half the cost.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
+            <p>Ixel MAT's Saver mode does the same for questions: cheaper models draft the answers and grade each other's, and your best model checks the result, usually in a few words, instead of writing it.</p>
+            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job, with no check, with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
+            <p><a href="docs/handoff/#models-and-chains">How chains work</a> · <a href="docs/models/#pyramid">Which models fit where</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="film">
       <div class="wrap">
@@ -197,12 +226,12 @@
 
           <article class="product" id="handoff" style="--c:var(--iris)">
             <div class="product-copy">
-              <div class="eyebrow"><span class="greek">β</span> Agents as partners</div>
+              <div class="eyebrow"><span class="greek">β</span> A crew of models</div>
               <h3>Handoff</h3>
-              <p class="lede">Let your coding agents work as partners on the same project. Say "Codex, take the tests; Claude, do the API," and the work passes between them. You stop being the copy-paste courier.</p>
+              <p class="lede">Your best model can plan a coding task and hand each step to the smallest model that can do it well. Your agents share one task board, so the work passes between them and you stop being the copy-paste courier.</p>
               <ul class="points">
+                <li>Approve a task and pick who does it: one model, a chain where your biggest model plans, smaller ones build and a bigger one checks their work, or Auto, where Handoff picks the crew for the job. A chain you pick yourself can give its small steps to OpenCode's free models or the models on your own computer, and Claude runs show what they cost.</li>
                 <li>A plugin for Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
-                <li>Approve a task and pick who does it: one model, a chain where a big model plans and smaller ones build, or Auto, where Handoff picks the crew for the job. OpenCode's free models and the models on your own computer can take tasks too, and every run shows what it cost.</li>
                 <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't change the history.</li>
                 <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what and what's blocked, and <code>handoff show T-2</code> shows everything that happened to a task.</li>
               </ul>

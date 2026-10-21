@@ -1,6 +1,6 @@
 # Ixel
 
-> Ixel is a set of local tools for people who use more than one AI. It runs on your own computer with the API keys, subscriptions (Claude Code, Codex and others) and local models you already have. There's no account, no telemetry and no IxelAI server. It's free and open source (MIT).
+> Ixel is a set of local tools for people who use more than one AI. Its main idea: your best model plans the work, cheaper and local models do most of it, and a bigger model checks what the small ones did. Claude runs show what they cost. It runs on your own computer with the API keys, subscriptions (Claude Code, Codex and others) and local models you already have. There's no account, no telemetry and no IxelAI server. It's free and open source (MIT).
 
 One install gives you:
 

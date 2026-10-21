@@ -38,6 +38,7 @@ import pty
 import re
 import select
 import shutil
+import signal
 import socket
 import subprocess
 import sys
@@ -350,7 +351,9 @@ def scene_agent(clip: Clip, home: Path) -> None:
     clip.click("#agent-send")
     approvals = 0
     deadline = time.monotonic() + 90
-    while time.monotonic() < deadline:
+    while True:
+        if time.monotonic() > deadline:
+            raise TimeoutError(f"the Agent didn't finish its job ({approvals} actions approved)")
         clip.wait(400)
         button = page.locator("button:visible", has_text="Approve")
         if button.count():
@@ -402,7 +405,9 @@ def pty_run(command: str, cwd: Path, env: dict) -> list:
     while True:
         ready, _, _ = select.select([fd], [], [], 120)
         if not ready:
-            break
+            os.kill(pid, signal.SIGKILL)
+            os.waitpid(pid, 0)
+            raise SystemExit(f"`{command}` printed nothing for two minutes, so it wasn't recorded")
         try:
             data = os.read(fd, 65536)
         except OSError:
@@ -410,7 +415,11 @@ def pty_run(command: str, cwd: Path, env: dict) -> list:
         if not data:
             break
         chunks.append([round(time.monotonic() - start, 3), data.decode("utf-8", "replace")])
-    os.waitpid(pid, 0)
+    os.close(fd)
+    code = os.waitstatus_to_exitcode(os.waitpid(pid, 0)[1])
+    if code != 0:
+        tail = "".join(text for _, text in chunks)[-800:]
+        raise SystemExit(f"`{command}` failed (exit {code}), so it wasn't recorded:\n{tail}")
     return chunks
 
 

@@ -644,6 +644,32 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; }
 .steps h3 { margin: 0; font-size: 1.0625rem; font-weight: 600; color: var(--bright); }
 .steps p { margin: 0; color: var(--mute); font-size: 0.9375rem; }
 .steps q { color: var(--moon); }
+/* What a task costs: one bar per way of doing it */
+.costs {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 20px 22px 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--deep);
+}
+.costs figcaption {
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.cost { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: baseline; }
+.cost-name { color: var(--moon); font-size: 0.9375rem; }
+.cost-name small { display: block; color: var(--mute); font-size: 0.8125rem; }
+.cost-usd { font-family: var(--f-mono); color: var(--bright); white-space: nowrap; }
+.cost-bar { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.cost-bar i { display: block; width: var(--v); height: 100%; border-radius: 4px; background: var(--c, var(--blue)); }
+.save-more { display: grid; gap: 14px; }
+.save-more p { margin: 0; color: var(--mute); font-size: 0.9375rem; }
+.save-more .note { color: var(--mute); }
 .aside {
   margin: 20px 0 0;
   max-width: 44rem;
