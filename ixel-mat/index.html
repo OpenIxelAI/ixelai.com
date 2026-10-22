@@ -156,7 +156,7 @@
         <ul class="who">
           <li><h3>Need an answer they can trust</h3><p>Ask about a regex, a query or a tricky bug, and see where the models disagree before you rely on the answer.</p></li>
           <li><h3>Pay for more than one AI</h3><p>Put your Claude, ChatGPT, Gemini and Copilot plans on one panel instead of asking each one separately.</p></li>
-          <li><h3>Watch what AI costs</h3><p>Usage saver lets cheaper and local models draft while your best model only checks, and every review ends with what it cost.</p></li>
+          <li><h3>Watch what AI costs</h3><p>Saver mode lets cheaper and local models draft while your best model only checks, and every review ends with what it cost.</p></li>
           <li><h3>Are about to push code</h3><p>Hand the panel your diff before you push. It looks for bugs, security problems and anything that would break. It only reads the code: API models and the built-in CLI setups get no file or shell access (an agent you add yourself, such as an OpenClaw gateway, keeps whatever tools it has).</p></li>
         </ul>
       </div>
@@ -193,7 +193,7 @@
         <div class="safe">
           <div class="eyebrow">Built to be safe</div>
           <ul class="points">
-            <li>Your keys stay in a file only you can read, and your questions go only to the providers you set up.</li>
+            <li>Your keys stay on your computer, encrypted where there's a system keychain, and your questions go only to the providers you set up.</li>
             <li>Subscription CLIs run answer-only: no shell, no file writes, in an empty folder. Gemini CLI can still search and read the web. A test, run by hand, attacks each one to check this.</li>
             <li>Model output is treated as untrusted. Answers are shown as text and fenced off before another model reads them.</li>
             <li>The browser app listens only on your computer and needs a one-time key.</li>
@@ -213,8 +213,8 @@
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (the installer offers to get it, and Git too, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
-              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
+              <li>Python 3.10 or newer (the installer offers to get it, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
+              <li>Git (the installer offers to get it if it's missing)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
             <p class="note">This installs Ixel MAT and the Ixel app. It downloads Ixel MAT from GitHub and updates it when you run it again. The installer itself needs no administrator rights (getting Git or Python may). You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>.</p>

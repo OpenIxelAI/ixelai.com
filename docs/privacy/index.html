@@ -118,7 +118,7 @@
           </tbody>
         </table>
       </div>
-      <p>Handoff has no network code of its own. Its plugin talks to your AI apps on your computer only, and it reaches the internet only for <code>handoff update</code>, or through the programs it starts for you (an agent run, or Ixel).</p>
+      <p>Handoff's plugin talks to your AI apps on your computer only. Handoff itself uses the network for <code>handoff update</code> and the rankings update listed above. It also sends requests to the model server a local worker uses, which can be on another computer and gets a key only if you set one. Otherwise, it reaches the internet only through the programs it starts for you (an agent run, or Ixel).</p>
       <p>The app's page and its server run only on your computer. The server listens on <code>127.0.0.1</code> with a one-time key, and the page can't load anything from the internet: no fonts, no scripts, no images from elsewhere.</p>
 
       <h2 id="training">Which companies may train on it</h2>
@@ -167,7 +167,7 @@
       <ol class="steps-doc">
         <li><h3>Use an API key on a paid account</h3><p>Anthropic, OpenAI and xAI don't train on API use by default, and Google doesn't once billing is on for the key's Cloud project. What you send with a free Gemini key is trained on and may be read by reviewers, except in the EEA, Switzerland and the UK.</p></li>
         <li><h3>On a plan, turn training off</h3><p>For Claude Code, the training choice in Claude's Privacy settings. For Codex, <em>Improve the model for everyone</em> in ChatGPT's Data controls, and <em>Include environments</em> in Codex's settings. For Copilot, <em>Allow GitHub to use my data for AI model training</em> in your Copilot settings. For Grok Build, leave <em>Coding data, retention, and training</em> (<code>/privacy</code> in <code>grok</code>) off, and turn off <em>Improve the model</em> in Grok's Data Controls.</p></li>
-        <li><h3>Skip the ones that train with no switch to stop it</h3><p>That includes Kimi and DeepSeek, unless you've asked them to stop by email or support. Free models in OpenCode Zen and Cline may use what you send, too.</p></li>
+        <li><h3>Skip the ones that train with no switch to stop it</h3><p>These include Kimi and DeepSeek, unless you've asked them to stop by email or support. Free models in OpenCode Zen and Cline may use what you send, too.</p></li>
         <li><h3>Keep it on your computer</h3><p>For anything that mustn't leave it, use a <a href="../local-models/">local model</a> and turn on <a href="../local-models/#private">Private</a>. Then only the models on your own computers answer; <a href="#honest-limits">Honest limits</a> says what Private doesn't cover.</p></li>
       </ol>
       <p>Not training on something isn't the same as not keeping it: several of these companies keep what you send for up to 30 days to catch abuse, and longer if it's flagged.</p>

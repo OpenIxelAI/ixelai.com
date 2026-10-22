@@ -126,7 +126,7 @@ Files: tests/test_orders.py</pre>
         <li>
           <h3>Back in Claude</h3>
           <blockquote>Anything from Codex?</blockquote>
-          <p>Claude reads the handoff, finishes the endpoint and runs the tests. It asks Codex to review the endpoint (or asks your Ixel panel). Codex marks each check met, not met or not checked, so Claude sees exactly what still needs work. When the review approves, Claude marks both tasks done.</p>
+          <p>Claude reads the handoff, finishes the endpoint and runs the tests. It asks Codex to review the endpoint (or asks your Ixel MAT panel). Codex marks each check met, not met or not checked, so Claude sees exactly what still needs work. When the review approves, Claude marks both tasks done.</p>
         </li>
         <li>
           <h3>Any time, in a terminal or the app</h3>
@@ -221,7 +221,7 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
         <li><strong>Mac:</strong> Claude Code and Codex run in the Mac's own sandbox, with nothing to install, and can run your tests and builds. Their commands have no network, can't read <code>~/.ssh</code>, your logins or your main checkout, can write only in the task's copy, and can't reach your keychain, clipboard, other apps or other processes. One gap macOS can't close: a command can read other programs' environment variables, so keep tokens out of your shell's environment while a worker runs. <code>handoff doctor</code> says so too.</li>
         <li><strong>Windows, for now:</strong> edit-only. Claude Code, OpenCode and local models can read and change files, but can't run commands, tests or builds, and the handback says so. Codex doesn't run there.</li>
       </ul>
-      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and run the tests, then merge it with <code>handoff merge T-7</code> (or <strong>Merge</strong> on the Board): one merge commit on the branch you have out, never pushed. The task is marked done and its worktree removed; the branch stays. If the merge could touch files git doesn't track, Handoff refuses the merge and changes nothing. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
+      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and run the tests, then merge it with <code>handoff merge T-7</code> (or <strong>Merge</strong> on the Board): one merge commit on the branch you have checked out, never pushed. The task is marked done and its worktree removed; the branch stays. If the merge could touch files git doesn't track, Handoff refuses the merge and changes nothing. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
 
       <h3 id="models-and-chains">Pick the model, or a chain of models</h3>
       <p>An edit runs on the agent's own default model unless you name one when you approve it:</p>
@@ -283,7 +283,7 @@ handoff approve T-9 ollama --model qwen3:4b-instruct      # a small, clear task,
 handoff agents enable kimi                                # once: kimi runs with its own permissions</code></pre>
       <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Grok Build, Hermes, Kimi Code, Cline, OpenClaw and agents you add run only after you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then, an approval for one of them waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
       <p>Grok Build also loads your own Grok plugins and hooks, which Handoff can't turn off. So before every run, Handoff asks Grok what it would load. If a plugin with hooks or a hook is switched on, Handoff refuses the run and changes nothing; the reason names it (<code>grok plugin disable NAME</code> turns a plugin off). Its sandbox was checked by hand on a Mac, not yet on Linux or Windows.</p>
-      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain, its work is checked by a bigger model on the way back up.</p>
+      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain of three or more models, its work is checked by a bigger model on the way back up.</p>
 
       <h2 id="your-controls">Your controls</h2>
       <p>At the command line you're <code>human</code> on the board, shown as "you", and you can do what agents can't. <code>me</code> means you wherever you name someone.</p>
@@ -300,7 +300,7 @@ handoff agents enable kimi                                # once: kimi runs with
             <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
             <tr><td><code>handoff approve T-12 opencode</code></td><td>Let one agent work on a task, once, on its own branch (add <code>--model</code>, <code>--chain</code> or <code>--effort</code>)</td></tr>
             <tr><td><code>handoff crew "task" | T-12</code>, <code>handoff approve T-12 --auto</code></td><td>Preview the crew <a href="#auto-crew">Auto crew</a> would pick, or approve an edit with it (add <code>--effort-all max</code> or <code>low</code>)</td></tr>
-            <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have out, as one merge commit. Only you can, and nothing is pushed</td></tr>
+            <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have checked out, as one merge commit. Only you can, and nothing is pushed</td></tr>
             <tr><td><code>handoff rankings</code></td><td>Which models are best at what, from public benchmarks, in the order Handoff uses to pick who takes over when a model hits its usage limit</td></tr>
             <tr><td><code>handoff agents</code>, <code>handoff agents enable NAME</code></td><td>Who can do what on this computer; switch on an agent that runs with its own permissions</td></tr>
             <tr><td><code>handoff done T-12</code>, <code>reopen</code>, <code>block T-12 "why"</code></td><td>Close, reopen, or block a task. Reopen also works on a task a stopped run left in progress, once the agent that run started has stopped too, and keeps its worktree and branch</td></tr>
@@ -326,9 +326,9 @@ handoff agents enable kimi                                # once: kimi runs with
 
       <h2 id="where-things-live">Where things live</h2>
       <ul>
-        <li>The board is <code>.handoff/board.db</code> in your project. On macOS and Linux, only you can read it. It keeps every task's text and history until you delete the task (with its results), clean out finished tasks with <code>handoff clean</code>, or set <code>handoff keep 30</code> to have the board do that by itself. Deleting overwrites the text in the file; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
+        <li>The board is <code>.handoff/board.db</code> in your project. On Windows, macOS and Linux, only your account can read it. It keeps every task's text and history until you delete the task (with its results), clean out finished tasks with <code>handoff clean</code>, or set <code>handoff keep 30</code> to have the board do that by itself. Deleting overwrites the text in the file; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
         <li><code>.handoff/</code> keeps itself out of git, so the board isn't committed with your work.</li>
-        <li>Handoff has no settings of its own, so nothing in a project folder can make Handoff run anything.</li>
+        <li>Nothing Handoff keeps in a project folder names a command, so nothing there can make Handoff itself run anything.</li>
       </ul>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
@@ -337,7 +337,7 @@ handoff agents enable kimi                                # once: kimi runs with
         <li><strong>An agent can't see a task:</strong> ask it to look at the board. Tasks are per project, so check that the app is open in the same project. <code>handoff doctor</code> shows where Claude Desktop points.</li>
         <li><strong>A run failed:</strong> <code>handoff show T-N</code> shows the task's history, including why the run failed. <code>handoff doctor</code> shows whether each worker is ready and found its agent's login. A run that finds no login doesn't start and the task stays approved: sign in, then <code>handoff run T-N</code>.</li>
         <li><strong><code>handoff merge</code> won't merge a branch you made by hand:</strong> it merges only the branches its worker made, and says how to merge yours with git.</li>
-        <li><strong>Codex gives up on a review with the Ixel panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
+        <li><strong>Codex gives up on a review with the Ixel MAT panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
       </ul>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->

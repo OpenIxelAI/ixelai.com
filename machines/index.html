@@ -46,7 +46,7 @@
         <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents, in the Ixel app</div>
         <h1>Machines</h1>
         <p class="lede">Your servers, and the agents on them, one click away.</p>
-        <p>Save your machines, from a $5 VPS to the Mac mini in the closet, pick what runs on each (OpenClaw, Hermes, a shell or your own command), and connect in one click. Or run one command on all of them at once. Each server's key is pinned the first time, and ssh itself refuses a server whose key has changed.</p>
+        <p>Save your machines, from a $5 VPS to the Mac mini in the closet, pick what runs on each (OpenClaw, Hermes, a shell or your own command), and connect in one click. Or run one command on several at once. Each server's key is pinned the first time, and ssh itself refuses a server whose key has changed.</p>
         <div class="actions">
           <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#demo">See it run</a>
@@ -129,7 +129,7 @@
                 </div>
               </div>
             </figure>
-            <span class="caption">Example run. A screen recording is on the way.</span>
+            <span class="caption">Example run. The recording plays here when it loads.</span>
           </div>
           <figcaption class="demo-note">Recorded with stand-in models that give scripted replies. <a href="../videos/">All the videos</a></figcaption>
         </figure>
@@ -201,7 +201,7 @@
         <div class="install">
           <div class="prose">
             <p>Install Ixel (or Ixel MAT on its own: the app comes with it), open the app, and pick <strong>Machines</strong> on the left. In a terminal, <code>ixel machines</code> lists them and <code>ixel machines connect NAME</code> connects.</p>
-            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens Konsole, GNOME Terminal, kitty, Alacritty or xterm. If none of them is installed, it gives you the line to run in your own terminal.</p>
+            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens your terminal: the one in $TERMINAL, or the first it finds of GNOME Terminal, Konsole, Alacritty, kitty, xterm and others. If none of them is installed, it gives you the line to run in your own terminal.</p>
             <p class="note"><strong>Coming from Ixel Console?</strong> In Machines, press <strong>Import</strong> and pick Ixel Console: your SSH machines come over with the keys it pinned. Then remove Ixel Console with <code>ixel-console uninstall</code>.</p>
           </div>
           <div class="install-steps">

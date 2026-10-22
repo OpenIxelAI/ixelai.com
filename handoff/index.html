@@ -45,8 +45,8 @@
       <div class="hero-copy">
         <div class="eyebrow"><span class="greek">β</span> A crew of models</div>
         <h1>Handoff</h1>
-        <p class="lede">Your best model plans. Cheaper models build. You see what it cost.</p>
-        <p>Pick a chain or Auto crew, and Handoff splits a coding task: your top model plans it, each step goes to the smallest model in the chain that can do it well, and a bigger model checks the small models' work on its way back up. A chain you pick yourself can give the small steps to a free or local model. Your agents also hand work to each other on a shared task board on your computer, so you stop being the copy-paste courier. It works in Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build.</p>
+        <p class="lede">Your best model plans. Cheaper models build. You see what each Claude run cost.</p>
+        <p>Pick a chain or Auto crew, and Handoff splits a coding task: your top model plans it, each step goes to the smallest model in the chain that can do it well, and in a chain of three or more, a bigger model checks the small models' work on its way back up. A chain you pick yourself can give the small steps to a free or local model. Your agents also hand work to each other on a shared task board on your computer, so you stop being the copy-paste courier. It works in Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build.</p>
         <div class="actions">
           <a class="btn btn-moon" href="#install">Install</a>
           <a class="btn" href="#save">How it saves money</a>
@@ -121,7 +121,7 @@
           <li><h3>Plan</h3><p>Your top model can read files but not change them. It's asked to read only what it needs, then splits the task into up to six steps: design and tricky logic for the bigger builders; tests, docs, renames and small edits for the smaller ones.</p></li>
           <li><h3>Build</h3><p>The steps run one after another in the task's own worktree, each committed on its own. Local and free models get short, exact directions, such as one change in one named file.</p></li>
           <li><h3>Check on the way up</h3><p>If a smaller model fails its step, the biggest builder (the chain's second model) does it instead. When the steps are done, it checks the smaller models' work against the plan, with the diff in front of it, and fixes what's wrong. A problem too big for it, like a wrong design, goes back to the top model.</p></li>
-          <li><h3>See the cost</h3><p>The handback lists each step, check and fix with what it cost, and the Board shows what each task and the whole board have spent. Claude Code, Grok Build, OpenCode and local models report what they used; Codex doesn't yet.</p></li>
+          <li><h3>See the cost</h3><p>The handback lists each step, check and fix with what it cost, and the Board shows what each task and the whole board have spent. Claude Code, Grok Build, OpenCode, Hermes and local models report what they used; Codex, Kimi Code, Cline and OpenClaw don't yet.</p></li>
         </ol>
         <div class="split">
           <figure class="costs">
@@ -132,7 +132,7 @@
           <div class="save-more">
             <p><strong>In this example, the crew costs about half as much.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
             <p><strong>Keep the top model's thinking for the plan.</strong> At max effort the top model is the most expensive part of a chain, so Auto crew uses Fable 5.1 only for heavy jobs, and the Board's ready-made chain starts Fable at low effort.</p>
-            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job with 500,000 and 50,000, and no check. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
+            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone, with no check, does the job with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
             <p><a href="../docs/handoff/#models-and-chains">How chains work</a> · <a href="../docs/handoff/#auto-crew">Auto crew</a> · <a href="../docs/models/#pyramid">Which models fit where</a></p>
           </div>
         </div>
@@ -196,7 +196,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <li><h3>Split the work</h3><p>In Claude, say <q>Hand the tests to Codex, and you do the endpoint.</q> Claude creates a task for each, with notes and acceptance checks.</p></li>
           <li><h3>Check your handoffs</h3><p>Switch to Codex and say <q>Check your handoffs.</q> Codex picks up its task and does the work.</p></li>
           <li><h3>Hand it back</h3><p>Codex hands the task back with what it did, what's left, how to check it, and the files it touched.</p></li>
-          <li><h3>Review and finish</h3><p>Claude reads the handoff, finishes up, and asks Codex or your Ixel panel to review before the task is done.</p></li>
+          <li><h3>Review and finish</h3><p>Claude reads the handoff, finishes up, and asks Codex or your Ixel MAT panel to review before the task is done.</p></li>
         </ol>
         <p class="aside">Nothing wakes the other app up: an assistant only acts when you prompt it. So after one agent hands work over, you switch apps and say "check your handoffs." That's the whole ritual.</p>
       </div>
@@ -213,10 +213,10 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>Your board in the terminal</dt><dd><code>handoff board</code> shows who's doing what and what's blocked. <code>handoff show T-12</code> prints a task's whole history.</dd></div>
           <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, an agent can't review a task it worked on or sent for review, and agents' Handoff tools can't delete tasks or rewrite history.</dd></div>
           <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned: the second as it claims them, the first in its inbox and on its next note.</dd></div>
-          <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
+          <div><dt>Reviews by your Ixel MAT panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
           <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux and macOS it runs Claude Code or Codex in a sandbox, so they can run your tests. On Linux it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing. On Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
-          <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run only after you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
-          <div><dt>The right model for each step</dt><dd>Pick one model, let Auto crew pick for the job, or pick a chain: the biggest plans, and each step goes to the smallest model that can do it well. A chain's steps can run on any agent you have, local models included, and each is committed on its own. A bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
+          <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Grok Build, Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run only after you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
+          <div><dt>The right model for each step</dt><dd>Pick one model, let Auto crew pick for the job, or pick a chain: the biggest plans, and each step goes to the smallest model that can do it well. A chain's steps can run on any agent you have, local models included, and each is committed on its own. In a chain of three or more, a bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
           <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, and the result says who did. Handoff never picks a stand-in it knows costs more than the model you picked (in a chain written biggest first, than its planner). You see who would take over before you approve, and you can turn it off.</dd></div>
           <div><dt>What each run cost</dt><dd>Each run on Claude Code, Grok Build, OpenCode, Hermes or a local model lists each model's tokens and an estimated cost at API prices (on a subscription, what it would have cost). The Board shows each task's cost and the whole board's spend. Codex, Kimi Code, Cline and OpenClaw don't report it yet.</dd></div>
           <div><dt>Merge when you're happy</dt><dd><code>handoff merge T-7</code>, or Merge on the Board, brings a finished task's branch into your checkout as one merge commit. Nothing is pushed, and it refuses rather than touch files git doesn't track.</dd></div>
@@ -244,11 +244,11 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (the installer offers to get it, and Git too, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
-              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
+              <li>Python 3.10 or newer (the installer offers to get it, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
+              <li>Git (the installer offers to get it if it's missing)</li>
               <li>At least one of Claude (Desktop or Claude Code), Codex, Gemini CLI, OpenCode or Grok Build; two or more, to pass work between them. Ollama or LM Studio adds free local models for small tasks</li>
             </ul>
-            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub, and updates it when you run it again. The installer itself needs no administrator rights (getting Git or Python may). You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
+            <p class="note">This installs Handoff on its own. It downloads Handoff from GitHub and updates it when you run it again. The installer itself needs no administrator rights (getting Git or Python may). You can read it first: <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a>, <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>

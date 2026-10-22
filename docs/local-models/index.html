@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Local models · Ixel docs</title>
-<meta name="description" content="Use models running on your own computers in Ixel, through Ollama, LM Studio or any OpenAI-compatible server; get them from Settings, keep questions at home with Private, and see which open models fit how much memory you have.">
+<meta name="description" content="Use models running on your own computers in Ixel, through Ollama, LM Studio or any OpenAI-compatible server; get Ollama models from Settings, keep questions at home with Private, and see which open models fit in your computer's memory.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Local models in Ixel">
 <meta property="og:description" content="Ollama, LM Studio, Private, and which open models fit your computer.">
@@ -236,7 +236,7 @@ private = true</code></pre>
       </div>
 
       <h2 id="mix">Mix local and cloud</h2>
-      <p>For the cheapest panel that still gets things right, let local models do the drafting and reviewing, and have one strong cloud model check their work. That's <strong>Saver</strong>:</p>
+      <p>For a cheaper panel, let local models do the drafting and reviewing, and have one strong cloud model check their work. That's <strong>Saver</strong>:</p>
       <pre class="code"><code>[saver]
 verifier = "opus"                 # one strong model, on a key or a subscription
 drafters = ["qwen", "gpubox"]     # your local models

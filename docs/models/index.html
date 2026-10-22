@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Which model for each job · Ixel docs</title>
-<meta name="description" content="Which AI model to pick for each job in an Ixel review: who writes the verdict, the big model that verifies, the models that draft, and the model that decides in Triage, from Artificial Analysis's benchmarks.">
+<meta name="description" content="See which model to pick for each job in an Ixel review, based on Artificial Analysis's benchmarks, and the recommended setup of models for each kind of work.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Which model for each job">
-<meta property="og:description" content="Picks for each part of an Ixel review, from a benchmark that keeps up.">
+<meta property="og:description" content="See the picks for each part of an Ixel review from Artificial Analysis's benchmarks, and the recommended setup of models.">
 <meta property="og:url" content="https://ixelai.com/docs/models/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/docs/models/">
@@ -167,7 +167,7 @@
       </div>
       <!-- /models:picks -->
       <div class="callout tip"><span class="label">On a subscription</span><p>Through Claude Code, Codex or Gemini CLI, a model's calls count against your plan rather than costing per token, so the cost column doesn't apply. The score still does.</p></div>
-      <p>For models that run on your own computer, and which ones fit its memory, see <a href="../local-models/">Local models</a>.</p>
+      <p>For models that run on your own computer, and which ones fit in the memory you have, see <a href="../local-models/">Local models</a>.</p>
 
       <h2 id="pyramid">Recommended setup: a pyramid of models</h2>
       <p>Put your models to work in tiers. A few strong models at the top plan the work and check it. Cheaper ones in the middle build most of it and check the small models' work. At the bottom, the cheapest models and the ones on your own computer take short, exact directions. A <a href="../handoff/#models-and-chains">chain</a> on the Board works this way. This is what <code>handoff rankings</code> recommends from the public benchmarks, as of October 2026. Use whatever you already have in each tier.</p>
@@ -176,17 +176,17 @@
           <thead><tr><th>Tier</th><th>Its job in a chain</th><th>Closed models</th><th>Open models</th></tr></thead>
           <tbody>
             <tr><td><strong>Top</strong></td><td>Plans, reviews, and fixes what a check sends up</td><td>Claude Fable 5.1 (for hard tasks), Claude Opus 5.5, GPT-6 Astra</td><td>Kimi K3, DeepSeek V4, GLM-5.3, MiniMax M3, on a hosted open-model server or a very large GPU machine</td></tr>
-            <tr><td><strong>Middle</strong></td><td>Builds, and checks what the smaller models did</td><td>Claude Sonnet 5.5, GPT-6 Sol</td><td><code>qwen3.6:27b</code>, <code>qwen3.6:35b</code>, <code>qwen3-coder:30b</code> (32 GB of memory or more), <code>gpt-oss:120b</code> (80 GB or more)</td></tr>
-            <tr><td><strong>Small</strong></td><td>Short, exact directions only</td><td>Claude Haiku 5.5, OpenCode's free models</td><td><code>qwen3.5:9b</code>, <code>qwen2.5-coder:14b</code>, <code>granite4.2:8b</code>, <code>qwen3:4b-instruct</code>, all of which run on a 16 GB Mac</td></tr>
+            <tr><td><strong>Middle</strong></td><td>Builds, and checks what the smaller models did</td><td>Claude Sonnet 5.5, Grok 4.7 (on SuperGrok, through Grok Build), GPT-6 Sol and GPT-6.1 Sol</td><td><code>qwen3.6:27b</code>, <code>qwen3.6:35b</code>, <code>qwen3-coder:30b</code> (32 GB of memory or more), <code>gpt-oss:120b</code> (80 GB or more)</td></tr>
+            <tr><td><strong>Small</strong></td><td>Short, exact directions only</td><td>Claude Haiku 5.5, GPT-6 Luna, OpenCode's free models</td><td><code>qwen3.5:9b</code>, <code>qwen2.5-coder:14b</code>, <code>granite4.2:8b</code>, <code>qwen3:4b-instruct</code>, all of which run on a 16 GB Mac</td></tr>
           </tbody>
         </table>
       </div>
       <p>A good everyday chain is one model from each tier, biggest first:</p>
       <pre class="code"><code>handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,ollama:qwen3:4b-instruct</code></pre>
       <p><code>handoff rankings</code> shows the same tiers on your computer, with the leaderboards behind them (BenchLM, Morph, Vellum, LMArena and Artificial Analysis). The same rankings also decide <a href="../handoff/#usage-limits">who takes over when a model hits its usage limit</a>. Most of the open models' scores are their makers' own numbers, gathered by those sites, so the open models' order is a best guess. <code>handoff rankings update</code> gets the newest rankings.</p>
-      <p>For other jobs: reviews are best from the top tier (Claude Opus 5.5, GPT-6 Astra, Claude Fable 5.1, then Google's new Gemini 4 Argon), and Gemini 4 Argon now ranks first for writing. Argon answers and reviews through a Gemini API key or Antigravity (Google AI Pro or Ultra), not as a Board worker. Its model name is <code>gemini-4-argon</code>. For the Ask panel, see <a href="#picks">the picks</a> above. Pictures and video don't need a pyramid, so use the best you have: GPT Image 2.5, Nano Banana 2.1 or Grok Imagine for pictures, and Wan 3.0 or Seedance 2.5 for video.</p>
+      <p>For other jobs: reviews are best from the top tier (Claude Opus 5.5, GPT-6 Astra, Claude Fable 5.1, then Google's Gemini 4 Argon), and Gemini 4 Argon ranks first for writing. Argon answers and reviews through a Gemini API key or Antigravity (Google AI Pro or Ultra), not as a Board worker. Its model name is <code>gemini-4-argon</code>. For the Ask panel, see <a href="#picks">the picks</a> above. Pictures and video don't need a pyramid, so use the best you have: GPT Image 2.5, Nano Banana 2.1 or Grok Imagine for pictures, and Wan 3.0 or Seedance 2.5 for video.</p>
       <h3 id="local-at-the-bottom">Where local models fit</h3>
-      <p>A local model isn't there to write a lot of code. It's there to save money and time on steps you know it can do: one named change in one file, a rename, a test, a doc change. A chain's planner knows which models are small or on your computer, and gives them only short, exact directions. Their work is then checked by the middle tier, which is why they can be trusted with it (<a href="../handoff/#back-up-the-chain">how the check works</a>).</p>
+      <p>A local model isn't there to write a lot of code. It's there to save money and time on steps you know it can do: one named change in one file, a rename, a test, a doc change. A chain's planner knows which models are small or on your computer, and gives them only short, exact directions. In a chain of three or more, their work is then checked by the middle tier, and any mistakes it finds get fixed (<a href="../handoff/#back-up-the-chain">how the check works</a>).</p>
       <p>A 16 GB Mac runs open models up to about 14B (9 to 10 GB at 4-bit) at 12 to 22 tokens a second. Those belong in the small tier. Models of 27B to 35B need 32 GB or more and can take the middle tier. The top open models need a hosted open-model server or a very large GPU machine. <a href="../local-models/#what-fits">Which model fits your computer</a> has more on memory.</p>
 
       <h2 id="how-picked">How the picks are made</h2>
