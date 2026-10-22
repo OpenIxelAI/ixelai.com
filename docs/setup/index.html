@@ -97,18 +97,18 @@
       <pre class="code"><code>ixel setup</code></pre>
       <p>It walks you through the rest, and you can press <kbd>Enter</kbd> to keep each default or answer <kbd>n</kbd> to skip:</p>
       <ol class="steps-doc">
-        <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. You type it hidden, Ixel checks it with the company, and saves it encrypted, with the key that opens it in your system's keychain (on a computer with no keychain Ixel can use, in a file only you can read). For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
+        <li><h3>API keys</h3><p>For OpenAI, Anthropic, Google Gemini and xAI, paste a key if you have one. It stays hidden as you type. Ixel checks it with the company and saves it encrypted; the key that opens it goes in your system's keychain (or, on a computer with no keychain Ixel can use, in a file only you can read). For each one you pick a model; the default, <code>latest</code>, is that company's newest top model.</p></li>
         <li><h3>Your subscription programs</h3><p>If Claude Code, Codex, Gemini CLI, Copilot, OpenCode or Grok Build is installed, it offers to add it. Antigravity is offered with its warning, and stays off unless you say yes. Sign in to each one first, in the program itself.</p></li>
         <li><h3>Local models</h3><p>If Ollama, LM Studio or another model server (llama.cpp, vLLM, Jan, GPT4All, KoboldCpp) is running on this computer, its models are listed, and you add the ones you want with no key. It also offers to add models on another of your computers, by its name or address. <a href="../local-models/">Local models</a> has more.</p></li>
-        <li><h3>How you like to ask</h3><p>Your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
-        <li><h3>Saver and Triage</h3><p>Which model verifies in Saver mode, and whether to turn on Triage. Both are explained under <a href="#jobs">the jobs on your panel</a>.</p></li>
+        <li><h3>How you like to ask</h3><p>Choose your default mode, who writes the verdict, and what happens when you type a question without a command.</p></li>
+        <li><h3>Saver and Triage</h3><p>Choose which model verifies in Saver mode, and whether to turn on Triage. Both are explained under <a href="#jobs">the jobs on your panel</a>.</p></li>
       </ol>
-      <p>When it's done, check everything works:</p>
+      <p>When it's done, check that everything works:</p>
       <pre class="code"><code>ixel status            # keys checked with each company, and each model's connection
 ixel doctor --check    # every part of Ixel, and asks each model's server whether it answers</code></pre>
       <div class="callout tip">
         <span class="label">Running setup again</span>
-        <p><code>ixel setup</code> keeps what it doesn't ask about: models you added by hand or in the app (it lists them and asks first), each model's effort and pictures settings, and the choices you made in the app, such as which models sit on the panel. It writes the file afresh, so comments you wrote in it aren't kept; the file from before is kept beside it as <code>config.toml.bak</code>. To change a model you already have, <strong>Settings</strong> in the app or <code>ixel model</code> is quicker.</p>
+        <p><code>ixel setup</code> keeps what it doesn't ask about: models you added by hand or in the app (it lists them and asks first), each model's effort and pictures settings, and the choices you made in the app, such as which models sit on the panel. It rewrites your settings file, so comments you wrote in it aren't kept; the old file is saved beside it as <code>config.toml.bak</code>. To change a model you already have, <strong>Settings</strong> in the app or <code>ixel model</code> is quicker.</p>
       </div>
 
       <h2 id="api-keys">API keys</h2>
@@ -134,18 +134,18 @@ ixel doctor --check    # every part of Ixel, and asks each model's server whethe
           <tbody>
             <tr><td>Claude Code</td><td>Your Claude Pro or Max plan</td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
             <tr><td>Codex</td><td>Your ChatGPT plan</td><td><code>npm install -g @openai/codex</code></td></tr>
-            <tr><td>Gemini CLI</td><td>A Gemini API key saved in Ixel (Google <a href="../privacy/#training">trains on the free tier</a>, except in the EEA, Switzerland and the UK), or a work Google account with Gemini Code Assist Standard or Enterprise. Since June 2026 a personal Google account can't sign in to it: if <code>gemini</code> still has one saved, switch it to an API key with <code>/auth</code> in <code>gemini</code></td><td><code>npm install -g @google/gemini-cli</code></td></tr>
+            <tr><td>Gemini CLI</td><td>A Gemini API key saved in Ixel (Google <a href="../privacy/#training">trains on the free tier</a>, except in the EEA, Switzerland and the UK), or a work Google account with Gemini Code Assist Standard or Enterprise. Since June 2026, a personal Google account can't sign in to it: if <code>gemini</code> still has one saved, switch it to an API key with <code>/auth</code> in <code>gemini</code></td><td><code>npm install -g @google/gemini-cli</code></td></tr>
             <tr><td>GitHub Copilot</td><td>Your Copilot plan</td><td><code>npm install -g @github/copilot</code></td></tr>
             <tr><td>OpenCode</td><td>Whatever you've signed in to in OpenCode (not its free tier, which turns Ixel down)</td><td><code>npm install -g opencode-ai</code></td></tr>
             <tr><td>Grok Build</td><td>Your SuperGrok plan, or another xAI plan that includes Grok Build. Sign in with <code>grok login</code>, which opens your browser</td><td><code>npm install -g @xai-official/grok</code></td></tr>
-            <tr><td>Antigravity</td><td>Your Google AI Pro plan, through Google's Antigravity (<code>agy</code>), signed in with your Google account. Off until you say yes in <code>ixel setup</code> or switch it on in Settings, and Ixel shows its warning first: Google's terms may not allow other tools to use it (<a href="../privacy/#training">Privacy</a> has more). A Gemini API key avoids that</td><td>From <a href="https://antigravity.google/">antigravity.google</a></td></tr>
+            <tr><td>Antigravity</td><td>Your Google AI Pro plan, through Google's Antigravity (<code>agy</code>), signed in with your Google account. It stays off until you say yes in <code>ixel setup</code> or switch it on in Settings, and Ixel shows its warning first: Google's terms may not allow other tools to use it (<a href="../privacy/#training">Privacy</a> has more). A Gemini API key avoids that</td><td>From <a href="https://antigravity.google/">antigravity.google</a></td></tr>
           </tbody>
         </table>
       </div>
-      <p>On the panel they only answer: each runs in a fresh, empty folder with its tools switched off, so it can't run commands or change your files. <a href="../privacy/#what-goes-where">Privacy</a> has the details, and says <a href="../privacy/#training">which plans are used for training</a>. <code>ixel status</code> checks that each one is installed, not that you're signed in (<code>ixel doctor</code>, and Health in the app, also look for Gemini CLI's and Grok Build's sign-in); if its answers come back as a login error, run it once on its own and sign in.</p>
+      <p>On the panel they only answer: each runs in a fresh, empty folder with its tools switched off, so it can't run commands or change your files. <a href="../privacy/#what-goes-where">Privacy</a> has the details, and says <a href="../privacy/#training">which plans are used for training</a>. <code>ixel status</code> checks that each one is installed, not that you're signed in. (<code>ixel doctor</code> and Health in the app also look for Gemini CLI's and Grok Build's sign-in.) If a program's answers come back as a login error, run it once on its own and sign in.</p>
 
       <h2 id="other-models">Other models</h2>
-      <p>Two ways to add a model from a company Ixel doesn't set up for you:</p>
+      <p>There are two ways to add a model from a company Ixel doesn't set up for you:</p>
       <ul>
         <li><strong>Through OpenCode.</strong> OpenCode can sign in to many companies. Set it up with the model you want, then add OpenCode in <code>ixel setup</code>.</li>
         <li><strong>Through its company's API</strong>, if it speaks the OpenAI chat API (most do). Add it to <code>~/.config/ixel-mat/config.toml</code> by hand, with the full address ending in <code>/v1/chat/completions</code>, and put its key in <code>~/.config/ixel-mat/.env</code> under the name you give in <code>token_env</code>. The next time Ixel starts, it moves the key into your keychain:</li>
@@ -166,8 +166,8 @@ label = "DeepSeek"</code></pre>
           <tbody>
             <tr><td><strong>Writes the verdict</strong></td><td>Reads every answer and every review, and writes the final answer, saying where the panel disagreed. Unless you pick one, it's the author of the best-rated answer.</td><td>Settings, Asking: <strong>Who writes the verdict</strong><br><code>[review] moderator</code></td></tr>
             <tr><td><strong>Big model that verifies</strong></td><td>In Saver mode, checks the cheaper models' drafts and replies in a few words: confirmed, or what's wrong. It writes an answer only if you tell it to fix wrong drafts itself.</td><td>Settings, Saver: <strong>Big model that verifies</strong><br><code>[saver] verifier</code></td></tr>
-            <tr><td><strong>Models that draft</strong></td><td>In Saver mode, answer and review each other before the big model looks. Every model but the verifier, unless you choose.</td><td>Settings, Saver: <strong>Models that draft</strong><br><code>[saver] drafters</code></td></tr>
-            <tr><td><strong>Decides, in Triage</strong></td><td>Answers short questions between rounds: how much checking a question needs (for Auto mode), and whether the answers agree. Off unless you turn it on.</td><td>Settings, Triage<br><code>[triage] agent</code>, or <code>provider = "typesafe"</code></td></tr>
+            <tr><td><strong>Models that draft</strong></td><td>In Saver mode, answer and review each other before the big model looks. By default, it's every model but the verifier.</td><td>Settings, Saver: <strong>Models that draft</strong><br><code>[saver] drafters</code></td></tr>
+            <tr><td><strong>Decides, in Triage</strong></td><td>Answers short questions between rounds: how much checking a question needs (for Auto mode), and whether the answers agree. It's off unless you turn it on.</td><td>Settings, Triage<br><code>[triage] agent</code>, or <code>provider = "typesafe"</code></td></tr>
           </tbody>
         </table>
       </div>
@@ -177,8 +177,8 @@ label = "DeepSeek"</code></pre>
       </figure>
       <h3 id="triage-choice">Who decides, in Triage</h3>
       <ul>
-        <li><strong>One of your own models.</strong> Pick a fast, cheap one. No new account, and nothing goes anywhere your panel doesn't already. Its confidence is its own estimate, so leave "Skip review when the answers agree" off, or keep its threshold high.</li>
-        <li><strong>TypeSafe's decision API.</strong> Built for exactly this: calibrated answers in about a second, for a fraction of a cent. It needs your own TypeSafe key, and sends TypeSafe your questions and the models' answers (never your other keys, or which model wrote what). Get the key only from <a href="https://typesafe.ai">typesafe.ai</a> itself.</li>
+        <li><strong>One of your own models.</strong> Pick a fast, cheap one. There's no new account, and nothing goes anywhere your panel doesn't already. Its confidence is its own estimate, so leave "Skip review when the answers agree" off, or keep its threshold high.</li>
+        <li><strong>TypeSafe's decision API.</strong> It's built for exactly this: calibrated answers in about a second, for a fraction of a cent. It needs your own TypeSafe key, and sends TypeSafe your questions and the models' answers (never your other keys, or which model wrote what). Get the key only from <a href="https://typesafe.ai">typesafe.ai</a> itself.</li>
       </ul>
 
       <h2 id="pick-a-model">Change a model</h2>

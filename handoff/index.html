@@ -127,12 +127,12 @@
           <figure class="costs">
             <figcaption>An example coding task with assumed token counts, at Anthropic's API prices</figcaption>
             <div class="cost"><span class="cost-name">Opus 5.5 does it all</span><span class="cost-usd">$3.00</span><span class="cost-bar" aria-hidden="true"><i style="--v:100%"></i></span></div>
-            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>What Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
+            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>It's what Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
           </figure>
           <div class="save-more">
-            <p><strong>In this example, about half the cost.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
-            <p><strong>Keep the top model's thinking for the plan.</strong> At max effort the top model is the dearest part of a chain, so Auto crew uses Fable 5.1 only for heavy jobs, and the Board's ready-made chain starts Fable at low effort.</p>
-            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job, with no check, with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
+            <p><strong>In this example, the crew costs about half as much.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
+            <p><strong>Keep the top model's thinking for the plan.</strong> At max effort the top model is the most expensive part of a chain, so Auto crew uses Fable 5.1 only for heavy jobs, and the Board's ready-made chain starts Fable at low effort.</p>
+            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job with 500,000 and 50,000, and no check. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
             <p><a href="../docs/handoff/#models-and-chains">How chains work</a> · <a href="../docs/handoff/#auto-crew">Auto crew</a> · <a href="../docs/models/#pyramid">Which models fit where</a></p>
           </div>
         </div>
@@ -166,7 +166,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             </figure>
             <span class="caption">Example run. The recording plays here when it loads.</span>
           </div>
-          <figcaption class="demo-note">A real run on Qwen3 4B, a free model on the computer itself: the task, its handback, what it used ($0) and Merge. <a href="../videos/">All the videos</a></figcaption>
+          <figcaption class="demo-note">A real run on Qwen3 4B, a free local model: the task, its handback, what it used ($0) and Merge. <a href="../videos/">All the videos</a></figcaption>
         </figure>
       </div>
     </section>
@@ -190,7 +190,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
       <div class="wrap">
         <div class="section-head">
           <div class="eyebrow">How it works</div>
-          <h2>One ritual: “check your handoffs.”</h2>
+          <h2>One ritual: "check your handoffs."</h2>
         </div>
         <ol class="steps">
           <li><h3>Split the work</h3><p>In Claude, say <q>Hand the tests to Codex, and you do the endpoint.</q> Claude creates a task for each, with notes and acceptance checks.</p></li>
@@ -198,7 +198,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <li><h3>Hand it back</h3><p>Codex hands the task back with what it did, what's left, how to check it, and the files it touched.</p></li>
           <li><h3>Review and finish</h3><p>Claude reads the handoff, finishes up, and asks Codex or your Ixel panel to review before the task is done.</p></li>
         </ol>
-        <p class="aside">Nothing wakes the other app up: an assistant only acts when you prompt it. So after one agent hands work over, you switch apps and say “check your handoffs.” That's the whole ritual.</p>
+        <p class="aside">Nothing wakes the other app up: an assistant only acts when you prompt it. So after one agent hands work over, you switch apps and say "check your handoffs." That's the whole ritual.</p>
       </div>
     </section>
 
@@ -214,10 +214,10 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
           <div><dt>Rules the board enforces</dt><dd>Only the assignee can hand a task on, an agent can't review a task it worked on or sent for review, and agents' Handoff tools can't delete tasks or rewrite history.</dd></div>
           <div><dt>Warnings before edits collide</dt><dd>When two active tasks claim overlapping files, both agents are warned: the second as it claims them, the first in its inbox and on its next note.</dd></div>
           <div><dt>Reviews by your Ixel panel</dt><dd>With Ixel MAT installed, a review can also ask your panel of models for a verdict.</dd></div>
-          <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux and macOS it runs Claude Code or Codex in a sandbox, so they can run your tests (on Linux it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing); on Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
-          <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run once you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
-          <div><dt>The right model for each step</dt><dd>Pick one model, let Auto crew pick for the job, or pick a chain: the biggest plans, and each step goes to the smallest model that can do it well, on any agent you have, local models included, committed on its own. A bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
-          <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, and the result says who did. Handoff never picks a stand-in it knows costs more than the model you picked (in a chain written biggest first, than its planner). You see who would take over before you approve, and can turn it off.</dd></div>
+          <div><dt>The worker (preview)</dt><dd>Approve one task and let an agent work on it in its own git worktree while you're away. It commits on a branch and never pushes. On Linux and macOS it runs Claude Code or Codex in a sandbox, so they can run your tests. On Linux it needs bubblewrap, and socat for Claude Code; <code>handoff doctor</code> says what's missing. On Windows, Claude Code and OpenCode edit files only, for now.</dd></div>
+          <div><dt>Every agent and model you have</dt><dd>OpenCode (its free models cost nothing), Ollama, LM Studio and any OpenAI-style server can take tasks, editing files only. Hermes Agent, Kimi Code, Cline, OpenClaw and agents you add run only after you switch each one on. <code>handoff agents</code> lists what's on your computer.</dd></div>
+          <div><dt>The right model for each step</dt><dd>Pick one model, let Auto crew pick for the job, or pick a chain: the biggest plans, and each step goes to the smallest model that can do it well. A chain's steps can run on any agent you have, local models included, and each is committed on its own. A bigger model checks the small models' work on its way back up. Each model gets its own effort, in its tool's own words, sealed into your approval.</dd></div>
+          <div><dt>No stop when a model runs out</dt><dd>If a model hits its usage limit, the next best model you have takes over, and the result says who did. Handoff never picks a stand-in it knows costs more than the model you picked (in a chain written biggest first, than its planner). You see who would take over before you approve, and you can turn it off.</dd></div>
           <div><dt>What each run cost</dt><dd>Each run on Claude Code, Grok Build, OpenCode, Hermes or a local model lists each model's tokens and an estimated cost at API prices (on a subscription, what it would have cost). The Board shows each task's cost and the whole board's spend. Codex, Kimi Code, Cline and OpenClaw don't report it yet.</dd></div>
           <div><dt>Merge when you're happy</dt><dd><code>handoff merge T-7</code>, or Merge on the Board, brings a finished task's branch into your checkout as one merge commit. Nothing is pushed, and it refuses rather than touch files git doesn't track.</dd></div>
         </dl>
@@ -227,7 +227,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <li>Handoff never opens a network port. Each app talks to it over stdio.</li>
             <li>Everything on the board is marked untrusted: each agent is told it's information to weigh, not orders to follow.</li>
             <li>Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</li>
-            <li>The worker runs only tasks you approved on this computer, and never pushes. An approval covers the task as you saw it and runs once: if the task changes, approve it again. On Linux and macOS its sandbox keeps it in its worktree; on Windows, Claude Code's and OpenCode's edit-only modes, and Handoff's own file tools for local models, keep it there. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw) waits until you switch it on.</li>
+            <li>The worker runs only tasks you approved on this computer, and never pushes. An approval covers the task as you saw it, for one run: if the task changes, approve it again. On Linux and macOS its sandbox keeps it in its worktree. On Windows, Claude Code's and OpenCode's edit-only modes, and Handoff's own file tools for local models, keep it there. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw) waits until you switch it on.</li>
           </ul>
         </div>
       </div>

@@ -1,7 +1,7 @@
 # Working on the site
 
 To look at it, open `index.html` in a browser. Links between pages end in a folder (`ixel-mat/`), which GitHub
-Pages serves but a double-clicked file doesn't, so to click around run `python -m http.server` in this folder
+Pages serves but a double-clicked file doesn't. To click around, run `python -m http.server` in this folder
 and open `http://localhost:8000`. To change it, edit it here and push to `main`.
 
 - **Every page has the same header and footer.** When you change one, change it on every page. The docs pages
@@ -27,7 +27,7 @@ argument: `sh -s -- mat`, `sh -s -- handoff`, or `sh -s -- all`.
 
 Change only `install.ps1` and `install.sh` at the root. The copies in `ixel-mat/` and `handoff/` differ in two
 lines (the choice, `$Only` or `ONLY`, and the usage line), and `python scripts/make-installers.py` makes them;
-commit them together. `--check` changes nothing and fails if a copy is out of date. Keep the PowerShell files
+commit them together. With `--check`, it changes nothing and fails if a copy is out of date. Keep the PowerShell files
 ASCII (the script checks): Windows PowerShell reads a file without a byte order mark in the computer's ANSI
 code page. The [Ixel repository](https://github.com/OpenIxelAI/Ixel) carries the same two root files, byte for
 byte. With a checkout of it beside this one (`../Ixel`), the script writes and checks those too (`--ixel PATH`
@@ -47,13 +47,13 @@ the pictures:
   `docs/models/data.json`, by the rules in its `pick()`. The data is
   [Artificial Analysis](https://artificialanalysis.ai/)'s, credited on the pages. `--fetch` reads their free
   API first, with a free key: `AA_API_KEY=... python scripts/make-models.py --fetch`. It replaces every score
-  and cost, keeps the hand-kept `open`, `params` and `active`, lists new models that may be open, and changes
+  and cost, keeps the hand-kept `open`, `params` and `active` fields, lists new models that may be open, and changes
   nothing if the API refuses or sends too little.
 - **`python scripts/docs-screenshots.py --ixel-mat ../ixel-mat --home /home/you`** retakes the app pictures in
   `docs/images/` from the real app, with stand-in models, an example board and example machines, in a home
   folder of its own (`--home /home/you`, so the pictures show that path instead of a temporary one). It needs Ixel MAT, Handoff, Playwright's Chromium and Pillow. The pictures of local models need the model
-  servers' usual ports free (11434, 1234, 8000 and a few more, so stop `python -m http.server` first); it skips
-  them and says so otherwise. Look at every picture before committing it.
+  servers' usual ports free (11434, 1234, 8000 and a few more, so stop `python -m http.server` first); otherwise
+  it skips them and says so. Look at every picture before committing it.
 
 ### The weekly refresh
 

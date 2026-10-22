@@ -90,10 +90,10 @@
           </tbody>
         </table>
       </div>
-      <p>Outside Saver, every model on your panel answers and reviews; the picks for drafting are good panel members too.</p>
+      <p>Outside Saver, every model on your panel answers and reviews. The picks for drafting make good panel members too.</p>
 
       <h2 id="picks">The picks</h2>
-      <p>Score is out of 100. Cost is in US dollars, to compare models with (<a href="#how-picked">how the picks are made</a> says which cost); what you pay depends on how long your questions and answers are.</p>
+      <p>Score is out of 100. Cost is in US dollars, for comparing models (<a href="#how-picked">how the picks are made</a> says which cost). What you pay depends on how long your questions and answers are.</p>
       <!-- models:picks -->
       <div class="table picks">
         <table>
@@ -167,10 +167,10 @@
       </div>
       <!-- /models:picks -->
       <div class="callout tip"><span class="label">On a subscription</span><p>Through Claude Code, Codex or Gemini CLI, a model's calls count against your plan rather than costing per token, so the cost column doesn't apply. The score still does.</p></div>
-      <p>For models that run on your own computer, and which fit how much memory you have, see <a href="../local-models/">Local models</a>.</p>
+      <p>For models that run on your own computer, and which ones fit its memory, see <a href="../local-models/">Local models</a>.</p>
 
       <h2 id="pyramid">Recommended setup: a pyramid of models</h2>
-      <p>Put your models to work in tiers. A few strong models at the top plan the work and check it; cheaper ones in the middle build most of it and check the small models' work; and at the bottom, the cheapest and the ones on your own computer take short, exact directions. A <a href="../handoff/#models-and-chains">chain</a> on the Board works this way. This is what <code>handoff rankings</code> recommends from the public benchmarks, as of October 2026. Use whatever you already have in each tier.</p>
+      <p>Put your models to work in tiers. A few strong models at the top plan the work and check it. Cheaper ones in the middle build most of it and check the small models' work. At the bottom, the cheapest models and the ones on your own computer take short, exact directions. A <a href="../handoff/#models-and-chains">chain</a> on the Board works this way. This is what <code>handoff rankings</code> recommends from the public benchmarks, as of October 2026. Use whatever you already have in each tier.</p>
       <div class="table">
         <table>
           <thead><tr><th>Tier</th><th>Its job in a chain</th><th>Closed models</th><th>Open models</th></tr></thead>
@@ -183,11 +183,11 @@
       </div>
       <p>A good everyday chain is one model from each tier, biggest first:</p>
       <pre class="code"><code>handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,ollama:qwen3:4b-instruct</code></pre>
-      <p><code>handoff rankings</code> shows the same tiers on your computer, with the leaderboards behind them (BenchLM, Morph, Vellum, LMArena and Artificial Analysis), and they also decide <a href="../handoff/#usage-limits">who takes over when a model hits its usage limit</a>. Most of the open models' scores are their makers' own numbers, gathered by those sites, so the open models' order is a best guess. <code>handoff rankings update</code> gets the newest.</p>
-      <p>For other jobs: reviews are best from the top tier (Claude Opus 5.5, GPT-6 Astra, Claude Fable 5.1, then Google's new Gemini 4 Argon), and Gemini 4 Argon now ranks first for writing. Argon answers and reviews through a Gemini API key or Antigravity (Google AI Pro or Ultra), not as a Board worker (its model name is <code>gemini-4-argon</code>). For the Ask panel, see <a href="#picks">the picks</a> above. Pictures and video don't need a pyramid, so use the best you have: GPT Image 2.5, Nano Banana 2.1 or Grok Imagine for pictures, and Wan 3.0 or Seedance 2.5 for video.</p>
+      <p><code>handoff rankings</code> shows the same tiers on your computer, with the leaderboards behind them (BenchLM, Morph, Vellum, LMArena and Artificial Analysis). The same rankings also decide <a href="../handoff/#usage-limits">who takes over when a model hits its usage limit</a>. Most of the open models' scores are their makers' own numbers, gathered by those sites, so the open models' order is a best guess. <code>handoff rankings update</code> gets the newest rankings.</p>
+      <p>For other jobs: reviews are best from the top tier (Claude Opus 5.5, GPT-6 Astra, Claude Fable 5.1, then Google's new Gemini 4 Argon), and Gemini 4 Argon now ranks first for writing. Argon answers and reviews through a Gemini API key or Antigravity (Google AI Pro or Ultra), not as a Board worker. Its model name is <code>gemini-4-argon</code>. For the Ask panel, see <a href="#picks">the picks</a> above. Pictures and video don't need a pyramid, so use the best you have: GPT Image 2.5, Nano Banana 2.1 or Grok Imagine for pictures, and Wan 3.0 or Seedance 2.5 for video.</p>
       <h3 id="local-at-the-bottom">Where local models fit</h3>
       <p>A local model isn't there to write a lot of code. It's there to save money and time on steps you know it can do: one named change in one file, a rename, a test, a doc change. A chain's planner knows which models are small or on your computer, and gives them only short, exact directions. Their work is then checked by the middle tier, which is why they can be trusted with it (<a href="../handoff/#back-up-the-chain">how the check works</a>).</p>
-      <p>A 16 GB Mac runs open models up to about 14B (9 to 10 GB at 4-bit) at 12 to 22 tokens a second: those are for the small tier. Models of 27B to 35B need 32 GB or more and can take the middle tier. The top open models need a hosted open-model server or a very large GPU machine. <a href="../local-models/#what-fits">Which model fits your computer</a> has more on memory.</p>
+      <p>A 16 GB Mac runs open models up to about 14B (9 to 10 GB at 4-bit) at 12 to 22 tokens a second. Those belong in the small tier. Models of 27B to 35B need 32 GB or more and can take the middle tier. The top open models need a hosted open-model server or a very large GPU machine. <a href="../local-models/#what-fits">Which model fits your computer</a> has more on memory.</p>
 
       <h2 id="how-picked">How the picks are made</h2>
       <p>A script on this site reads the benchmark's numbers and applies the same rules every time, so the picks change only when the numbers do:</p>
@@ -195,7 +195,7 @@
         <li><strong>Writes the verdict, and verifies:</strong> the highest score among models with a known cost. When the same model at a lower thinking setting scores within 5 points for a third of the cost or less, the table says so.</li>
         <li><strong>Models that draft:</strong> the best score among models that cost a tenth of the top pick's or less, one per maker.</li>
         <li><strong>Decides, in Triage:</strong> the cheapest models that score at least half the top score, one per maker.</li>
-        <li><strong>Thinking settings Ixel can use:</strong> Ixel sends each model only the thinking settings it takes: up to <code>max</code> for current Claude and GPT models, up to <code>xhigh</code> for Grok, and up to <code>high</code> for Gemini and every other maker. A higher setting is sent as the highest one the model takes, so the picks only count settings Ixel can send.</li>
+        <li><strong>Thinking settings Ixel can use:</strong> Ixel sends each model only the thinking settings it takes: up to <code>max</code> for current Claude and GPT models, up to <code>xhigh</code> for Grok, and up to <code>high</code> for Gemini and every other maker. A higher setting is sent as the highest one the model takes, so the picks count only settings Ixel can send.</li>
       </ul>
       <!-- models:method -->
       <p>Score is Artificial Analysis's <b>Intelligence Index</b>, which combines its tests of reasoning, knowledge, math and coding into one number. Cost is cost per task: Artificial Analysis&#x27;s average cost to run one task of its tests at that setting, in US dollars. Use it to compare models, not as a bill. The picks come from its public leaderboard and open-weights pages, read on 2026-10-04.</p>
@@ -203,7 +203,7 @@
       <p>A benchmark is one view. Your own questions may favor a different model, and Ixel shows you how each model did in every review, so trust what you see there too.</p>
 
       <h2 id="set-each-job">Set each job</h2>
-      <p>In the app, open <strong>Settings</strong>. Or set them in your settings file (<code>~/.config/ixel-mat/config.toml</code>), by the name each model has on your panel:</p>
+      <p>In the app, open <strong>Settings</strong>. Or set each job in your settings file (<code>~/.config/ixel-mat/config.toml</code>), using the name each model has on your panel:</p>
       <div class="table">
         <table>
           <thead><tr><th>Job</th><th>In Settings</th><th>In the file</th></tr></thead>
@@ -226,10 +226,10 @@ verifier_effort = "low"       # checking is easier than writing
 [triage]
 enabled = true
 agent = "luna"                # a fast, cheap model of yours</code></pre>
-      <p>The names (<code>opus</code>, <code>gpt</code>, <code>luna</code>) are what you called each model in <code>ixel setup</code>. Each one's model and thinking setting are picked in <strong>Settings</strong>, Models, or with <code>ixel model</code>; <a href="../setup/#pick-a-model">Set up your models</a> says how.</p>
+      <p>The names (<code>opus</code>, <code>gpt</code>, <code>luna</code>) are what you called each model in <code>ixel setup</code>. You pick each one's model and thinking setting in <strong>Settings</strong>, Models, or with <code>ixel model</code>. <a href="../setup/#pick-a-model">Set up your models</a> says how.</p>
 
       <h2 id="credit">Where the numbers come from</h2>
-      <p>The scores and costs are from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, an independent company that tests AI models and keeps its results up to date as new ones come out. Ixel isn't connected with them. This page is refreshed from their numbers, and the date at the top says when. Your Ixel app doesn't contact them; only the script that updates this page does.</p>
+      <p>The scores and costs are from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, an independent company that tests AI models and keeps its results up to date as new ones come out. IxelAI isn't affiliated with them. This page is refreshed from their numbers, and the date at the top says when. Your Ixel app doesn't contact them; only the script that updates this page does.</p>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->
         <a class="prev" href="../handoff/"><span>Previous</span>Handoff: agents as a team</a>

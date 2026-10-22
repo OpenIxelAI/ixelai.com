@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Machines | IxelAI</title>
-<meta name="description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click, run a command on several at once, with each server's key pinned.">
+<meta name="description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click or run a command on several at once, with each server's key pinned.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Machines | IxelAI">
-<meta property="og:description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click, run a command on several at once, with each server's key pinned.">
+<meta property="og:description" content="Machines, in the Ixel app: your servers and the OpenClaw or Hermes agents on them. Connect in one click or run a command on several at once, with each server's key pinned.">
 <meta property="og:url" content="https://ixelai.com/machines/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/machines/">
@@ -144,8 +144,8 @@
         </div>
         <ul class="who">
           <li><h3>Run OpenClaw or Hermes</h3><p>Each machine opens straight into the agent's TUI, status, sessions or logs, whichever you pick.</p></li>
-          <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine, or import them from your SSH config, open a session in one click, and check on all of them with one command.</p></li>
-          <li><h3>Want SSH keys without the fuss</h3><p>Make a key in the app, and Copy my key to it adds it to the server for you, even on Windows.</p></li>
+          <li><h3>Have a home lab or a few VPSs</h3><p>Save every machine or import them from your SSH config. Open a session in one click, and check on all of them with one command.</p></li>
+          <li><h3>Want SSH keys without the fuss</h3><p>Make a key in the app, and "Copy my key to it" adds it to the server for you, even on Windows.</p></li>
           <li><h3>Take security seriously</h3><p>Host keys are pinned and enforced by ssh itself, nothing a model writes can reach your machines, and every connection and run is logged on your computer.</p></li>
         </ul>
       </div>
@@ -161,7 +161,7 @@
           <li><h3>Add a machine</h3><p>Type its address, or import your hosts from <code>~/.ssh/config</code> (or from Ixel Console).</p></li>
           <li><h3>Pick what runs</h3><p>OpenClaw, Hermes, a shell, or a command you type. Each machine keeps its own.</p></li>
           <li><h3>Check its key</h3><p>The first time, you see the server's fingerprint and say yes, and it's pinned. From then on, ssh refuses a changed key.</p></li>
-          <li><h3>Connect, or run</h3><p>Connect opens a terminal running that machine's command. Run on machines runs one command on the ones you pick and shows each one's output.</p></li>
+          <li><h3>Connect, or run</h3><p>Connect opens a terminal running that machine's command. "Run on machines" runs one command on the ones you pick and shows each one's output.</p></li>
         </ol>
       </div>
     </section>
@@ -173,20 +173,20 @@
           <h2>What you get.</h2>
         </div>
         <dl class="features">
-          <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands: the TUI, status, sessions and logs. Or a shell, or a command you type.</dd></div>
+          <div><dt>Agent presets</dt><dd>OpenClaw and Hermes each get four built-in commands: the TUI, status, sessions and logs. You can also pick a shell or a command you type.</dd></div>
           <div><dt>Import what you have</dt><dd>Bring in the hosts in <code>~/.ssh/config</code> (ssh keeps using their settings, jump hosts included), or Ixel Console's machines with the keys it pinned.</dd></div>
-          <div><dt>Host key pinning</dt><dd>A key is pinned only after you've seen its fingerprint (or said yes to it in Ixel Console), and ssh is told to accept that key and no other. Checking it sends nothing of yours along. A changed key stops everything until you forget the old one on purpose.</dd></div>
-          <div><dt>Run on machines</dt><dd>One command on the machines you pick, up to 8 at once, each with a time limit. Nothing is asked along the way, so each machine signs in with a key or ssh-agent, and its key must be pinned first. You see how each one ended and its output (the first 64 KB).</dd></div>
-          <div><dt>SSH keys, made easy</dt><dd>Make an ed25519 key, then Copy my key to it adds it to the server's <code>authorized_keys</code>, once, even on Windows.</dd></div>
+          <div><dt>Host key pinning</dt><dd>A key is pinned only after you've seen its fingerprint (or said yes to it in Ixel Console), and ssh is told to accept that key and no other. Checking a key sends nothing of yours. A changed key stops everything until you forget the old one on purpose.</dd></div>
+          <div><dt>Run on machines</dt><dd>Run one command on the machines you pick, up to 8 at once, each with a time limit. Nothing is asked along the way, so each machine signs in with a key or ssh-agent, and its host key must be pinned first. You see how each run ended and its output (the first 64 KB).</dd></div>
+          <div><dt>SSH keys, made easy</dt><dd>Make an ed25519 key, then "Copy my key to it" adds it to the server's <code>authorized_keys</code> once, even on Windows.</dd></div>
           <div><dt>A log on your computer</dt><dd>Every connection, run, import, new key and key pinned or forgotten is logged on your computer, and nowhere else.</dd></div>
         </dl>
         <div class="safe">
           <div class="eyebrow">Built to be safe</div>
           <ul class="points">
             <li>It runs only what you type or pick. No model can reach your machines.</li>
-            <li>A machine's address can't be read by ssh as an option, and every program gets what it runs one argument at a time.</li>
+            <li>A machine's address can't be read by ssh as an option, and every program Ixel starts gets each argument separately.</li>
             <li>It uses the ssh you already have, with your keys or ssh-agent. Ixel stores no passwords.</li>
-            <li>No telemetry. The only connections are the ones you start.</li>
+            <li>There's no telemetry. The only connections are the ones you start.</li>
           </ul>
         </div>
       </div>
@@ -201,7 +201,7 @@
         <div class="install">
           <div class="prose">
             <p>Install Ixel (or Ixel MAT on its own: the app comes with it), open the app, and pick <strong>Machines</strong> on the left. In a terminal, <code>ixel machines</code> lists them and <code>ixel machines connect NAME</code> connects.</p>
-            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens Konsole, GNOME Terminal, kitty, Alacritty or xterm; with none of them, it gives you the line to run in your own terminal.</p>
+            <p><strong>You need</strong> the OpenSSH client: it comes with Windows 10 and 11 and with macOS, and on Linux it's the <code>openssh-client</code> (or <code>openssh</code>) package. On Linux, Connect opens Konsole, GNOME Terminal, kitty, Alacritty or xterm. If none of them is installed, it gives you the line to run in your own terminal.</p>
             <p class="note"><strong>Coming from Ixel Console?</strong> In Machines, press <strong>Import</strong> and pick Ixel Console: your SSH machines come over with the keys it pinned. Then remove Ixel Console with <code>ixel-console uninstall</code>.</p>
           </div>
           <div class="install-steps">

@@ -73,28 +73,28 @@
     <main class="doc" id="main">
       <div class="eyebrow">Use Ixel</div>
       <h1>The Ixel app</h1>
-      <p class="lede">One window for all of Ixel. The rail down the left side switches between <strong>Ask</strong>, <strong>Board</strong>, <strong>Agent</strong>, <strong>Machines</strong>, <strong>Health</strong> and <strong>Settings</strong>.</p>
+      <p class="lede">The Ixel app puts all of Ixel in one window. The rail down the left side switches between <strong>Ask</strong>, <strong>Board</strong>, <strong>Agent</strong> (beta), <strong>Machines</strong>, <strong>Health</strong> and <strong>Settings</strong>.</p>
       <p class="note">The pictures on this page show the app with example models, an example project and example machines. The answers in them are scripted for the pictures.</p>
 
       <h2 id="open-it">Open it</h2>
       <ul>
-        <li><strong>Windows:</strong> <strong>Ixel</strong> in the Start Menu. It's Edge (or Chrome) in app mode: no tabs or address bar, and a browser profile of its own, so it doesn't touch your normal browsing.</li>
-        <li><strong>Mac:</strong> <strong>Ixel</strong> in the Applications folder in your home folder, or Spotlight. A native window with its own Dock icon and menus.</li>
-        <li><strong>Linux:</strong> <strong>Ixel</strong> in your app menu. A native window when your system has GTK and WebKit, otherwise Chrome's or Chromium's app mode.</li>
+        <li><strong>Windows:</strong> <strong>Ixel</strong> is in the Start Menu. It's Edge (or Chrome) in app mode: no tabs or address bar, and a browser profile of its own, so it doesn't touch your normal browsing.</li>
+        <li><strong>Mac:</strong> <strong>Ixel</strong> is in the Applications folder in your home folder, and Spotlight finds it too. It opens in a native window with its own Dock icon and menus.</li>
+        <li><strong>Linux:</strong> <strong>Ixel</strong> is in your app menu. It opens in a native window when your system has GTK and WebKit, and otherwise in Chrome's or Chromium's app mode.</li>
         <li><strong>From a terminal:</strong> <code>ixel app</code> opens the same window, and <code>ixel gui</code> opens it as a tab in your usual browser.</li>
       </ul>
       <p>Ixel stops when you close its window. The page and its server run only on your computer: the server listens on <code>127.0.0.1</code> and needs a one-time key that's in the link Ixel opens, so other people on your network and other websites can't use it.</p>
 
       <h2 id="ask">Ask</h2>
-      <p>Ask is the panel. Your conversations and the models on your panel are down the side, and each question is a thread.</p>
+      <p>Ask is Ixel MAT's panel: several models answer your question, and one writes the verdict. Your conversations and the models on your panel are down the side, and each question is a thread.</p>
       <figure class="shot">
         <img src="../images/app-ask.webp" width="2560" height="1600" loading="lazy" alt="The Ask page before a question: the panel of four models down the side, and what happens when you ask">
         <figcaption>Ask, ready for a question. The side shows each model and whether it's ready; the badges say who writes the verdict and who verifies.</figcaption>
       </figure>
       <ol class="steps-doc">
         <li><h3>Type your question</h3><p>Paste code, an error, or a decision you're weighing. <kbd>/</kbd> jumps to the box from anywhere on the page.</p></li>
-        <li><h3>Pick a mode</h3><p>Under the box. The line below says how many model calls it will make.</p></li>
-        <li><h3>Press Ask</h3><p>Or <kbd>Ctrl</kbd> <kbd>Enter</kbd> (<kbd>⌘</kbd> <kbd>Enter</kbd> on a Mac). <strong>Stop</strong> cancels it, and closing the window cancels it too, so a review nobody is watching makes no more calls.</p></li>
+        <li><h3>Pick a mode</h3><p>The modes are under the box, and the line below them says how many model calls the run will make.</p></li>
+        <li><h3>Press Ask</h3><p>Or press <kbd>Ctrl</kbd> <kbd>Enter</kbd> (<kbd>⌘</kbd> <kbd>Enter</kbd> on a Mac). <strong>Stop</strong> cancels the run. Closing the window cancels it too, so a review nobody is watching makes no more calls.</p></li>
       </ol>
       <div class="table">
         <table>
@@ -110,14 +110,14 @@
       </div>
 
       <h3 id="while-it-works">While the panel works</h3>
-      <p>A grid shows each model's progress, round by round: who's answering, who's done and how long it took. With three or more models, one slow model doesn't hold up the rest: once the others are done with a round, it gets as long again as they took (at least 30 seconds), and the review goes on without it if it's still working.</p>
+      <p>A grid shows each model's progress, round by round: who's answering, who's done and how long it took. With three or more models, one slow model doesn't hold up the rest. Once the others finish a round, the slow model gets as much time again as they took (at least 30 seconds), and if it's still working after that, the review goes on without it.</p>
       <figure class="shot">
         <img src="../images/app-ask-working.webp" width="2560" height="1600" loading="lazy" alt="A review in progress: round 1 of 3, two models have answered and two are still answering">
         <figcaption>Round 1 of 3: two models have answered, two are still at it.</figcaption>
       </figure>
 
       <h3 id="the-verdict">The verdict</h3>
-      <p>The verdict comes as it's written (from Claude Code or an API model; the other programs deliver it all at once). It says how confident the panel is, what it corrected, and where it disagreed. "High" confidence stands only if some answer was rated correct by every reviewer who graded it; otherwise it shows as medium.</p>
+      <p>The verdict appears as it's written when it comes from Claude Code or an API model; the other programs deliver it all at once. It says how confident the panel is, what it corrected, and where it disagreed. "High" confidence stands only if some answer was rated correct by every reviewer who graded it; otherwise it shows as medium.</p>
       <figure class="shot">
         <img src="../images/app-ask-verdict.webp" width="2560" height="1600" loading="lazy" alt="The verdict: high confidence, the answer, and a correction of one model's mistake, with the run's calls and tokens below">
         <figcaption>The verdict, with what it corrected. Below it: how many calls the run made, and what it cost.</figcaption>
@@ -131,12 +131,12 @@
       <h3 id="follow-ups">Follow-ups</h3>
       <p>After an answer, your next question is a follow-up: the panel also sees your last three questions and its answers, so "and in Python?" makes sense. <strong>New conversation</strong> starts over, and earlier conversations are down the side. They last as long as the window: closing it clears them.</p>
 
-      <h3 id="attach">Code, pictures and sound</h3>
+      <h3 id="attach">Documents, code, pictures and sound</h3>
       <ul>
-        <li><strong>Documents:</strong> attach Word, PDF, Excel, PowerPoint, OpenDocument, RTF, web pages and text files (or paste or drop them). Ixel reads them on this computer and sends their text and pictures to the panel like anything else you attach.</li>
+        <li><strong>Documents:</strong> attach Word, PDF, Excel, PowerPoint, OpenDocument, RTF, web pages and text files (or paste or drop them). Ixel reads them on your computer and sends their text and pictures to the panel like anything else you attach.</li>
         <li><strong>Code</strong> opens a box for a diff, a file or a document for the panel to check alongside your question. Ixel refuses to send it if it holds what looks like a key or a token, and shows hidden characters as visible markers.</li>
-        <li><strong>Picture</strong> attaches up to 8 pictures (or paste a screenshot, or drop them on the page). Ixel redraws each one, which drops what a camera writes into a photo, such as where it was taken, and keeps it in memory only. Only models that can see pictures get them, and the page says which before you ask. A video gives six of its frames as pictures, and its sound as text.</li>
-        <li><strong>Sound</strong> records a voice note or takes a sound file, and writes its words into your question for you to read over. No model hears the sound: it goes to OpenAI or Groq, with your key, to be written out. Add an <code>OPENAI_API_KEY</code> or <code>GROQ_API_KEY</code> under Settings, Keys, to turn it on.</li>
+        <li><strong>Picture</strong> attaches up to 8 pictures (or paste a screenshot, or drop them on the page). Ixel redraws each one, which removes what a camera writes into a photo (such as where it was taken), and keeps it only in memory. Only models that can see pictures get them, and the page says which before you ask. A video gives six of its frames as pictures, and its sound as text.</li>
+        <li><strong>Sound</strong> records a voice note or takes a sound file, and writes its words into your question for you to read over. No model on the panel hears the sound: it goes to OpenAI or Groq, with your key, to be written out. To turn it on, add an <code>OPENAI_API_KEY</code> or <code>GROQ_API_KEY</code> under Settings, Keys.</li>
       </ul>
 
       <h3 id="diagrams">Diagrams</h3>
@@ -148,7 +148,7 @@
       <p>Ixel asks which project it's for, shows who gets each part and what kind of work it is, and runs them side by side when you press <strong>Run</strong>. Every result comes back on the project's board. See <a href="../handoff/#dispatch">Handoff</a>.</p>
 
       <h2 id="board">Board</h2>
-      <p>The Board is <a href="../handoff/">Handoff</a>'s task board for a project: the same board your agents use and <code>handoff board</code> shows. Type a project's folder (a git repository) and press <strong>Open</strong>, or pick one of the projects it lists. Tasks are in columns: waiting on you, with agents, not assigned, blocked, and done. A dot on the rail says when tasks are waiting on you.</p>
+      <p>The Board is <a href="../handoff/">Handoff</a>'s task board for a project: the same board your coding agents share, and the one <code>handoff board</code> shows. Type a project's folder (a git repository) and press <strong>Open</strong>, or pick one of the projects it lists. Tasks are in columns: waiting on you, with agents, not assigned, blocked, and done. A dot on the rail says when tasks are waiting on you.</p>
       <figure class="shot">
         <img src="../images/app-board.webp" width="2960" height="1600" loading="lazy" alt="The Board: a review and a blocked task waiting on you, three tasks with agents, one not assigned, and one done">
         <figcaption>A project's board: two tasks wait on you (a review, and a question the agent is blocked on).</figcaption>
@@ -156,7 +156,7 @@
       <p>Open a task to read it, its acceptance checks, and its whole history, and to act on it:</p>
       <ul>
         <li><strong>Run it now</strong>: pick an agent and what it does. Claude Code, Codex, OpenCode, your local models and the other agents Handoff finds can change files, each on a branch of its own. Any model can answer, or review your changes. Pictures are made by xAI or OpenAI with your key.</li>
-        <li><strong>Merge</strong>, on a finished task: after asking, it merges the task's branch into the branch you have out on this computer, and says that nothing was pushed.</li>
+        <li><strong>Merge</strong>, on a finished task: it asks first, then merges the task's branch into the branch you have checked out on this computer, and tells you that nothing was pushed.</li>
         <li><strong>Mark done</strong>, <strong>Assign</strong>, <strong>Block</strong>, <strong>Add a note</strong>, approve a review or send it back. Everything you do here is done as you, under the board's own rules.</li>
         <li><strong>New task</strong> adds one.</li>
       </ul>
@@ -165,42 +165,42 @@
         <figcaption>A task's history: Codex wrote the tests, then handed the task back to Claude with what's done, what's left, and how to check it.</figcaption>
       </figure>
       <h3 id="board-models">Which model does the work, and what it cost</h3>
-      <p>When an edit runs, the Board asks which model does it:</p>
+      <p>When you run an edit, the Board asks which model should do it:</p>
       <ul>
         <li><strong>The agent's own model</strong>, as it's set up.</li>
-        <li><strong>One model</strong>, typed or picked from the list. For OpenCode its free models come first, and a model on your computer is marked free.</li>
+        <li><strong>One model</strong>, typed or picked from the list. For OpenCode, its free models come first, and a model on your computer is marked free.</li>
         <li><strong>A chain of models, biggest first</strong>, up to four. The biggest plans the steps and the smaller ones build them. It starts as Fable 5.1 at low effort, then Opus 5.5, then Haiku 5.5, and you can change any of them.</li>
       </ul>
       <p>Or switch on <strong>Auto: let Handoff pick the crew</strong>. The Board asks Handoff for a crew sized to the task and shows it as rows you can still change, each with its role, model and effort, plus <strong>All max</strong> and <strong>All low</strong>. Approve runs exactly the crew it showed. Auto is offered for edits on an agent that runs chains. <a href="../handoff/#auto-crew">How it picks</a>.</p>
-      <p>Each model gets its own effort, in its tool's own words, and the list offers only the levels that model takes. Answer and review runs have an effort choice too; when several agents answer, it's the first one's level, and the others answer at their own settings. The picker says what each agent can reach: edits only, or its own permissions. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw, or one you added) has a <strong>Let … change files</strong> button, and nothing is approved for it until you press it.</p>
-      <p>Each card shows what its runs cost, the top bar shows what the whole board has spent, and each task has a <strong>What it used</strong> table: each model's tokens and an estimated cost at API prices. On a subscription that's what it would have cost; it counts toward your plan's limits instead. See <a href="../handoff/#models-and-chains">Handoff</a> for how a chain splits the work.</p>
-      <p>Before you approve a run, the form shows who takes over if a model hits its usage limit: <strong>If a model hits its usage limit, go on with …</strong>, the next best models you have that Handoff doesn't know to cost more (in a chain written biggest first, more than its planner), each with its own switch, so you can leave one out. Switch them all off and the run stops at the limit instead. The task's result then says which model ran out and which took over, instead of the run failing. <a href="../handoff/#usage-limits">More about it</a>.</p>
-      <p><strong>Pull requests</strong> are listed above the columns when the project's <code>origin</code> is on GitHub, GitLab or Codeberg, or your own Gitea, Forgejo, GitLab or GitHub Enterprise. <strong>Review…</strong> has the agent you pick review one; <strong>Fix…</strong> has Claude Code or Codex change it on a branch of its own. Nothing is pushed: when it's done, the Board shows the one line that adds the work to the pull request, for you to run once you've looked. Ixel only reads from the host. It never comments, approves or merges there.</p>
+      <p>Each model gets its own effort level, in its tool's own words, and the list offers only the levels that model takes. Answer and review runs have an effort choice too. When several agents answer, the choice sets the first one's level, and the others answer at their own settings. The picker says what each agent can reach: edits only, or its own permissions. An agent that runs with its own permissions (Kimi Code, Cline, OpenClaw, or one you added) has a <strong>Let … change files</strong> button, and nothing is approved for it until you press it.</p>
+      <p>Each card shows what its runs cost, the top bar shows what the whole board has spent, and each task has a <strong>What it used</strong> table: each model's tokens and an estimated cost at API prices. On a subscription, that's what the run would have cost; it counts toward your plan's limits instead. See <a href="../handoff/#models-and-chains">Handoff</a> for how a chain splits the work.</p>
+      <p>Before you approve a run, the form shows who takes over if a model hits its usage limit. The line <strong>If a model hits its usage limit, go on with …</strong> lists the next best models you have that Handoff doesn't know to cost more (in a chain written biggest first, more than its planner). Each has its own switch, so you can leave one out. Switch them all off and the run stops at the limit instead. When a model does take over, the run doesn't fail: the task's result says which model ran out and which one took over. <a href="../handoff/#usage-limits">More about it</a>.</p>
+      <p><strong>Pull requests</strong> are listed above the columns when the project's <code>origin</code> is on GitHub, GitLab or Codeberg, or your own Gitea, Forgejo, GitLab or GitHub Enterprise. <strong>Review…</strong> has the agent you pick review one; <strong>Fix…</strong> has Claude Code or Codex change it on a branch of its own. Nothing is pushed: when it's done, the Board shows the one command that adds the work to the pull request, for you to run once you've looked. Ixel only reads from the host. It never comments, approves or merges there.</p>
 
       <h2 id="agent">Agent (beta)</h2>
-      <p>A personal agent that works in a folder you pick. Give it a goal in plain words, and it reads the files itself, a few at a time. <strong>It asks you before it changes anything:</strong> every file it writes or edits shows you the change first, and every command shows you the exact command, and nothing happens until you press <strong>Approve</strong>.</p>
+      <p>The Agent is a personal agent that works in a folder you pick. Give it a goal in plain words, and it reads the files itself, a few at a time. <strong>It asks you before it changes anything:</strong> you see the change to every file it writes or edits, and the exact text of every command. Nothing happens until you press <strong>Approve</strong>.</p>
       <ul>
         <li><strong>A chat, like other agent apps.</strong> Type a goal, then follow-ups. The steps it took fold into one line ("Worked for 41 s · 5 steps") that opens to show each one. <strong>History</strong> has your earlier conversations.</li>
         <li><strong>The <kbd>/</kbd> menu:</strong> <code>/new</code>, <code>/model</code>, <code>/folder</code>, <code>/fast</code>, <code>/effort</code>, <code>/computer</code>, <code>/attach</code>, <code>/memory</code>, <code>/stop</code> and <code>/help</code>. Fast and the effort setting are also on the composer.</li>
         <li><strong>Photos, video and any file.</strong> Attach them to a message, or paste or drop them. It reads documents (PDF, Word, Excel, PowerPoint and more) as text, and shows pictures to a model that can see them; a video gives a few of its frames. Your attachments are kept in the agent's own folder, not in the folder you picked.</li>
         <li><strong>Memory and skills.</strong> It keeps notes about you and the work in plain files on your computer, and has skills it can load for a job, such as summarizing a folder or describing photos. <strong>Memory &amp; skills</strong> opens them for you to read and edit.</li>
         <li><strong>Any model you have</strong>, including a Claude model on your own API key. On an API key, the part of its instructions that stays the same is cached, so each later step costs less.</li>
-        <li><strong>It knows when to stop.</strong> Near the step limit it's told how many steps are left, so it finishes with what it has, and if it repeats the same action it's stopped and told why.</li>
+        <li><strong>It knows when to stop.</strong> Near the step limit, it's told how many steps are left, so it finishes with what it has. If it repeats the same action, it's stopped and told why.</li>
       </ul>
       <h3 id="agent-safety">What it can and can't touch</h3>
       <ul>
-        <li>The model never gets a shell or your files directly. It asks for actions and Ixel does them. Up to five reads, lists and searches run together, at once; writing, editing and running a command come one at a time and wait for you.</li>
+        <li>The model never gets a shell or your files directly. It asks for actions and Ixel does them. Up to five reads, lists and searches run at once; writes, edits and commands come one at a time and wait for you.</li>
         <li>When it reads, lists, searches or edits files itself, it stays in the folder you picked, can't follow a link out of it, and can't touch files that look like secrets (<code>.env</code>, keys, Ixel's own settings). Commands get none of the keys saved in Ixel.</li>
-        <li>On a Mac and on Linux, an approved command runs in a sandbox (the Mac's own; on Linux, bubblewrap, which you install) with no network, writing only in that folder and the temp folder, and kept away from your secrets: it can't read <code>~/.ssh</code>, cloud logins (AWS, Google Cloud, Azure, GitHub's CLI and others), your keychains, browser data, or Ixel's own settings and keys. On Linux it can't reach your desktop session either (D-Bus, systemd, ssh-agent or the X server). It can read your other files, including ones outside the folder and a project's own <code>.env</code>, and its output goes to the model. So read each command before you approve it.</li>
-        <li>On Windows a command is only <strong>partly sandboxed</strong>, and the approval says so: it can write only in that folder and a private temp folder, but it has the network and can read any of your files, secret ones included. On Linux without a working bubblewrap, or on Windows when its sandbox can't start, there's no sandbox and the command runs as you; the approval says that too.</li>
-        <li><strong>Computer access</strong> is off until you switch it on for a run and confirm a warning. Then it can work anywhere in your home folder (still not in <code>~/.ssh</code>, your keychains or browser profiles), run commands with the network, take screenshots and open apps, files and links, on a Mac, Windows or Linux. Every change, command, screenshot and open still waits for your Approve, and an approved command can do anything you can, so turn it on only for a model and a goal you trust. It can't move your mouse or type for you.</li>
+        <li>On a Mac and on Linux, an approved command runs in a sandbox (the Mac's own; on Linux, bubblewrap, which you install). There it has no network, writes only in that folder and the temp folder, and is kept away from your secrets: it can't read <code>~/.ssh</code>, cloud logins (AWS, Google Cloud, Azure, GitHub's CLI and others), your keychains, browser data, or Ixel's own settings and keys. On Linux it can't reach your desktop session either (D-Bus, systemd, ssh-agent or the X server). It can read your other files, including ones outside the folder and a project's own <code>.env</code>, and its output goes to the model. So read each command before you approve it.</li>
+        <li>On Windows, a command is only <strong>partly sandboxed</strong>, and the approval says so: it can write only in that folder and a private temp folder, but it has the network and can read any of your files, secret ones included. On Linux without a working bubblewrap, or on Windows when its sandbox can't start, there's no sandbox and the command runs as you; the approval says that too.</li>
+        <li><strong>Computer access</strong> is off until you switch it on for a run and confirm a warning. Then it can work anywhere in your home folder (still not in <code>~/.ssh</code>, your keychains or browser profiles), run commands with the network, take screenshots and open apps, files and links, on a Mac, Windows or Linux. Every change, command, screenshot and open still waits for you to press Approve, and an approved command can do anything you can, so turn it on only for a model and a goal you trust. It can't move your mouse or type for you.</li>
       </ul>
       <h3 id="agent-github">Add a tool from a GitHub link</h3>
-      <p>Give the agent a link to an open-source tool and it reads the project, tries it in a scratch folder, and writes a short <strong>add-on card</strong> for it: what the tool is, the exact version, and in plain words what it may touch. Ixel doesn't build each tool in; you decide which ones you trust. A card the agent writes always stays off, marked "Written by the agent, not reviewed", until you read it and approve it in <a href="#add-ons">Settings, Add-ons</a>.</p>
-      <p>Once a tool-server card is on, the agent can call that tool. The first call in each run asks you, showing the tool and what it's given. On a Mac and on Linux the tool runs in the same sandbox as commands, with the network only if its card says so and writes only where its card allows. Like commands, it can't read your secrets but can read your other files. On Windows, add-on tools aren't sandboxed.</p>
+      <p>Give the agent a link to an open-source tool and it reads the project, tries it in a scratch folder, and writes a short <strong>add-on card</strong> for it: what the tool is, the exact version, and in plain words what it may touch. A card the agent writes always stays off, marked "Written by the agent, not reviewed", until you read it and approve it in <a href="#add-ons">Settings, Add-ons</a>.</p>
+      <p>Once a tool-server card is on, the agent can call that tool. The first call in each run asks you, showing the tool and what it's given. On a Mac and on Linux, the tool runs in the same sandbox as commands: it gets the network only if its card says so, and writes only where its card allows. Like commands, it can't read your secrets but can read your other files. On Windows, add-on tools aren't sandboxed.</p>
 
       <h2 id="machines">Machines</h2>
-      <p>Your servers, from a $5 VPS to the computer in the closet, and the OpenClaw or Hermes agent on each.</p>
+      <p>Machines lists your SSH servers, from a $5 VPS to the computer in the closet, and the OpenClaw or Hermes agent on each.</p>
       <figure class="shot">
         <img src="../images/app-machines.webp" width="2560" height="1600" loading="lazy" alt="Machines: three servers in two groups, each with what runs when you connect and a button to check its key">
         <figcaption>Three machines, in two groups. Each one's key is checked once, then pinned.</figcaption>
@@ -213,37 +213,37 @@
       <p>Ixel uses the <code>ssh</code> you already have (on Windows, the OpenSSH Client that comes with it). Every connection and run is noted in a log on your computer; <a href="../privacy/#on-your-computer">Privacy</a> says where.</p>
 
       <h2 id="health">Health</h2>
-      <p>Whether each part of Ixel is ready: your settings, each model, Handoff, Git, the window, and SSH once you have machines. Each problem comes with the one line that fixes it, ready to copy. Opening the page sends nothing anywhere; <strong>Check now</strong> also asks each model's server whether it answers and takes its key (without asking it anything), and asks each program for its version. A dot on the rail says when something needs fixing. In a terminal, <code>ixel doctor</code> runs the same checks.</p>
+      <p>Health shows whether each part of Ixel is ready: your settings, each model, Handoff, Git, the window, and SSH once you have machines. Each problem comes with the one line that fixes it, ready to copy. Opening the page sends nothing anywhere. <strong>Check now</strong> also asks each model's server whether it answers and accepts your key (without asking the model anything), and asks each program for its version. A dot on the rail says when something needs fixing. In a terminal, <code>ixel doctor</code> runs the same checks.</p>
       <figure class="shot">
         <img src="../images/app-health.webp" width="2560" height="3280" loading="lazy" alt="Health after Check now: Ixel, its models, Handoff, the window and Machines, each ready or with what to look at">
         <figcaption>After <strong>Check now</strong>. The two things to look at are there because this picture was taken on a server: no Edge or Chrome for a window of its own, and no desktop to open a terminal on.</figcaption>
       </figure>
 
       <h2 id="settings">Settings</h2>
-      <p>The choices among what's already set up, each saved as you make it:</p>
+      <p>Settings holds your choices among what's already set up, and saves each one as you make it:</p>
       <ul>
-        <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list. Effort offers only the levels that model takes, in its company's own words. Claude Code also has an <strong>Ultracode</strong> switch, its mode that runs several agents at once. Antigravity stays off the panel until you switch it on, and shows Google's terms warning first.</li>
-        <li><strong>Models on your computers:</strong> add models from Ollama, LM Studio and other servers of yours, on this computer or another one, move them, or take them off. Under an Ollama, <strong>Get a model</strong> downloads one by name. <a href="../local-models/#in-the-app">Local models</a> has pictures.</li>
+        <li><strong>Models:</strong> which models sit on the panel, and which model and effort each one uses, picked from a list. Effort offers only the levels that model takes, in its company's own words. Claude Code also has an <strong>Ultracode</strong> switch for its mode that runs several agents at once. Antigravity stays off the panel until you switch it on, and shows Google's terms warning first.</li>
+        <li><strong>Models on your computers:</strong> add models from Ollama, LM Studio and other model servers of yours (on this computer or another one), move them, or take them off. Under an Ollama server, <strong>Get a model</strong> downloads one by name. <a href="../local-models/#in-the-app">Local models</a> has pictures.</li>
         <li><strong>Asking:</strong> the mode Ask starts on, who writes the verdict, and <strong>Private</strong>, which has only the models on your own computers answer. See <a href="../local-models/#private">Private</a>.</li>
         <li><strong>Saver</strong> and <strong>Triage</strong>: the big model that verifies, the models that draft, and the model that decides. <a href="../models/">Which model for each job</a> has picks.</li>
         <li><strong>Pictures</strong> and <strong>Sound</strong>: which models see pictures, and which service makes pictures or writes out sound.</li>
-        <li><strong>Appearance:</strong> System (the default) matches your computer's light or dark mode, or keep it Light or Dark.</li>
-        <li><strong>Keys:</strong> paste, replace or remove a key. Keys are never shown again.</li>
+        <li><strong>Appearance:</strong> System (the default) matches your computer's light or dark mode. Pick Light or Dark to keep it that way.</li>
+        <li><strong>Keys:</strong> paste, replace or remove a key. A saved key is never shown again.</li>
         <li><strong>Add-ons:</strong> open-source tools you can switch on, each described by a short card. See <a href="#add-ons">Add-ons</a>.</li>
       </ul>
       <figure class="shot">
         <img src="../images/app-settings.webp" width="2560" height="1600" loading="lazy" alt="The Settings page: Appearance, then the models on the panel, each with a model and effort to pick, and the Docs button at the top">
-        <figcaption>Settings: Appearance, then each model on the panel with the model and effort it uses. <strong>Docs</strong> is at the top right. (The pictures' models all run on a stand-in server here, so each list says it came from your model server; a real API model's list comes from its company.)</figcaption>
+        <figcaption>Settings: Appearance, then each model on the panel with the model and effort it uses. <strong>Docs</strong> is at the top right. (The models in these pictures all run on a stand-in server, so each list says it came from your model server; a real API model's list comes from its company.)</figcaption>
       </figure>
-      <p>Settings changes only those lines of your settings file and keeps your comments. The file from before each change is kept as <code>config.toml.bak</code>. If the file changed since the page read it, it shows you the new one instead of saving over it. Adding a company's model or a program, or changing any other command, address or key name, stays with <code>ixel setup</code> and the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser. <strong>Forget</strong>, at the bottom, deletes your last <code>ixel review</code> conversation and the Machines log (<a href="../privacy/#on-your-computer">what Ixel keeps</a>).</p>
+      <p>Settings changes only those lines of your settings file and keeps your comments. Before each change, the old file is kept as <code>config.toml.bak</code>. If the file has changed since the page read it, the page shows you the new version instead of saving over it. To add a company's model or a program, or to change any other command, address or key name, use <code>ixel setup</code> or edit the file itself. The <strong>Docs</strong> button at the top of the page opens these docs in your browser. <strong>Forget</strong>, at the bottom, deletes your last <code>ixel review</code> conversation and the Machines log (<a href="../privacy/#on-your-computer">what Ixel keeps</a>).</p>
 
       <h3 id="add-ons">Add-ons</h3>
-      <p>Ixel doesn't build every outside tool in. Each one is a short <strong>card</strong> (an <code>addon.toml</code> file) that says what the tool is, the exact version to install, and in plain words what it may do: which folder it may write to, whether it may use the internet, and which programs Ixel may run for it. You decide which tools you trust.</p>
+      <p>Ixel doesn't build every outside tool in. Instead, each one is described by a short <strong>card</strong> (an <code>addon.toml</code> file) that says what the tool is, the exact version to install, and in plain words what it may do: which folder it may write to, whether it may use the internet, and which programs Ixel may run for it. You decide which tools you trust.</p>
       <ul>
-        <li><strong>Turning one on</strong> shows the card first: what it may do, with warnings for folder access, the internet and programs, its licence terms, and where it comes from. Nothing is downloaded until you press <strong>Approve and turn on</strong>.</li>
-        <li><strong>Ixel installs exactly that version</strong> from GitHub and checks every file against the card's fingerprint before using it, and again each time it's about to read or run them. Files that changed since are never used. Turning it off removes its files.</li>
+        <li><strong>Turning one on</strong> shows the card first: what it may do, with warnings for folder access, the internet and programs, its license terms, and where it comes from. Nothing is downloaded until you press <strong>Approve and turn on</strong>.</li>
+        <li><strong>Ixel installs exactly that version</strong> from GitHub and checks every file against the card's fingerprint before using it, and again each time it's about to read or run them. Files that have changed since are never used. Turning it off removes its files.</li>
         <li><strong>Any change to a card</strong>, even one character, switches it off with "Changed since you approved it" until you approve it again.</li>
-        <li><strong>Diagram Design</strong> (MIT, by Cathryn Lavery) comes with Ixel, off until you turn it on. It adds <a href="#diagrams">Diagrams</a> to Ask.</li>
+        <li><strong>Diagram Design</strong> (MIT, by Cathryn Lavery) comes with Ixel and stays off until you turn it on. It adds <a href="#diagrams">Diagrams</a> to Ask.</li>
         <li><strong>Cards the agent writes</strong> (<a href="#agent-github">from a GitHub link</a>) show as "Written by the agent, not reviewed". The agent can never turn a card on or widen what an approved card may do.</li>
       </ul>
       <p>Cards and their files are in <code>~/.ixel/addons</code>. The card format is in <a href="https://github.com/OpenIxelAI/Ixel-MAT/blob/main/docs/addon-cards.md">addon-cards.md</a>, for anyone who wants to write one by hand.</p>
