@@ -77,8 +77,8 @@
 
       <h2 id="chat">The ixel chat</h2>
       <pre class="code"><code>ixel</code></pre>
-      <p>Type a question and press <kbd>Enter</kbd>. The panel answers and you get its verdict. A question typed on its own runs a quick review (answers, then a verdict), unless you picked another mode in <code>ixel setup</code> or with <code>plain_questions</code> in your settings file.</p>
-      <p>Follow-ups work like a chat: each question goes along with your last three questions and the panel's answers, so "and in Python?" or "why?" make sense. <code>/new</code> starts a fresh topic. The moon at the prompt grows as the conversation does (<code>☾ ◗ ◕ ●</code>), and turns gold when the panel is seeing three earlier exchanges.</p>
+      <p>Type a question and press <kbd>Enter</kbd>. The panel answers, and you get its verdict. A question typed on its own runs a quick review (answers, then a verdict), unless you picked another mode in <code>ixel setup</code> or with <code>plain_questions</code> in your settings file.</p>
+      <p>Follow-ups work like a chat: each question is sent with your last three questions and the panel's answers, so "and in Python?" or "why?" make sense. <code>/new</code> starts a fresh topic. The moon at the prompt grows as the conversation does (<code>☾ ◗ ◕ ●</code>), and turns gold when the panel sees three earlier exchanges.</p>
       <p>The prompt is drawn inline, so your terminal's scrollback, selection and copy and paste work as always. During a review, each round scrolls up into your terminal's history when it's done, and only the round that's running stays live.</p>
 
       <h3 id="keys">Keys</h3>
@@ -90,7 +90,7 @@
             <tr><td><kbd>Ctrl</kbd> <kbd>J</kbd>, or <kbd>\</kbd> then <kbd>Enter</kbd></td><td>A new line instead of sending (<kbd>Alt</kbd> <kbd>Enter</kbd> too, where your terminal passes it on)</td></tr>
             <tr><td><kbd>Tab</kbd></td><td>Complete a <code>/command</code>, an <code>--option</code>, a model's name, or a file path</td></tr>
             <tr><td><kbd>↑</kbd> <kbd>↓</kbd>, <kbd>Ctrl</kbd> <kbd>R</kbd></td><td>Earlier questions from this session, and search through them</td></tr>
-            <tr><td><kbd>Ctrl</kbd> <kbd>C</kbd></td><td>Clear the line. While a review runs, cancel it: the models are stopped and you're back at the prompt. Twice on an empty line to leave.</td></tr>
+            <tr><td><kbd>Ctrl</kbd> <kbd>C</kbd></td><td>Clear the line. While a review runs, cancel it: the models are stopped and you're back at the prompt. Press it twice on an empty line to leave.</td></tr>
             <tr><td><kbd>Ctrl</kbd> <kbd>D</kbd>, <kbd>Ctrl</kbd> <kbd>L</kbd></td><td>Leave, clear the screen</td></tr>
           </tbody>
         </table>
@@ -114,23 +114,23 @@
       </div>
 
       <h2 id="from-your-shell">From your shell</h2>
-      <p>One line, one answer. Handy in scripts:</p>
+      <p>One line gets you one answer, which is handy in scripts:</p>
       <pre class="code"><code>ixel review "Is this regex safe against catastrophic backtracking? ^(a+)+$"
 ixel review --saver "Summarize the tradeoffs of SQLite vs Postgres for a desktop app"
 ixel review --auto "Why does this deadlock?"
 ixel review --continue "And for Postgres 17?"
 echo "Why is this slow?" | ixel review -
 ixel review --json "…" &gt; result.json</code></pre>
-      <p><code>--continue</code> (or <code>-c</code>) is a follow-up to your last <code>ixel review</code>. <code>-</code> reads the question from what's piped in. With <code>--json</code>, only the JSON goes to the output.</p>
+      <p><code>--continue</code> (or <code>-c</code>) asks a follow-up to your last <code>ixel review</code>. <code>-</code> reads the question from what's piped in. With <code>--json</code>, only the JSON goes to the output.</p>
       <p>Each review ends with what it used, counted from what each model reports:</p>
       <figure class="term">
         <div class="term-bar"><i></i><i></i><i></i><span>Terminal</span></div>
         <pre><span class="dim">  Cost: $0.042 on API keys · 3 calls on your subscriptions · 1 free on your own hardware · 12.3k tokens in, 2,100 out</span></pre>
       </figure>
-      <p>API keys are priced per token. Subscriptions (Claude Code, Codex, Gemini CLI, Copilot, Grok Build) count against your plan, so they're counted as calls. Local models are free. <code>ixel saves</code> keeps the running total for this month and in all.</p>
+      <p>API keys are priced per token. Subscriptions (Claude Code, Codex, Gemini CLI, Copilot, Grok Build) count against your plan, so they're counted as calls. Local models are free. <code>ixel saves</code> keeps the running total for this month and overall.</p>
 
       <h2 id="review-your-code">Review your code</h2>
-      <p>Hand the panel a diff or the files you choose, and ask about them, or just let it review:</p>
+      <p>Hand the panel a diff or the files you choose, and ask about them or let it review them:</p>
       <pre class="code"><code>ixel review --diff                            # your changes since the last commit
 ixel review --staged "Is this safe to push?"  # only what you've staged
 ixel review --base main                       # everything on this branch since it left main
@@ -139,7 +139,7 @@ ixel review -f app.py -f config.toml "Why does the retry loop never stop?"</code
       <p>With no question, the panel looks for bugs, security problems and anything that would break. It's read-only: Ixel reads the diff or files once, before the panel starts, and sends them as text. Models get no shell and none of your other files. Before anything is sent:</p>
       <ul>
         <li><strong>Secrets are refused.</strong> A diff or file that holds what looks like a private key, an API key or a token, or a file such as <code>.env</code> or <code>id_rsa</code>, isn't sent, and you're told where it is. It's a check for the common kinds of keys; passwords aren't caught, so look over what you send.</li>
-        <li><strong>Hidden characters are shown.</strong> Invisible characters that can make code read differently from what it does reach the models as visible markers like <code>[U+202E]</code>.</li>
+        <li><strong>Hidden characters are shown.</strong> Invisible characters that can make code read differently from what it does are shown to the models as visible markers like <code>[U+202E]</code>.</li>
         <li><strong>Your repository runs nothing.</strong> Git settings a cloned repository could use to run a program are switched off for the diff, and git doesn't go on the network.</li>
       </ul>
       <p>A review takes up to 60,000 characters, and up to 20 files named with <code>-f</code>, since every model reads it in every round.</p>
@@ -153,7 +153,7 @@ ixel ask --agent codex,claude,gemini "Explain this error" -f log.txt   # the nex
 ixel image "a lighthouse at dusk, watercolor"     # saved in Pictures/Ixel
 ixel image -f README.md -n 2 "a poster for my project" --provider grok</code></pre>
       <p>Name several models, in the order you want them, with the names <code>ixel ask --list</code> shows. When one is out of usage (its plan's limit, its quota or its credits are used up for now, or it keeps turning you away for too many requests), the next one answers. Only the models you name are asked, and any other failure, like a wrong key, stops there rather than being hidden by the next model's answer.</p>
-      <p><code>ixel image</code> uses xAI (Grok Imagine) or OpenAI, with the key you saved in <code>ixel setup</code>. Given files, one of your chat models reads them first and describes the picture, and only that description goes to the picture service.</p>
+      <p><code>ixel image</code> uses xAI (Grok Imagine) or OpenAI, with the key you saved in <code>ixel setup</code>. If you give it files, one of your chat models reads them first and describes the picture, and only that description goes to the picture service.</p>
 
       <h2 id="plugin">Inside Claude Desktop, Claude Code, Codex and Cursor</h2>
       <p>Ixel can run as a plugin (an MCP server) in the AI apps you use, so you can ask for a second opinion without leaving them:</p>

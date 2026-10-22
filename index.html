@@ -130,24 +130,24 @@
         <div class="section-head">
           <div class="eyebrow">Spend less on AI</div>
           <h2>Your best model plans. Cheaper models do the work.</h2>
-          <p>Most of a coding task is steps a smaller model does well: tests, docs, renames, small edits. Pick a chain or Auto crew on Ixel's Board, and Handoff gives your top model the planning, passes each step down to the smallest model in the chain that can do it well, and has a bigger model check the small models' work on its way back up.</p>
+          <p>Most of a coding task is work a smaller model does well: tests, docs, renames and small edits. Pick a chain or Auto crew on Ixel's Board, and Handoff gives your top model the planning, passes each step down to the smallest model in the chain that can do it well, and has a bigger model check the small models' work on its way back up.</p>
         </div>
         <ol class="steps" style="--c:var(--iris)">
           <li><h3>Plan</h3><p>Your top model can read the project but not change it. It splits the task into up to six steps, each for the smallest model that will do it well.</p></li>
           <li><h3>Build</h3><p>Bigger builders take the design and tricky logic, smaller ones the tests, docs and small edits. Local and free models get one exact change at a time.</p></li>
           <li><h3>Check on the way up</h3><p>In a chain of three or more, the biggest builder checks what the smaller models did and fixes it. A problem too big for it goes back to the top model.</p></li>
-          <li><h3>See the cost</h3><p>Each step, check and fix is its own commit, and the task lists what each model used and cost. (Codex doesn't report its costs yet.)</p></li>
+          <li><h3>See the cost</h3><p>Each step, check and fix is its own commit, and the task lists what each model used and cost. (Codex, Kimi Code, Cline and OpenClaw don't report their costs yet.)</p></li>
         </ol>
         <div class="split">
           <figure class="costs" style="--c:var(--iris)">
             <figcaption>An example coding task with assumed token counts, at Anthropic's API prices</figcaption>
             <div class="cost"><span class="cost-name">Opus 5.5 does it all</span><span class="cost-usd">$3.00</span><span class="cost-bar" aria-hidden="true"><i style="--v:100%"></i></span></div>
-            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>What Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
+            <div class="cost"><span class="cost-name">A crew: Opus plans, Sonnet builds and checks, Haiku takes the small steps. <small>It's what Auto crew picks for a standard coding job when Claude is your only agent.</small></span><span class="cost-usd">$1.47</span><span class="cost-bar" aria-hidden="true"><i style="--v:49%"></i></span></div>
           </figure>
           <div class="save-more">
-            <p><strong>In this example, about half the cost.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
+            <p><strong>In this example, the crew costs about half as much.</strong> For new input and output, Sonnet 5.5 costs half of what Opus 5.5 does, and Haiku 5.5 a fortieth on prompts up to 100,000 tokens, at Anthropic's API prices (October 2026). On a Claude plan, lighter models use up less of your limits, so the same split stretches them.</p>
             <p>Ixel MAT's Saver mode does the same for questions: cheaper models draft the answers and grade each other's, and your best model checks the result, usually in a few words, instead of writing it.</p>
-            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone does the job, with no check, with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
+            <p class="note">The example assumes Opus plans with 50,000 tokens read and 5,000 written, Sonnet builds with 300,000 and 30,000, Haiku does the small steps with 150,000 and 15,000, and Sonnet's check reads 100,000 and writes 5,000. Opus alone, with no check, does the job with 500,000 and 50,000. These are list prices without caching: with caching both cost less, and the ratio stays about the same. Real tasks vary. Each step starts fresh, so a crew can read more, and a step a small model can't do goes to a bigger one.</p>
             <p><a href="docs/handoff/#models-and-chains">How chains work</a> · <a href="docs/models/#pyramid">Which models fit where</a></p>
           </div>
         </div>
@@ -185,10 +185,10 @@
             <div class="product-copy">
               <div class="eyebrow"><span class="greek">α</span> Multi-agent terminal</div>
               <h3>Ixel MAT</h3>
-              <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and agree on a verdict.</p>
+              <p class="lede">Ask several AI models at once. They answer, grade each other's work without knowing whose it is, and one of them writes the verdict.</p>
               <ul class="points">
-                <li>Answers are labeled A, B, C in a random order, and each reviewer sees them in a different order. A model's grade of its own answer doesn't count. You see who was flagged, and who conceded.</li>
-                <li>Usage saver mode lets cheaper and local models draft and review, while your best model only checks the result.</li>
+                <li>Answers are labeled A, B, C in a random order, and each reviewer sees them in a different order. A model's grade of its own answer doesn't count. You see who was flagged and who conceded.</li>
+                <li>Saver mode lets cheaper and local models draft and review, while your best model only checks the result.</li>
                 <li>Uses the keys and subscriptions you already have: Claude Code, Codex, Gemini CLI, GitHub Copilot, OpenCode, Grok Build, and local models through Ollama or LM Studio.</li>
               </ul>
               <ul class="chips">
@@ -230,8 +230,8 @@
               <h3>Handoff</h3>
               <p class="lede">Your best model can plan a coding task and hand each step to the smallest model that can do it well. Your agents share one task board, so the work passes between them and you stop being the copy-paste courier.</p>
               <ul class="points">
-                <li>Approve a task and pick who does it: one model, a chain where your biggest model plans, smaller ones build and a bigger one checks their work, or Auto, where Handoff picks the crew for the job. A chain you pick yourself can give its small steps to OpenCode's free models or the models on your own computer, and Claude runs show what they cost.</li>
-                <li>A plugin for Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
+                <li>Approve a task and pick who does it: one model, a chain where your biggest model plans, smaller ones build and a bigger one checks their work, or Auto crew, where Handoff picks the models and effort for the job. A chain you pick yourself can give its small steps to OpenCode's free models or the models on your own computer. Claude runs show what they cost.</li>
+                <li>Handoff works as a plugin for Claude Desktop, Claude Code, Codex, Gemini CLI, OpenCode and Grok Build. Agents create tasks, hand them over with notes and acceptance checks, and ask each other for reviews.</li>
                 <li>The board enforces its own rules: only the assignee can hand a task on, nobody reviews their own work, and agents' Handoff tools can't change the history.</li>
                 <li>You stay in charge from the terminal. <code>handoff board</code> shows who's doing what and what's blocked, and <code>handoff show T-2</code> shows everything that happened to a task.</li>
               </ul>
@@ -268,11 +268,11 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <div class="product-copy">
               <div class="eyebrow"><span class="greek">γ</span> SSH for AI agents, in the Ixel app</div>
               <h3>Machines</h3>
-              <p class="lede">Your servers, from a $5 VPS to your home lab, and the agents on them. Connect in one click, or run one command on all of them at once.</p>
+              <p class="lede">Machines lists your servers, from a $5 VPS to your home lab, and the agents on them. Connect in one click, or run one command on all of them at once.</p>
               <ul class="points">
-                <li>Works with OpenClaw, Hermes, a shell, or a command you type. Each machine keeps its own.</li>
-                <li>Import the hosts in your <code>~/.ssh/config</code>, or Ixel Console's machines with the keys it pinned. Connect opens a terminal; Run on machines shows how each one ended and its output.</li>
-                <li>Each server's key is pinned the first time, and ssh itself refuses one whose key changed. It runs only what you type or pick, and logs it on your computer.</li>
+                <li>Pick what runs on each machine: OpenClaw, Hermes, a shell, or a command you type.</li>
+                <li>Import the hosts in your <code>~/.ssh/config</code>, or Ixel Console's machines with the keys it pinned. Connect opens a terminal; "Run on machines" shows how each one ended and its output.</li>
+                <li>Each server's key is pinned the first time, and ssh itself refuses one whose key changed. Machines runs only what you type or pick, and logs it on your computer.</li>
               </ul>
               <ul class="chips">
                 <li>Windows</li>
@@ -311,11 +311,11 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
             <p><strong>You need:</strong></p>
             <ul>
               <li>Windows 10 or 11, macOS 12 or newer, or Linux</li>
-              <li>Python 3.10 or newer (the installer offers to get it, and Git too, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
-              <li>Git (on Windows the installer offers to get it; on a Mac it comes with Apple's Command Line Tools)</li>
+              <li>Python 3.10 or newer (the installer offers to get it, asking first). On Debian and Ubuntu, also <code>python3-venv</code></li>
+              <li>Git (the installer offers to get it if it's missing)</li>
               <li>At least one AI: an API key, a subscription CLI such as Claude Code or Codex, or a local model</li>
             </ul>
-            <p class="note">It downloads the tools from GitHub, and updates them when you run it again. The installer itself needs no administrator rights (getting Git or Python may). It never deletes changes of yours in a tool's folder: where it would have to, it stops and says so. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
+            <p class="note">The installer downloads the tools from GitHub and updates them when you run it again. It needs no administrator rights, though getting Git or Python may. It never deletes changes of yours in a tool's folder: where it would have to, it stops and says so. You can read the installers first: Ixel's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/install.sh">install.sh</a>, Ixel MAT's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/ixel-mat/install.sh">install.sh</a>, and Handoff's <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.ps1">install.ps1</a> and <a href="https://github.com/OpenIxelAI/ixelai.com/blob/main/handoff/install.sh">install.sh</a>.</p>
           </div>
           <div class="install-steps">
             <p><strong>Windows:</strong> in a normal PowerShell window (not "Run as administrator"), run:</p>
@@ -352,7 +352,7 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
       <div class="wrap">
         <div class="section-head">
           <div class="eyebrow">How we build</div>
-          <h2>Built the same careful way, all three.</h2>
+          <h2>All three are built the same careful way.</h2>
           <p>Each tool ships a written threat model (its SECURITY.md) and tests that attack its own protections. Here is what that means for each one.</p>
         </div>
 
@@ -370,13 +370,13 @@ T-3   <span class="st-op">open</span>        codex     Update the API docs</pre>
               <th scope="row">Stays on your machine</th>
               <td data-label="Ixel MAT">The browser app listens on <code>127.0.0.1</code> only and needs a key from the link it opens.</td>
               <td data-label="Handoff">Never opens a network port. Apps talk to it over stdio.</td>
-              <td data-label="Machines">No telemetry. It connects only to the machines you connect to or run on.</td>
+              <td data-label="Machines">No telemetry. It connects only to the machines you connect to or run commands on.</td>
             </tr>
             <tr>
               <th scope="row">Keeps secrets out of reach</th>
-              <td data-label="Ixel MAT">API keys live in a file only you can read, and go only to the providers you set up.</td>
+              <td data-label="Ixel MAT">API keys stay on your computer, encrypted where there's a system keychain, and go only to the providers you set up.</td>
               <td data-label="Handoff">Common kinds of API keys and tokens, and private keys, are refused, not stored. Passwords aren't caught.</td>
-              <td data-label="Machines">It stores no passwords: your own ssh keys or ssh-agent sign in, and a password is typed in the terminal.</td>
+              <td data-label="Machines">It stores no passwords: you sign in with your own ssh keys or ssh-agent, or type a password in the terminal.</td>
             </tr>
             <tr>
               <th scope="row">Limits what can run</th>

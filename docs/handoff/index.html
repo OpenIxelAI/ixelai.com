@@ -85,13 +85,13 @@
       <h2 id="connect-your-apps">Connect your apps</h2>
       <p>Handoff comes with Ixel's installer. In your project's folder, run:</p>
       <pre class="code"><code>handoff setup --write</code></pre>
-      <p>Then restart the apps. It only touches apps that are installed, keeps everything else in their settings, and is safe to run again. <code>handoff setup</code> without <code>--write</code> shows what it would add, and <code>handoff setup --remove</code> takes it all out again.</p>
+      <p>Then restart the apps. Setup only touches apps that are installed, keeps everything else in their settings, and is safe to run again. <code>handoff setup</code> without <code>--write</code> shows what it would add, and <code>handoff setup --remove</code> takes it all out again.</p>
       <div class="table">
         <table>
           <thead><tr><th>App</th><th>Which project it uses</th><th>Hears what's waiting on its own</th></tr></thead>
           <tbody>
             <tr><td>Claude Code</td><td>The folder you open it in, so one setup covers every project</td><td>Yes, when a session starts</td></tr>
-            <tr><td>Codex (CLI, IDE extension or app)</td><td>The folder you run it in</td><td>No, say "check your handoffs"</td></tr>
+            <tr><td>Codex (CLI, IDE extension or app)</td><td>The folder you run it in</td><td>No: say "check your handoffs"</td></tr>
             <tr><td>Gemini CLI</td><td>The folder you run it in</td><td>No</td></tr>
             <tr><td>OpenCode</td><td>The folder you run it in</td><td>No</td></tr>
             <tr><td>Grok Build</td><td>The folder you run <code>grok</code> in</td><td>No</td></tr>
@@ -99,7 +99,7 @@
           </tbody>
         </table>
       </div>
-      <p>Claude Code's session start note says only which tasks are waiting, by number ("2 tasks are assigned to you: T-3, T-7"), never their titles or notes. <code>--no-hook</code> leaves it out.</p>
+      <p>Claude Code's session-start note says only which tasks are waiting, by number ("2 tasks are assigned to you: T-3, T-7"), never their titles or notes. <code>--no-hook</code> leaves it out.</p>
       <div class="callout warn"><span class="label">ChatGPT</span><p>The ChatGPT app isn't supported: it only connects to plugins on the internet, and Handoff never listens on the network. Codex signs in with the same ChatGPT subscription and works.</p></div>
       <p><code>handoff doctor</code> checks the project, the board, and which apps have Handoff set up.</p>
 
@@ -126,7 +126,7 @@ Files: tests/test_orders.py</pre>
         <li>
           <h3>Back in Claude</h3>
           <blockquote>Anything from Codex?</blockquote>
-          <p>Claude reads the handoff, finishes the endpoint and runs the tests. It asks Codex to review the endpoint (or asks your Ixel panel). Codex marks each check met, not met or not checked, so Claude sees exactly what still needs work. When the review approves, Claude marks both tasks done.</p>
+          <p>Claude reads the handoff, finishes the endpoint and runs the tests. It asks Codex to review the endpoint (or asks your Ixel MAT panel). Codex marks each check met, not met or not checked, so Claude sees exactly what still needs work. When the review approves, Claude marks both tasks done.</p>
         </li>
         <li>
           <h3>Any time, in a terminal or the app</h3>
@@ -221,14 +221,14 @@ handoff worker --agent codex    # runs it, then waits for your next approval</co
         <li><strong>Mac:</strong> Claude Code and Codex run in the Mac's own sandbox, with nothing to install, and can run your tests and builds. Their commands have no network, can't read <code>~/.ssh</code>, your logins or your main checkout, can write only in the task's copy, and can't reach your keychain, clipboard, other apps or other processes. One gap macOS can't close: a command can read other programs' environment variables, so keep tokens out of your shell's environment while a worker runs. <code>handoff doctor</code> says so too.</li>
         <li><strong>Windows, for now:</strong> edit-only. Claude Code, OpenCode and local models can read and change files, but can't run commands, tests or builds, and the handback says so. Codex doesn't run there.</li>
       </ul>
-      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and run the tests, then merge it with <code>handoff merge T-7</code> (or <strong>Merge</strong> on the Board): one merge commit on the branch you have out, never pushed. The task is marked done and its worktree removed; the branch stays. It refuses, changing nothing, when the merge could touch files git doesn't track. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
+      <p>When it's done, the worker commits its changes on <code>handoff/T-7</code> and hands the task back with what was done, what's left, and how to check it. You review the branch and run the tests, then merge it with <code>handoff merge T-7</code> (or <strong>Merge</strong> on the Board): one merge commit on the branch you have checked out, never pushed. The task is marked done and its worktree removed; the branch stays. If the merge could touch files git doesn't track, Handoff refuses the merge and changes nothing. An approval is good for one run, only on the computer where you made it, and only while the task is as you approved it.</p>
 
       <h3 id="models-and-chains">Pick the model, or a chain of models</h3>
       <p>An edit runs on the agent's own default model unless you name one when you approve it:</p>
       <pre class="code"><code>handoff approve T-7 claude --model claude-haiku-5-5
 handoff approve T-7 claude --chain claude-fable-5-1:high,claude-opus-5-5:medium,claude-haiku-5-5
 handoff approve T-7 codex --model gpt-5.5 --effort xhigh</code></pre>
-      <p>A <strong>chain</strong> lists models biggest first. The first reads the task (it can read files, not change them) and plans up to 6 steps, giving each step to the smallest model that can do it well: design and tricky logic to the bigger ones, tests, docs and small edits to the smaller ones. Each step is committed on its own, so <code>git log</code> shows which model made what. The planner is Claude Code; the steps can run on any agent you have, written as <code>agent:model</code>:</p>
+      <p>A <strong>chain</strong> lists models biggest first. The first reads the task (it can read files, not change them) and plans up to 6 steps, giving each step to the smallest model that can do it well: design and tricky logic to the bigger ones; tests, docs and small edits to the smaller ones. Each step is committed on its own, so <code>git log</code> shows which model made what. The planner runs in Claude Code; the steps can run on any agent you have, written as <code>agent:model</code>:</p>
       <pre class="code"><code>handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,ollama:qwen3:4b-instruct
 handoff approve T-7 claude --chain claude-opus-5-5,claude-sonnet-5-5,opencode:opencode/step-5-preview-free</code></pre>
       <p>The planner is told which models are small or on your computer, and gives them only short, exact directions: one change in one named file, spelled out, not design or a lot of new code. <a href="../models/#pyramid">The recommended setup</a> says which models fit each place in a chain.</p>
@@ -240,9 +240,9 @@ handoff approve T-7 --auto                     # approve T-7 with the crew Hando
 handoff approve T-7 --auto --effort-all low    # the same, every model at low (or the nearest level it takes)</code></pre>
       <ul>
         <li><strong>What it reads.</strong> A small model reads the task's title and text (nothing else, up to 4,000 characters) and says what kind of job it is (coding, writing, review, report or pictures) and how big (light, standard or heavy). That's <code>qwen3:4b-instruct</code> when your Ollama has it, so nothing leaves your computer; otherwise Claude Haiku 5.5 through your Claude Code, with no tools. If neither answers, the task's words decide by keyword. <code>handoff crew</code> says which one it used.</li>
-        <li><strong>Who gets the work.</strong> A chain of up to four models, biggest first, planned on Claude. Fable 5.1 (or GPT-6 Astra) only plans, and only a heavy job gets one. The biggest slices go to Grok 4.7 when it's switched on here, then GPT-6.1 Sol and Opus 5.5, then Sonnet 5.5, then Haiku 5.5 or GPT-6 Luna for the small steps. A light job is Sonnet (or Haiku) and one small model. Local models aren't put in a crew yet.</li>
-        <li><strong>Who's left out.</strong> An agent you haven't switched on, and one that hit a usage limit in the last five hours; the next model takes its place.</li>
-        <li><strong>How hard each thinks.</strong> By size: a light job has medium for the planner and low for the builders; a standard job has high for the planner and builders and medium for the small steps; a heavy job has xhigh for the planner and high for the rest. <code>--effort-all</code> sets one level for every model instead.</li>
+        <li><strong>Who gets the work.</strong> Auto crew picks a chain of up to four models, biggest first, planned on Claude. Fable 5.1 (or GPT-6 Astra) only plans, and only a heavy job gets one. The biggest slices go to Grok 4.7 when it's switched on here, then GPT-6.1 Sol and Opus 5.5, then Sonnet 5.5, then Haiku 5.5 or GPT-6 Luna for the small steps. A light job is Sonnet (or Haiku) and one small model. Local models aren't put in a crew yet.</li>
+        <li><strong>Who's left out.</strong> Auto crew skips an agent you haven't switched on, and one that hit a usage limit in the last five hours; the next model takes its place.</li>
+        <li><strong>How hard each thinks.</strong> It depends on the job's size: a light job has medium for the planner and low for the builders; a standard job has high for the planner and builders and medium for the small steps; a heavy job has xhigh for the planner and high for the rest. <code>--effort-all</code> sets one level for every model instead.</li>
       </ul>
       <p>Auto crew is for edits, and can't go with <code>--model</code> or <code>--chain</code>; for answers and reviews you name the agent yourself. In the Ixel app it's the <a href="../app/#board-models">Auto switch</a> on the Board.</p>
       <h3 id="back-up-the-chain">Work is checked on its way back up</h3>
@@ -252,12 +252,12 @@ handoff approve T-7 --auto --effort-all low    # the same, every model at low (o
         <li>If it finds something too big for it (a wrong design, a large part missing), it says so, and the planner fixes it, this time with tools to change files.</li>
       </ul>
       <p>Each check and fix is its own commit, and the handback says what each one did and cost. If the biggest step model itself fails, the chain stops there and keeps what the steps before it committed.</p>
-      <p><strong>Effort</strong> is how hard each model thinks, in its own tool's words: Claude Code takes low, medium, high, xhigh or max; Codex takes minimal up to xhigh, and the newest GPT models also max and ultra. The biggest model at max effort is the dearest part of a chain, so save it for the planning that needs it. The model, the chain and each effort are sealed into your approval, so a board can't move a run to a bigger, dearer model. An answer or a review takes <code>--effort</code> too (<code>handoff approve T-7 gemini --kind answer --effort high</code>): with several agents it's the first one's level, and if Ixel can't take it the run goes on at the model's own setting and the handback says why.</p>
+      <p><strong>Effort</strong> is how hard each model thinks, in its own tool's words: Claude Code takes low, medium, high, xhigh or max; Codex takes minimal up to xhigh, and the newest GPT models also max and ultra. The biggest model at max effort is the most expensive part of a chain, so save it for the planning that needs it. The model, the chain and each effort are sealed into your approval, so a board can't move a run to a bigger, more expensive model. An answer or a review takes <code>--effort</code> too (<code>handoff approve T-7 gemini --kind answer --effort high</code>): with several agents, it's the first one's level, and if Ixel can't take it, the run goes on at the model's own setting and the handback says why.</p>
       <p><strong>What it used.</strong> Each run on Claude Code, Grok Build, OpenCode, Hermes or a local model lists each model's tokens and an estimated cost at API prices (on a subscription, that's what it would have cost; it counts toward your plan's limits instead). <code>handoff show T-7</code> lists it under each run, and the Board shows each task's cost and what the whole board has spent. Answer and review runs list what Ixel reports, or say "no usage reported". Codex, Kimi Code, Cline and OpenClaw runs report nothing yet, and a run that was stopped has no report, so what they used isn't counted.</p>
 
       <h3 id="usage-limits">When a model hits its usage limit</h3>
-      <p>A run doesn't stop because a model ran out of usage. When you approve a change, an answer or a review, Handoff works out who takes over if a model hits its plan's limit, its quota or its credits: the next best models for that kind of work that you have an agent for and that cost no more at API prices, as far as Handoff knows (Opus goes to Sonnet, never to Fable; a model with no listed price isn't held back), ending with a free or local one. It shows you that list before you say yes, and seals it into the approval, so a board can't add a model to it.</p>
-      <p>If a model hits its limit mid-run, it sits out the rest of that run and the next one goes on in the same worktree. The handback says so: "claude-opus-5-5 hit its usage limit, so claude-sonnet-5-5 took over." In a chain, a model that runs out hands its part to the next model on the chain's one list, which starts with the next best planners and then the next best coders. So a small step can go to a bigger model, but in a chain written biggest first, never to one Handoff knows costs more than the planner. Any other failure (no login, a crash, a timeout) still stops the run, so it isn't hidden. An agent that runs with its own permissions never takes over until you've switched it on.</p>
+      <p>A run doesn't stop because a model ran out of usage. When you approve a change, an answer or a review, Handoff works out who takes over if a model hits its plan's limit, its quota or its credits. It lists the next best models for that kind of work that you have an agent for and that, as far as Handoff knows, cost no more at API prices (Opus goes to Sonnet, never to Fable; a model with no listed price isn't held back), ending with a free or local one. It shows you that list before you say yes, and seals it into the approval, so a board can't add a model to it.</p>
+      <p>If a model hits its limit mid-run, it sits out the rest of that run and the next model on the list carries on in the same worktree. The handback says so: "claude-opus-5-5 hit its usage limit, so claude-sonnet-5-5 took over." In a chain, a model that runs out hands its part to the next model on the chain's one list, which starts with the next best planners and then the next best coders. So a small step can go to a bigger model, but in a chain written biggest first, never to one Handoff knows costs more than the planner. Any other failure (no login, a crash, a timeout) still stops the run, so it isn't hidden. An agent that runs with its own permissions never takes over until you've switched it on.</p>
       <pre class="code"><code>handoff approve T-7 claude --model claude-opus-5-5   # shows who takes over, then asks
 handoff approve T-7 claude --no-fallback-to codex    # anyone but codex takes over
 handoff approve T-7 claude --no-fallback             # stops at the limit instead
@@ -281,9 +281,9 @@ handoff rankings --job coding                        # who's best at what, best 
       <pre class="code"><code>handoff approve T-8 opencode --model opencode/step-5-preview-free
 handoff approve T-9 ollama --model qwen3:4b-instruct      # a small, clear task, done for free
 handoff agents enable kimi                                # once: kimi runs with its own permissions</code></pre>
-      <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Grok Build, Hermes, Kimi Code, Cline, OpenClaw and agents you add run only once you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then an approval for one waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
-      <p>Grok Build also loads your own Grok plugins and hooks, which Handoff can't turn off. So before every run Handoff asks Grok what it would load, and refuses the run, changing nothing, if a plugin with hooks or a hook is switched on; the reason names it (<code>grok plugin disable NAME</code> turns a plugin off). Its sandbox was checked by hand on a Mac, not yet on Linux or Windows.</p>
-      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain, its work is checked by a bigger model on the way back up.</p>
+      <p>Any of these can also be a step in a <a href="#models-and-chains">chain</a>. Grok Build, Hermes, Kimi Code, Cline, OpenClaw and agents you add run only after you switch them on (<code>handoff agents enable NAME</code>, or the button on the Board); until then, an approval for one of them waits. You decide which of them you trust. Each works in its own worktree and branch, and none of them pushes. Your own agents and model servers go in <code>agents.toml</code>, next to Handoff's approval key; only you write that file, so a project can't add an agent.</p>
+      <p>Grok Build also loads your own Grok plugins and hooks, which Handoff can't turn off. So before every run, Handoff asks Grok what it would load. If a plugin with hooks or a hook is switched on, Handoff refuses the run and changes nothing; the reason names it (<code>grok plugin disable NAME</code> turns a plugin off). Its sandbox was checked by hand on a Mac, not yet on Linux or Windows.</p>
+      <p>A small local model is best at small, clear tasks: a rename, a test, a doc change. Pick an instruct model (one made not to think) for those; <code>qwen3:4b-instruct</code> made a one-line change in 9 seconds that <code>qwen3:4b</code> took 5 minutes over. In a chain of three or more models, its work is checked by a bigger model on the way back up.</p>
 
       <h2 id="your-controls">Your controls</h2>
       <p>At the command line you're <code>human</code> on the board, shown as "you", and you can do what agents can't. <code>me</code> means you wherever you name someone.</p>
@@ -300,14 +300,14 @@ handoff agents enable kimi                                # once: kimi runs with
             <tr><td><code>handoff review T-12</code></td><td>Review a task waiting for you: approve, or send it back with changes</td></tr>
             <tr><td><code>handoff approve T-12 opencode</code></td><td>Let one agent work on a task, once, on its own branch (add <code>--model</code>, <code>--chain</code> or <code>--effort</code>)</td></tr>
             <tr><td><code>handoff crew "task" | T-12</code>, <code>handoff approve T-12 --auto</code></td><td>Preview the crew <a href="#auto-crew">Auto crew</a> would pick, or approve an edit with it (add <code>--effort-all max</code> or <code>low</code>)</td></tr>
-            <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have out, as one merge commit. Only you can, and nothing is pushed</td></tr>
-            <tr><td><code>handoff rankings</code></td><td>Which models are best at what, from public benchmarks: who takes over when a model hits its usage limit</td></tr>
+            <tr><td><code>handoff merge T-12</code></td><td>Merge a finished task's branch into the branch you have checked out, as one merge commit. Only you can, and nothing is pushed</td></tr>
+            <tr><td><code>handoff rankings</code></td><td>Which models are best at what, from public benchmarks, in the order Handoff uses to pick who takes over when a model hits its usage limit</td></tr>
             <tr><td><code>handoff agents</code>, <code>handoff agents enable NAME</code></td><td>Who can do what on this computer; switch on an agent that runs with its own permissions</td></tr>
             <tr><td><code>handoff done T-12</code>, <code>reopen</code>, <code>block T-12 "why"</code></td><td>Close, reopen, or block a task. Reopen also works on a task a stopped run left in progress, once the agent that run started has stopped too, and keeps its worktree and branch</td></tr>
             <tr><td><code>handoff cancel T-12</code>, <code>delete T-12</code></td><td>Cancel (keeps the history), or delete for good with its results (asks first)</td></tr>
             <tr><td><code>handoff clean</code>, <code>handoff keep 30</code></td><td>Remove finished tasks that haven't changed in 30 days, after listing them and asking; or have the board do that by itself (<code>handoff keep forever</code> turns it off)</td></tr>
             <tr><td><code>handoff done-rule review</code></td><td>Agents may mark tasks done only after an approving review</td></tr>
-            <tr><td><code>handoff update</code>, <code>handoff help</code></td><td>Get the latest Handoff; every command</td></tr>
+            <tr><td><code>handoff update</code>, <code>handoff help</code></td><td>Get the latest Handoff; list every command</td></tr>
           </tbody>
         </table>
       </div>
@@ -326,18 +326,18 @@ handoff agents enable kimi                                # once: kimi runs with
 
       <h2 id="where-things-live">Where things live</h2>
       <ul>
-        <li>The board is <code>.handoff/board.db</code> in your project. On a Mac and Linux, only you can read it. It keeps every task's text and history until you delete the task (with its results), clean out finished tasks with <code>handoff clean</code>, or set <code>handoff keep 30</code> to have the board do that by itself. Deleting overwrites the text in the file; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
+        <li>The board is <code>.handoff/board.db</code> in your project. On Windows, macOS and Linux, only your account can read it. It keeps every task's text and history until you delete the task (with its results), clean out finished tasks with <code>handoff clean</code>, or set <code>handoff keep 30</code> to have the board do that by itself. Deleting overwrites the text in the file; <a href="../privacy/#on-your-computer">Privacy</a> has more.</li>
         <li><code>.handoff/</code> keeps itself out of git, so the board isn't committed with your work.</li>
-        <li>Handoff has no settings of its own, so nothing in a project folder can make Handoff run anything.</li>
+        <li>Nothing Handoff keeps in a project folder names a command, so nothing there can make Handoff itself run anything.</li>
       </ul>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <ul>
         <li><strong>"No project found":</strong> run the command inside your project (a git repository), or add <code>--project PATH</code>. If an app says this, run <code>handoff setup --write</code> in the project and restart the app.</li>
-        <li><strong>An agent can't see a task:</strong> ask it to look at the board. Tasks are per project, so check the app is open in the same project. <code>handoff doctor</code> shows where Claude Desktop points.</li>
-        <li><strong>A run failed:</strong> <code>handoff show T-N</code> shows the task's history, with why the run failed. <code>handoff doctor</code> shows whether each worker is ready and found its agent's login. A run that finds no login doesn't start and the task stays approved: sign in, then <code>handoff run T-N</code>.</li>
+        <li><strong>An agent can't see a task:</strong> ask it to look at the board. Tasks are per project, so check that the app is open in the same project. <code>handoff doctor</code> shows where Claude Desktop points.</li>
+        <li><strong>A run failed:</strong> <code>handoff show T-N</code> shows the task's history, including why the run failed. <code>handoff doctor</code> shows whether each worker is ready and found its agent's login. A run that finds no login doesn't start and the task stays approved: sign in, then <code>handoff run T-N</code>.</li>
         <li><strong><code>handoff merge</code> won't merge a branch you made by hand:</strong> it merges only the branches its worker made, and says how to merge yours with git.</li>
-        <li><strong>Codex gives up on a review with the Ixel panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
+        <li><strong>Codex gives up on a review with the Ixel MAT panel:</strong> raise <code>tool_timeout_sec</code> under <code>[mcp_servers.handoff]</code> in <code>~/.codex/config.toml</code>.</li>
       </ul>
 
       <nav class="pager" aria-label="More docs"><!-- docs:pager -->

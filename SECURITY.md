@@ -1,8 +1,8 @@
 # Security
 
-This repository is the IxelAI website: static pages with no server of our own, no forms, no accounts and
-no cookies. It runs no tracking. GitHub Pages, which hosts it, logs visitors' IP addresses for security;
-that's GitHub's, not ours.
+This repository is the IxelAI website: static pages with no server of our own, no forms, no accounts, no
+cookies and no tracking. GitHub Pages, which hosts it, logs visitors' IP addresses for security; that log is
+GitHub's, not ours.
 
 ## Reporting a problem
 

@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <title>Videos | IxelAI</title>
-<meta name="description" content="Short recordings of Ixel at work, with real models: the Ask panel, a Board run and the Agent (beta). Plus Machines, and Handoff and Ixel MAT in a terminal.">
+<meta name="description" content="Short recordings of Ixel at work, with real models: the Ask panel, a Board run and the Agent (beta). There are also clips of Machines, and of Handoff and Ixel MAT in a terminal.">
 <meta name="theme-color" content="#070b14">
 <meta property="og:title" content="Videos | IxelAI">
-<meta property="og:description" content="Short recordings of Ixel at work, with real models: the Ask panel, a Board run and the Agent (beta). Plus Machines, and Handoff and Ixel MAT in a terminal.">
+<meta property="og:description" content="Short recordings of Ixel at work, with real models: the Ask panel, a Board run and the Agent (beta). There are also clips of Machines, and of Handoff and Ixel MAT in a terminal.">
 <meta property="og:url" content="https://ixelai.com/videos/">
 <meta property="og:image" content="https://ixelai.com/ixel-logo.png">
 <link rel="canonical" href="https://ixelai.com/videos/">
@@ -55,7 +55,7 @@
         <div class="section-head">
           <div class="eyebrow">Ixel MAT</div>
           <h2>Ask the panel</h2>
-          <p>Is the regex <code>^(a+)+$</code> safe to run on user input? Claude (Sonnet) and Grok Build answer on their subscriptions, and Qwen3 4B answers on the computer itself. They grade each other's answers without knowing whose they are, and Claude writes the verdict. The small local model calls the regex safe, both others flag it, and the verdict explains why it isn't. <a href="../docs/app/#ask">Ask, in the app docs</a>.</p>
+          <p>Is the regex <code>^(a+)+$</code> safe to run on user input? Claude (Sonnet) and Grok Build answer on their subscriptions, and Qwen3 4B answers on the computer itself. They grade each other's answers without knowing whose they are, and Claude writes the verdict. The small local model calls the regex safe, the other two flag it, and the verdict explains why it isn't. <a href="../docs/app/#ask">Ask, in the app docs</a>.</p>
         </div>
         <figure class="demo">
           <video controls preload="none" playsinline width="1280" height="800" poster="real/ask.jpg">
@@ -83,7 +83,7 @@
         <div class="section-head">
           <div class="eyebrow">Agent (beta)</div>
           <h2>Give the Agent a goal</h2>
-          <p>The Agent, here on Grok Build, reads the code, shows the change to <code>cart.py</code> before it edits it, and asks before each command. Commands run in a sandbox with no network that can write only in the project's folder and the temp folder, so when pytest can't be installed it runs the tests with Python instead. Both pass, after 8 model calls (about $0.04 at API prices). <a href="../docs/app/#agent">The Agent, in the app docs</a>.</p>
+          <p>The Agent, here on Grok Build, reads the code, shows the change to <code>cart.py</code> before it edits it, and asks before each command. Commands run in a sandbox that has no network and can write only in the project's folder and the temp folder, so when pytest can't be installed, it runs the tests with Python instead. Both tests pass after 8 model calls (about $0.04 at API prices). <a href="../docs/app/#agent">The Agent, in the app docs</a>.</p>
         </div>
         <figure class="demo">
           <video controls preload="none" playsinline width="1280" height="800" poster="real/agent.jpg">

@@ -2,7 +2,7 @@
 
 The videos page (`index.html` here, ixelai.com/videos/) shows every clip below. Each tool page shows its own
 recording from this folder too, as soon as the file is here; until then, it shows the example screen. The commercial is different: the home page links its files directly, and the no-voice cut and
-the loop are only used by the GitHub READMEs.
+the loop are used only by the GitHub READMEs.
 
 | File | Shown on |
 |---|---|
@@ -26,7 +26,7 @@ The commercial's poster (`ixel-commercial-poster.jpg`) and captions (`ixel-comme
 
 1. Open **Snipping Tool**, switch it to **Record** (the video camera), click **New**, and drag a box around the
    window. Or press **Win + Alt + R** to record the window you're in with the Xbox Game Bar.
-2. Show one real task from start to finish. Under a minute is plenty; no sound needed.
+2. Show one real task from start to finish. Under a minute is plenty, and you don't need sound.
 3. Save it as an `.mp4` with the name from the table above.
 
 ## Before you record: keep it private

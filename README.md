@@ -4,9 +4,9 @@
 
 # ixelai.com
 
-The source of [ixelai.com](https://ixelai.com), the home of Ixel (the app and its Agent), Ixel MAT, Handoff and Machines.
+This is the source of [ixelai.com](https://ixelai.com), the home of Ixel (the app and its Agent), Ixel MAT, Handoff and Machines.
 
-It's plain static pages: no build step, no trackers, and nothing loaded from anyone else's servers. GitHub
+It's a plain static site: no build step, no trackers, and nothing loaded from anyone else's servers. GitHub
 Pages publishes `main`.
 
 - **Using Ixel?** Start at [ixelai.com](https://ixelai.com): the [install guide](https://ixelai.com/docs/install/),

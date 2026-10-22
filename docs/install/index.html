@@ -150,7 +150,7 @@ To update Ixel later, run the same install command again.</pre>
           <ol class="steps-doc">
             <li>
               <h3>Open Terminal</h3>
-              <p>It's in Applications, in the Utilities folder, or press <kbd>⌘</kbd> <kbd>Space</kbd> and type <strong>Terminal</strong>.</p>
+              <p>It's in Applications, in the Utilities folder. You can also press <kbd>⌘</kbd> <kbd>Space</kbd> and type <strong>Terminal</strong>.</p>
             </li>
             <li>
               <h3>Run the installer</h3>
@@ -171,7 +171,7 @@ To update Ixel later, run the same install command again.</pre>
           </ol>
           <div class="callout">
             <span class="label">The Mac app</span>
-            <p>The installer builds <strong>Ixel.app</strong>, a native window with its own Dock icon, using the Command Line Tools. If it can't, Ixel opens in Chrome's or Edge's app mode until you install them and run <code>ixel update</code>. If you already have an app called Ixel that isn't this one, Ixel's is called <strong>Ixel MAT</strong> instead, and the installer says so.</p>
+            <p>The installer uses the Command Line Tools to build <strong>Ixel.app</strong>, which opens in a native window with its own Dock icon. Without the tools, Ixel opens in Chrome's or Edge's app mode until you install them and run <code>ixel update</code>. If you already have a different app called Ixel, this one is called <strong>Ixel MAT</strong> instead, and the installer says so.</p>
           </div>
         </section>
 
@@ -183,7 +183,7 @@ To update Ixel later, run the same install command again.</pre>
               <p>In a terminal:</p>
               <pre class="code"><code>curl -fsSL https://ixelai.com/install.sh | sh</code></pre>
               <p>If Git, Python 3.10 or newer, or <code>python3-venv</code> is missing, it shows the one command that installs them with your system's package manager (<code>sudo apt-get update &amp;&amp; sudo apt-get install -y python3 python3-venv</code> on Debian and Ubuntu, for example) and asks before running it. It never runs <code>sudo</code> without your yes; say no and it prints the command for you to run yourself.</p>
-              <p>For Board workers to run your tests, Handoff also needs bubblewrap and socat. If they're missing, the installer says how to install them, and <code>handoff doctor</code> checks later.</p>
+              <p>For Board workers to run your tests, Handoff also needs bubblewrap and socat. If they're missing, the installer says how to install them, and <code>handoff doctor</code> checks for them later.</p>
             </li>
             <li>
               <h3>Read what it did</h3>
@@ -227,7 +227,7 @@ To update Ixel later, run the same install command again.</pre>
               <h3>Get Ixel's own window (optional)</h3>
               <p>Ixel opens in a native GTK window when your system's Python has GTK and WebKit. Without them it uses Chrome's or Chromium's app mode, or your browser. To get the window:</p>
               <pre class="code"><code>sudo apt install python3-gi gir1.2-webkit2-4.1</code></pre>
-              <p>or on Fedora <code>sudo dnf install python3-gobject webkit2gtk4.1</code>.</p>
+              <p>On Fedora, use <code>sudo dnf install python3-gobject webkit2gtk4.1</code>.</p>
             </li>
             <li>
               <h3>Open a new window, and add your models</h3>
@@ -262,12 +262,12 @@ To update Ixel later, run the same install command again.</pre>
       <p>It checks each part of Ixel (your settings, each model, Handoff, Git, the window, and SSH once you have machines), and prints the one line that fixes each problem. <code>ixel doctor --check</code> also asks each model's server whether it answers. The app's <strong>Health</strong> page shows the same. For Handoff, run <code>handoff doctor</code> in a project folder.</p>
 
       <h2 id="update">Update</h2>
-      <p>Run <code>ixel update</code> and <code>handoff update</code>, or run the install command again. The <code>ixel</code> chat in the terminal looks once a day and tells you when there's something new (it runs <code>git fetch</code> against GitHub). To turn that off, add this to Ixel's settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
+      <p>Run <code>ixel update</code> and <code>handoff update</code>, or run the install command again. The <code>ixel</code> chat in the terminal checks for updates once a day and tells you when there's something new (it runs <code>git fetch</code> against GitHub). To turn that off, add this to Ixel's settings file, <code>~/.config/ixel-mat/config.toml</code>:</p>
       <pre class="code"><code>[updates]
 check = false</code></pre>
 
       <h2 id="uninstall">Uninstall</h2>
-      <p>First take Handoff out of the apps it connected (Claude Code, Codex and the rest):</p>
+      <p>First, take Handoff out of the apps it's connected to (Claude Code, Codex and the rest):</p>
       <pre class="code"><code>handoff setup --remove</code></pre>
       <p>Then remove the programs:</p>
       <div class="tabs">
@@ -289,7 +289,7 @@ rm -rf ~/.local/share/handoff ~/.local/bin/handoff</code></pre>
         </section>
       </div>
       <p>If the installer named Ixel's app <strong>Ixel MAT</strong> (because you had another app called Ixel), use that name: <code>Ixel MAT.lnk</code>, <code>Ixel MAT.app</code> or <code>ixel-mat.desktop</code>. Your settings, keys and history stay until you delete them; <a href="../privacy/#on-your-computer">Privacy</a> lists every file and where it is.</p>
-      <p>The installers also put <code>~/.local/bin</code> on your PATH. To take it off, delete the lines under <code># Added by Ixel MAT installer</code> and <code># Added by Handoff installer</code> in <code>~/.bashrc</code>, <code>~/.bash_profile</code> or <code>~/.zshrc</code> (for fish, the files <code>conf.d/ixel-mat.fish</code> and <code>conf.d/handoff.fish</code>). On Windows, remove <code>%USERPROFILE%\.local\bin</code> from your user PATH.</p>
+      <p>The installers also put <code>~/.local/bin</code> on your PATH. To take it off, delete the lines under <code># Added by Ixel MAT installer</code> and <code># Added by Handoff installer</code> in <code>~/.bashrc</code>, <code>~/.bash_profile</code> or <code>~/.zshrc</code> (for fish, delete the files <code>conf.d/ixel-mat.fish</code> and <code>conf.d/handoff.fish</code>). On Windows, remove <code>%USERPROFILE%\.local\bin</code> from your user PATH.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <h3 id="not-found">"ixel" isn't found</h3>

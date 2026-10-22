@@ -3,8 +3,8 @@ Real recordings of Ixel at work
 
 These clips are real runs with real models on a Mac, not stand-ins. Each one
 records only Ixel's own page in a browser (Chromium, 1280x800, dark), from a
-throwaway Ixel with its own home folder (/tmp/ixel-demo-home) that holds no
-one's real history, projects or settings. The demo project (cart.py rounds
+throwaway copy of Ixel with its own home folder (/tmp/ixel-demo-home) that holds
+no one's real history, projects or settings. The demo project (cart.py rounds
 wrong; tests/test_cart.py has one failing test) is at /tmp/ixel-demo/shop for
 the Board and a copy at ~/shop (/tmp/ixel-demo-home/shop) for the Agent.
 Long waits are sped up, and nothing that happened is cut. H.264, no audio.
@@ -32,6 +32,6 @@ agent.mp4 / agent.jpg (about 61 s)
   The Agent (beta) on ~/shop with Grok Build (default effort): "Fix the cart
   total's rounding and run the tests". It reads the folder, asks to edit
   cart.py (int(total * 100) / 100 becomes round(total, 2)) and to run the
-  tests. Five approvals in all: pytest isn't installed in its sandbox, and pip
+  tests. Five approvals in all: pytest wasn't installed in its sandbox and pip
   had no network, so it ran the tests with python3 instead. Both pass. 8 model
   calls, about $0.04 at API prices.
